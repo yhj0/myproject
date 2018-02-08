@@ -6,6 +6,10 @@ public class FileVO {
     private String filename;
     private String realname;
     private long filesize;
+    private String reg_id;
+    private String reg_dttm;
+    private String chg_id;
+    private String chg_dttm;
     
     /**
      * 파일 크기를 정형화하기.
@@ -59,5 +63,37 @@ public class FileVO {
     public void setFilesize(long filesize) {
         this.filesize = filesize;
     }
+
+	public String getReg_id() {
+		return reg_id;
+	}
+
+	public void setReg_id(String reg_id) {
+		this.reg_id = reg_id;
+	}
+
+	public String getReg_dttm() {
+		return reg_dttm;
+	}
+
+	public void setReg_dttm(String reg_dttm) {
+		this.reg_dttm = reg_dttm;
+	}
+
+	public String getChg_id() {
+		return chg_id;
+	}
+
+	public void setChg_id(String chg_id) {
+		this.chg_id = chg_id;
+	}
+
+	public String getChg_dttm() {
+		return chg_dttm;
+	}
+
+	public void setChg_dttm(String chg_dttm) {
+		this.chg_dttm = chg_dttm;
+	}
     
 }
