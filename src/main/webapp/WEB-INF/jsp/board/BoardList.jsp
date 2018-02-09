@@ -11,7 +11,7 @@
 <style>
 .hit {
       animation-name: blink;
-      animation-duration: 1.5s;
+      animation-duration: 1.5s; 
       animation-timing-function: ease;
       animation-iteration-count: infinite;
       /* 위 속성들을 한 줄로 표기하기 */
