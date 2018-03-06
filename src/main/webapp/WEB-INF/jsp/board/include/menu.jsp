@@ -13,13 +13,12 @@
 		<nav class="navbar navbar-right" role="navigation">
 			 	 <ul class="nav navbar-nav">
 			 		<li><a class="menuLink" href="http://localhost:8080/board/home.do">홈</a></li>
+			 		<li><a class="menuLink" href="http://localhost:8080/board/boardList.do">소비자경험커뮤니티</a></li>
+			 		<li><a class="menuLink">데이터분석시각화</a></li>
 			 		<c:if test="${sessionScope.id == null}">
 			 		<li><a class="menuLink" href="${path}/board/login.do">로그인</a></li>
-					</c:if>
-			 		<li><a class="menuLink">이용내역</a></li>
-			 		<li><a class="menuLink">고객센터</a></li>
-			 		<li><a class="menuLink">사이트맵</a></li>
-			 		<li><a class="menuLink" href="http://localhost:8080/board/boardList.do">게시판</a></li>
+					</c:if>			 		
+			 		<li><a class="menuLink">회원가입</a></li>
 			 	</ul>
 		</nav>
 	</div>

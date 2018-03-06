@@ -16,6 +16,17 @@
           FROM TBL_BOARD
          <include refid="includeBoard"/>
     </select> 
+
+    <select id="selectBoardListMain" resultType="gu.board.BoardVO" parameterType="gu.common.SearchVO">
+        SELECT BRDNO, BRDTITLE, BRDWRITER, DATE_FORMAT(BRDDATE,'%Y.%m.%d') BRDDATE, BRDHIT
+             , (SELECT COUNT(*) FROM TBL_BOARDFILE WHERE BRDNO=TB.BRDNO) FILECNT
+             , (SELECT COUNT(*) FROM TBL_BOARDREPLY WHERE BRDNO=TB.BRDNO AND REDELETEFLAG='N') REPLYCNT
+             , REG_ID , REG_DTTM, CHG_ID, CHG_DTTM
+          FROM TBL_BOARD TB
+         <include refid="includeBoard"/>
+         ORDER BY BRDNO DESC 
+         LIMIT ${rowStart-1}, 6
+    </select>
     
     <select id="selectBoardList" resultType="gu.board.BoardVO" parameterType="gu.common.SearchVO">
         SELECT BRDNO, BRDTITLE, BRDWRITER, DATE_FORMAT(BRDDATE,'%Y.%m.%d') BRDDATE, BRDHIT

@@ -6,6 +6,8 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <link rel="stylesheet" href="css/bootstrap.css">
+<!-- 배경이미지css -->
+<link rel="stylesheet" href="css/custom.css" />
 <script src="js/jquery-2.2.3.min.js"></script>
 <script src="js/bootstrap.js"></script>
 

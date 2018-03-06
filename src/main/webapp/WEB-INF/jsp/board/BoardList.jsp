@@ -6,6 +6,8 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <link rel="stylesheet" href="css/bootstrap.css">
+<!-- 배경이미지css -->
+<link rel="stylesheet" href="css/custom.css" />
 <script src="js/jquery-2.2.3.min.js"></script>
 <script src="js/bootstrap.js"></script>
 <style>
@@ -60,7 +62,7 @@ function fn_formSubmit(){
 			<tr>
 				<td align="center">
 					<div class="container">
-							<table class="table table-hover">
+							<table class="table table-hover" >
 								<colgroup>
 									<col width='8%' />
 									<col width='*%' />
@@ -71,12 +73,12 @@ function fn_formSubmit(){
 								</colgroup>
 								<thead>
 									<tr>
-										<th>번호</th> 
+										<th>#</th> 
 										<th>제목</th>
-										<th>등록자</th>
-										<th>등록일</th>
-										<th>조회수</th>
-										<th>첨부파일</th>
+										<th>작성일</th>
+										<th>작성자</th>
+										<th>조회</th>
+										<th>댓글</th>
 									</tr>
 								</thead>
 								<tbody>
@@ -89,18 +91,20 @@ function fn_formSubmit(){
 											<td><c:out value="${searchVO.totRow-((searchVO.page-1)*searchVO.displayRowCount + status.index)}"/></td>
 											<td style="max-width: 100px;  overflow: hidden; white-space: nowrap; text-overflow: ellipsis;">
 												<a href="${link}"><c:out value="${listview.brdtitle}"/></a>
+												<!-- 
 												<c:if test="${listview.replycnt>0}">
 													(<c:out value="${listview.replycnt}"/>)
 												</c:if>
+												 -->
 												<!-- 인기게시글 표시 -->
 												<c:if test="${listview.brdhit>30}">
-													<span class="hit">hit!</span>
+													<span class="hit">인기글</span>
 												</c:if>												
 											</td>
-											<td><c:out value="${listview.brdwriter}"/></td>
 											<td><c:out value="${listview.brddate}"/></td>
+											<td><c:out value="${listview.brdwriter}"/></td>
 											<td><c:out value="${listview.brdhit}"/></td>
-											<td><c:out value="${listview.filecnt}"/></td>
+											<td><c:out value="${listview.replycnt}"/></td>
 										</tr>
 									</c:forEach>
 								</tbody>

@@ -32,12 +32,12 @@ public class LoginController {
         boolean result = loginService.loginCheck(vo, session);
         ModelAndView mav = new ModelAndView();
         if (result == true) { // 로그인 성공
-            // main.jsp로 이동
-            mav.setViewName("board/home");
+            // home.jsp로 이동
+            mav.setViewName("redirect:/home.do");
             mav.addObject("msg", "success");
         } else {    // 로그인 실패
-            // home.jsp로 이동
-            mav.setViewName("login/login");
+         
+            mav.setViewName("redirect:/login.do");
             mav.addObject("msg", "failure");
         }
         return mav;
@@ -48,7 +48,7 @@ public class LoginController {
     public ModelAndView logout(HttpSession session){
     	loginService.logout(session);
         ModelAndView mav = new ModelAndView();
-        mav.setViewName("board/home");
+        mav.setViewName("redirect:/home.do");
         mav.addObject("msg", "logout");
         return mav;
     }

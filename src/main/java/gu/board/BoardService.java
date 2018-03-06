@@ -27,6 +27,10 @@ public class BoardService {
         return sqlSession.selectOne("selectBoardCount", param);
     }
     
+    public List<?> selectBoardListMain(SearchVO param) {
+        return sqlSession.selectList("selectBoardListMain", param);
+    }
+    
     public List<?> selectBoardList(SearchVO param) {
         return sqlSession.selectList("selectBoardList", param);
     }

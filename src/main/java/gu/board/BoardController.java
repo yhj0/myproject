@@ -21,7 +21,15 @@ public class BoardController {
      * 메인으로 이동
      */
     @RequestMapping(value = "/home.do")
-    public String home(HttpServletRequest request, ModelMap modelMap) {
+    public String home(SearchVO searchVO, ModelMap modelMap) {
+    	
+        searchVO.pageCalculate( boardservice.selectBoardCount(searchVO) ); // startRow, endRow
+
+        List<?> listview  = boardservice.selectBoardListMain(searchVO);
+        
+        modelMap.addAttribute("listview", listview);
+        modelMap.addAttribute("searchVO", searchVO);	
+        
     	return "board/home";
     }	   
     
