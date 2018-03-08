@@ -1,1 +1,30 @@
 body{ background:url(../img/bg0.png) no-repeat; background-position:top center; }
+
+#simpleSearch {
+	display: block;
+	position: relative;
+	width: 180px; height: 1.5em;
+	border: 1px solid #aaa;
+	background: white;
+}
+.searchInput {
+	width: 100%;
+	margin: 0; border: 0;
+	padding: 0.3em 0 0.2em 0.2em;
+	font-size: 13px;
+	line-height: 120%;
+	outline: none;
+}
+.searchInput::-webkit-search-cancel-button { display: none; }
+.searchButton {
+	position: absolute;
+	top: 0; right: 0;
+	margin: 0; padding: 0; border: 0;
+	width: 1.65em; height: 100%;
+	cursor: pointer;
+	text-indent: -99999px;
+	background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAwAAAANCAAAAAC4QtCeAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAAJ0Uk5TAP9bkSK1AAAAaklEQVQI12P4///u3NrauXf/AwHD//05YLAfxLmbl7/n48c9+Xn3gZxJYDGg/BQgpyznC4jzJacMmVOMrgxowMFPnw5CDIAZnbMLxAFaWl09txrEY/gPAe87gTwY5//PmTmr4Jz/f699BgAmIHmp1XxJagAAAABJRU5ErkJggg==');
+	background-position: center center;
+	background-repeat: no-repeat;
+	background-color: transparent;
+}

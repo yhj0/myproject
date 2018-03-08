@@ -11,24 +11,66 @@
         </if>               
     </sql>
 
-    <select id="selectBoardCount" resultType="Integer" parameterType="gu.common.SearchVO">
+    <select id="selectNoticeCount" resultType="Integer" parameterType="gu.common.SearchVO">
+        SELECT COUNT(*)
+          FROM TBL_NOTICE
+         <include refid="includeBoard"/>
+    </select> 
+
+    <select id="selectConsumerCount" resultType="Integer" parameterType="gu.common.SearchVO">
         SELECT COUNT(*)
           FROM TBL_BOARD
          <include refid="includeBoard"/>
     </select> 
 
-    <select id="selectBoardListMain" resultType="gu.board.BoardVO" parameterType="gu.common.SearchVO">
+    <select id="selectIssueCount" resultType="Integer" parameterType="gu.common.SearchVO">
+        SELECT COUNT(*)
+          FROM TBL_ISSUE
+         <include refid="includeBoard"/>
+    </select> 
+
+    <select id="selectNoticeListMain" resultType="gu.board.BoardVO" parameterType="gu.common.SearchVO">
+        SELECT BRDNO, BRDTITLE, BRDWRITER, DATE_FORMAT(BRDDATE,'%Y.%m.%d') BRDDATE, BRDHIT
+             , (SELECT COUNT(*) FROM TBL_BOARDFILE WHERE BRDNO=TB.BRDNO) FILECNT
+             , (SELECT COUNT(*) FROM TBL_BOARDREPLY WHERE BRDNO=TB.BRDNO AND REDELETEFLAG='N') REPLYCNT
+             , REG_ID , REG_DTTM, CHG_ID, CHG_DTTM
+          FROM TBL_NOTICE TB
+         ORDER BY BRDNO DESC 
+         LIMIT 6
+    </select>
+
+    <select id="selectConsumerListMain" resultType="gu.board.BoardVO" parameterType="gu.common.SearchVO">
         SELECT BRDNO, BRDTITLE, BRDWRITER, DATE_FORMAT(BRDDATE,'%Y.%m.%d') BRDDATE, BRDHIT
              , (SELECT COUNT(*) FROM TBL_BOARDFILE WHERE BRDNO=TB.BRDNO) FILECNT
              , (SELECT COUNT(*) FROM TBL_BOARDREPLY WHERE BRDNO=TB.BRDNO AND REDELETEFLAG='N') REPLYCNT
              , REG_ID , REG_DTTM, CHG_ID, CHG_DTTM
           FROM TBL_BOARD TB
+         ORDER BY BRDNO DESC 
+         LIMIT 6
+    </select>
+
+    <select id="selectIssueListMain" resultType="gu.board.BoardVO" parameterType="gu.common.SearchVO">
+        SELECT BRDNO, BRDTITLE, BRDWRITER, DATE_FORMAT(BRDDATE,'%Y.%m.%d') BRDDATE, BRDHIT
+             , (SELECT COUNT(*) FROM TBL_BOARDFILE WHERE BRDNO=TB.BRDNO) FILECNT
+             , (SELECT COUNT(*) FROM TBL_BOARDREPLY WHERE BRDNO=TB.BRDNO AND REDELETEFLAG='N') REPLYCNT
+             , REG_ID , REG_DTTM, CHG_ID, CHG_DTTM
+          FROM TBL_ISSUE TB
+         ORDER BY BRDNO DESC 
+         LIMIT 6
+    </select>
+ 
+     <select id="selectNoticeList" resultType="gu.board.BoardVO" parameterType="gu.common.SearchVO">
+        SELECT BRDNO, BRDTITLE, BRDWRITER, DATE_FORMAT(BRDDATE,'%Y.%m.%d') BRDDATE, BRDHIT
+             , (SELECT COUNT(*) FROM TBL_BOARDFILE WHERE BRDNO=TB.BRDNO) FILECNT
+             , (SELECT COUNT(*) FROM TBL_BOARDREPLY WHERE BRDNO=TB.BRDNO AND REDELETEFLAG='N') REPLYCNT
+             , REG_ID , REG_DTTM, CHG_ID, CHG_DTTM
+          FROM TBL_NOTICE TB
          <include refid="includeBoard"/>
          ORDER BY BRDNO DESC 
-         LIMIT ${rowStart-1}, 6
-    </select>
+         LIMIT ${rowStart-1}, 10
+    </select> 
     
-    <select id="selectBoardList" resultType="gu.board.BoardVO" parameterType="gu.common.SearchVO">
+    <select id="selectConsumerList" resultType="gu.board.BoardVO" parameterType="gu.common.SearchVO">
         SELECT BRDNO, BRDTITLE, BRDWRITER, DATE_FORMAT(BRDDATE,'%Y.%m.%d') BRDDATE, BRDHIT
              , (SELECT COUNT(*) FROM TBL_BOARDFILE WHERE BRDNO=TB.BRDNO) FILECNT
              , (SELECT COUNT(*) FROM TBL_BOARDREPLY WHERE BRDNO=TB.BRDNO AND REDELETEFLAG='N') REPLYCNT
@@ -38,6 +80,51 @@
          ORDER BY BRDNO DESC 
          LIMIT ${rowStart-1}, 10
     </select> 
+
+    <select id="selectIssueList" resultType="gu.board.BoardVO" parameterType="gu.common.SearchVO">
+        SELECT BRDNO, BRDTITLE, BRDWRITER, DATE_FORMAT(BRDDATE,'%Y.%m.%d') BRDDATE, BRDHIT
+             , (SELECT COUNT(*) FROM TBL_BOARDFILE WHERE BRDNO=TB.BRDNO) FILECNT
+             , (SELECT COUNT(*) FROM TBL_BOARDREPLY WHERE BRDNO=TB.BRDNO AND REDELETEFLAG='N') REPLYCNT
+             , REG_ID , REG_DTTM, CHG_ID, CHG_DTTM
+          FROM TBL_ISSUE TB
+         <include refid="includeBoard"/>
+         ORDER BY BRDNO DESC 
+         LIMIT ${rowStart-1}, 10
+    </select> 
+
+    <insert id="insertNotice" parameterType="gu.board.BoardVO" >
+        <selectKey resultType="String" keyProperty="brdno" order="BEFORE">
+            SELECT IFNULL(MAX(BRDNO),0)+1 FROM TBL_NOTICE
+        </selectKey>
+    
+        INSERT INTO TBL_NOTICE
+        (
+         BRDNO, 
+         BRDTITLE, 
+         BRDWRITER, 
+         BRDMEMO, 
+         BRDDATE, 
+         BRDHIT, 
+         BRDDELETEFLAG, 
+         REG_ID, 
+         REG_DTTM, 
+         CHG_ID, 
+         CHG_DTTM)
+        VALUES 
+        (
+         #{brdno},
+         #{brdtitle}, 
+         #{brdwriter}, 
+         #{brdmemo}, 
+         NOW(), 
+         0, 
+         'N',
+        #{reg_id},
+        NOW(),
+        NULL,
+        NULL
+         )
+    </insert>
     
     <insert id="insertBoard" parameterType="gu.board.BoardVO" >
         <selectKey resultType="String" keyProperty="brdno" order="BEFORE">
@@ -72,7 +159,52 @@
         NULL
          )
     </insert>
+
+    <insert id="insertIssue" parameterType="gu.board.BoardVO" >
+        <selectKey resultType="String" keyProperty="brdno" order="BEFORE">
+            SELECT IFNULL(MAX(BRDNO),0)+1 FROM TBL_BOARD
+        </selectKey>
     
+        INSERT INTO TBL_ISSUE
+        (
+         BRDNO, 
+         BRDTITLE, 
+         BRDWRITER, 
+         BRDMEMO, 
+         BRDDATE, 
+         BRDHIT, 
+         BRDDELETEFLAG, 
+         REG_ID, 
+         REG_DTTM, 
+         CHG_ID, 
+         CHG_DTTM)
+        VALUES 
+        (
+         #{brdno},
+         #{brdtitle}, 
+         #{brdwriter}, 
+         #{brdmemo}, 
+         NOW(), 
+         0, 
+         'N',
+        #{reg_id},
+        NOW(),
+        NULL,
+        NULL
+         )
+    </insert>
+
+    <update id="updateNotice" parameterType="gu.board.BoardVO">
+        UPDATE TBL_NOTICE
+           SET BRDTITLE=#{brdtitle}
+             , BRDWRITER=#{brdwriter}
+             , BRDMEMO=#{brdmemo} 
+             , CHG_ID = #{reg_id}
+             , CHG_DTTM = NOW()
+         WHERE BRDDELETEFLAG='N'
+           AND BRDNO=#{brdno}
+    </update> 
+  
     <update id="updateBoard" parameterType="gu.board.BoardVO">
         UPDATE TBL_BOARD
            SET BRDTITLE=#{brdtitle}
@@ -83,6 +215,24 @@
          WHERE BRDDELETEFLAG='N'
            AND BRDNO=#{brdno}
     </update> 
+
+    <update id="updateIssue" parameterType="gu.board.BoardVO">
+        UPDATE TBL_ISSUE
+           SET BRDTITLE=#{brdtitle}
+             , BRDWRITER=#{brdwriter}
+             , BRDMEMO=#{brdmemo} 
+             , CHG_ID = #{reg_id}
+             , CHG_DTTM = NOW()
+         WHERE BRDDELETEFLAG='N'
+           AND BRDNO=#{brdno}
+    </update> 
+
+    <select id="selectNoticeOne" parameterType="String" resultType="gu.board.BoardVO">
+        SELECT BRDNO, BRDTITLE, BRDWRITER, BRDMEMO, DATE_FORMAT(BRDDATE,'%Y.%m.%d') BRDDATE ,REG_ID, REG_DTTM, CHG_ID, CHG_DTTM 
+          FROM TBL_NOTICE
+         WHERE BRDDELETEFLAG='N'
+           AND BRDNO=#{brdno}
+    </select> 
         
     <select id="selectBoardOne" parameterType="String" resultType="gu.board.BoardVO">
         SELECT BRDNO, BRDTITLE, BRDWRITER, BRDMEMO, DATE_FORMAT(BRDDATE,'%Y.%m.%d') BRDDATE ,REG_ID, REG_DTTM, CHG_ID, CHG_DTTM 
@@ -91,14 +241,49 @@
            AND BRDNO=#{brdno}
     </select> 
 
+    <select id="selectIssueOne" parameterType="String" resultType="gu.board.BoardVO">
+        SELECT BRDNO, BRDTITLE, BRDWRITER, BRDMEMO, DATE_FORMAT(BRDDATE,'%Y.%m.%d') BRDDATE ,REG_ID, REG_DTTM, CHG_ID, CHG_DTTM 
+          FROM TBL_ISSUE
+         WHERE BRDDELETEFLAG='N'
+           AND BRDNO=#{brdno}
+    </select> 
+
+    <update id="updateNoticeRead" parameterType="String">
+        UPDATE TBL_NOTICE
+           SET BRDHIT = BRDHIT + 1 
+         WHERE BRDNO=#{brdno}
+    </update> 
+
     <update id="updateBoardRead" parameterType="String">
         UPDATE TBL_BOARD
            SET BRDHIT = BRDHIT + 1 
          WHERE BRDNO=#{brdno}
     </update> 
 
+    <update id="updateIssueRead" parameterType="String">
+        UPDATE TBL_ISSUE
+           SET BRDHIT = BRDHIT + 1 
+         WHERE BRDNO=#{brdno}
+    </update> 
+
+    <delete id="deleteNoticeOne" parameterType="String">
+        UPDATE TBL_NOTICE
+           SET BRDDELETEFLAG='Y', 
+               CHG_ID = #{reg_id},
+               CHG_DTTM = NOW()
+         WHERE BRDNO=#{brdno}
+    </delete> 
+
     <delete id="deleteBoardOne" parameterType="String">
         UPDATE TBL_BOARD
+           SET BRDDELETEFLAG='Y', 
+               CHG_ID = #{reg_id},
+               CHG_DTTM = NOW()
+         WHERE BRDNO=#{brdno}
+    </delete> 
+    
+    <delete id="deleteIssueOne" parameterType="String">
+        UPDATE TBL_ISSUE
            SET BRDDELETEFLAG='Y', 
                CHG_ID = #{reg_id},
                CHG_DTTM = NOW()

@@ -55,14 +55,14 @@ function fn_formSubmit(){
 						    <br>
 						</c:when>
 						<c:otherwise>
-						&nbsp;<a class="btn btn-info" href="boardForm.do">글쓰기</a>
+						&nbsp;<a class="btn btn-info" href="noticeForm.do">글쓰기</a>
 						</c:otherwise>
 					</c:choose>			
 				</td>
 			</tr>
 			<tr>
 				<td>
-				<form id="form_menu" name="form_menu" action="boardList.do" method="post" enctype="multipart/form-data">
+				<form id="form_menu" name="form_menu" action="noticeList.do" method="post" enctype="multipart/form-data">
 						<input type="hidden" name="boardtype"></input>
 							<ul class="nav navbar-nav">
 								<li><a class="menuLink" href="noticeList.do" >공지사항</a></li>
@@ -87,7 +87,7 @@ function fn_formSubmit(){
 								<thead>
 									<tr>
 										<th>#</th> 
-										<th>제목</th>
+										<th>공지사항</th>
 										<th>작성일</th>
 										<th>작성자</th>
 										<th>조회</th>
@@ -96,7 +96,7 @@ function fn_formSubmit(){
 								</thead>
 								<tbody>
 									<c:forEach var="listview" items="${listview}" varStatus="status">	
-										<c:url var="link" value="boardRead.do">
+										<c:url var="link" value="noticeRead.do">
 											<c:param name="brdno" value="${listview.brdno}" />
 										</c:url>		
 																  				

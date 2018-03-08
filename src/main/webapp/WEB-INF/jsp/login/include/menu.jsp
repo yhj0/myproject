@@ -6,10 +6,13 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<link rel="stylesheet" href="css/bootstrap.css">
-<script src="js/jquery-2.2.3.min.js"></script>
-<script src="js/bootstrap.js"></script>
-<title>Insert title here</title>
+
+<script type="text/javascript">
+function fn_search()
+{
+	alert("검색합니다.");
+}
+</script>
 </head>
 <body>
 	<div class="container">
@@ -19,9 +22,19 @@
 			 		<li><a class="menuLink" href="http://localhost:8080/board/boardList.do">소비자경험커뮤니티</a></li>
 			 		<li><a class="menuLink">데이터분석시각화</a></li>
 			 		<c:if test="${sessionScope.id == null}">
-			 		<li><a class="menuLink" href="${path}/board/login.do">로그인</a></li>
-					</c:if>			 		
-			 		<li><a class="menuLink">회원가입</a></li>
+			 		<li><a class="menuLink" href="${path}/board/login.do">로그인</a></li>	 		
+			 		<li><a class="menuLink" href="${path}/board/memberJoinForm.do">회원가입</a></li>
+			 		</c:if>		
+			 		<li>
+			 			<a class="menuLink">
+			 				<form id='searchform'>
+								<div id='simpleSearch'>
+									<input type='text' name='search' class='searchInput' placeholder='검색어를 입력하세요'>
+									<input type='submit' name='go' class='searchButton' onclick="fn_search()">
+								</div>
+							</form>	
+						</a>
+			 		</li>
 			 	</ul>
 		</nav>
 	</div>

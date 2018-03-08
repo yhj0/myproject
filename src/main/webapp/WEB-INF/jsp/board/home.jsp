@@ -25,19 +25,21 @@ $(document).ready(function(){
 		$(document).on('click','.bx-next, .bx-prev',function() {
 			slider.stopAuto();
 			slider.startAuto();
-			slider_01.stopAuto();
-			slider_01.startAuto();
 		});
 		$(document).on('mouseover','.bx-pager, #bx-pager1',function() {
 			slider.stopAuto();
 			slider.startAuto();
-			slider_01.stopAuto();
-			slider_01.startAuto();
-			slider_02.stopAuto();
-			slider_02.startAuto();
 		});	
 });
 </script>
+<script type="text/javascript">
+function fn_board_contents(boardValue)
+{
+	document.form.boardtype.value = boardValue;
+	document.form.submit();
+}
+</script>
+
 <style>
 </style>
 
@@ -68,11 +70,14 @@ $(document).ready(function(){
 				<tr>
 					<!-- 메인화면 게시판 -->
 					<td align="center" width="600" >
-						<ul class="nav navbar-nav">
-							<li><a class="menuLink" >공지사항</a></li>
-							<li><a class="menuLink" >최근 글</a></li>
-							<li><a class="menuLink" >최근 이슈</a></li>
-						</ul>
+						<form id="form" name="form" action="home.do" method="post" enctype="multipart/form-data">
+						<input type="hidden" name="boardtype"></input>
+							<ul class="nav navbar-nav">
+								<li><a class="menuLink" href="#" onclick="fn_board_contents('notice')">공지사항</a></li>
+								<li><a class="menuLink" href="#" onclick="fn_board_contents('consumer')">최근글</a></li>
+								<li><a class="menuLink" href="#" onclick="fn_board_contents('issue')">최근이슈</a></li>
+							</ul>
+						</form>
 						<div>
 							<table class="table table-hover" >
 								<colgroup>
@@ -96,7 +101,7 @@ $(document).ready(function(){
 										</c:url>		
 																  				
 										<tr>
-											<td><c:out value="${searchVO.totRow-((searchVO.page-1)*searchVO.displayRowCount + status.index)}"/></td>
+											<td><c:out value="${listview.brdno}"/></td>
 											<td style="max-width: 10px;  overflow: hidden; white-space: nowrap; text-overflow: ellipsis;">
 												<a href="${link}"><c:out value="${listview.brdtitle}"/></a>										
 											</td>
