@@ -200,13 +200,69 @@ public class BoardController {
     /**
      * 글 읽기.
      */
+    @RequestMapping(value = "/mainRead.do")
+    public String mainRead(HttpServletRequest request, ModelMap modelMap) {
+    	
+    	//리턴정의
+    	String result = "";
+    	
+    	//게시판구분 
+    	String brdtype = request.getParameter("brdtype");
+        String brdno = request.getParameter("brdno");
+    	
+    	//구분에 따라 분기
+    	if ("C".equals(brdtype))
+    	{
+            boardservice.updateBoardRead(brdno);
+            BoardVO boardInfo = boardservice.selectBoardOne(brdno);
+            List<?> listview = boardservice.selectBoardFileList(brdno);
+            List<?> replylist = boardservice.selectBoardReplyList(brdno);
+            
+            modelMap.addAttribute("boardInfo", boardInfo);
+            modelMap.addAttribute("listview", listview);
+            modelMap.addAttribute("replylist", replylist);   
+            
+            result = "board/NoticeRead";
+    	}
+    	else if("I".equals(brdtype))
+    	{
+            boardservice.updateIssueRead(brdno);
+            BoardVO boardInfo = boardservice.selectIssueOne(brdno);
+            List<?> listview = boardservice.selectBoardFileList(brdno);
+            List<?> replylist = boardservice.selectBoardReplyList(brdno);
+            
+            modelMap.addAttribute("boardInfo", boardInfo);
+            modelMap.addAttribute("listview", listview);
+            modelMap.addAttribute("replylist", replylist);
+            
+            result = "board/IssueRead";
+    	}
+    	else
+    	{
+            boardservice.updateNoticeRead(brdno);
+            BoardVO boardInfo = boardservice.selectNoticeOne(brdno);
+            List<?> listview = boardservice.selectBoardFileList(brdno);
+            List<?> replylist = boardservice.selectBoardReplyList(brdno);
+            
+            modelMap.addAttribute("boardInfo", boardInfo);
+            modelMap.addAttribute("listview", listview);
+            modelMap.addAttribute("replylist", replylist);
+        	
+            result = "board/NoticeRead" ;    		
+    		
+    	}
+
+        return result;
+    }        
+    
+    
     /*공지사항*/
     @RequestMapping(value = "/noticeRead.do")
     public String noticeRead(HttpServletRequest request, ModelMap modelMap) {
         
         String brdno = request.getParameter("brdno");
         
-        boardservice.updateBoardRead(brdno);
+        boardservice.updateNoticeRead(brdno);
         BoardVO boardInfo = boardservice.selectNoticeOne(brdno);
         List<?> listview = boardservice.selectBoardFileList(brdno);
         List<?> replylist = boardservice.selectBoardReplyList(brdno);
@@ -217,6 +273,7 @@ public class BoardController {
         
         return "board/NoticeRead";
     }    
+    
     /*소비자경험*/    
     @RequestMapping(value = "/boardRead.do")
     public String boardRead(HttpServletRequest request, ModelMap modelMap) {
@@ -241,8 +298,8 @@ public class BoardController {
         
         String brdno = request.getParameter("brdno");
         
-        boardservice.updateBoardRead(brdno);
-        BoardVO boardInfo = boardservice.selectBoardOne(brdno);
+        boardservice.updateIssueRead(brdno);
+        BoardVO boardInfo = boardservice.selectIssueOne(brdno);
         List<?> listview = boardservice.selectBoardFileList(brdno);
         List<?> replylist = boardservice.selectBoardReplyList(brdno);
         
@@ -312,4 +369,22 @@ public class BoardController {
 
         return "redirect:/boardRead.do?brdno=" + boardReplyInfo.getBrdno();
     }      
+    
+    /**
+     * 전체검색.
+     */    
+    @RequestMapping(value = "/search.do")
+    public String mainSearch(HttpServletRequest request, SearchVO searchVO, ModelMap modelMap) {
+       System.out.println("+++++++++++++++++++++++++++mainSearch");
+    	
+        int searchCount = boardservice.searchCount(searchVO);
+        List<?> listview  = boardservice.selectSearch(searchVO);
+        
+        //리턴할 값 셋팅 
+        modelMap.addAttribute("listview", listview);
+        modelMap.addAttribute("searchCount", searchCount);
+        modelMap.addAttribute("searchVO", searchVO);
+       
+        return "board/SearchResult";
+    }
 }

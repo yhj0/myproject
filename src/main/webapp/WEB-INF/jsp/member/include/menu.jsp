@@ -10,7 +10,7 @@
 <script type="text/javascript">
 function fn_search()
 {
-	alert("검색합니다.");
+	document.searchform.submit();
 }
 </script>
 </head>
@@ -26,14 +26,14 @@ function fn_search()
 			 		<li><a class="menuLink" href="${path}/board/memberJoinForm.do">회원가입</a></li>
 			 		</c:if>		
 			 		<li>
-			 			<a class="menuLink">
-			 				<form id='searchform'>
-								<div id='simpleSearch'>
-									<input type='text' name='search' class='searchInput' placeholder='검색어를 입력하세요'>
+			 		<form id='searchform' name="searchform" action="search.do" method="post" enctype="multipart/form-data">
+			 			<div id='simpleSearch'>
+			 					<a class="menuLink">
+									<input type='text' name='searchKeyword' class='searchInput' placeholder='검색어를 입력하세요' name="searchKeyword" style="width:150px;" maxlength="50" value='<c:out value="${searchVO.searchKeyword}"/>' onkeydown="if(event.keyCode == 13) { fn_formSubmit();}">
 									<input type='submit' name='go' class='searchButton' onclick="fn_search()">
-								</div>
-							</form>	
-						</a>
+								</a>
+							</div>
+						</form>
 			 		</li>
 			 	</ul>
 		</nav>

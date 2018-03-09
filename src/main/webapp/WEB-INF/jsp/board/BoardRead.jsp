@@ -115,7 +115,7 @@ function fn_replyUpdateCancel(){
 									</tr>
 									<tr>
 										<td>내용</td> 
-										<td><c:out value="${boardInfo.brdmemo}" escapeXml="false"/></td> 
+										<td><textarea rows="10" cols="90" readonly><c:out value="${boardInfo.brdmemo}" escapeXml="false"/></textarea></td> 
 									</tr>
 									<tr>
 										<td>첨부파일</td> 

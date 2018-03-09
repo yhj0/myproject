@@ -102,7 +102,7 @@ function fn_replyUpdateCancel(){
 				<td height="522">
 					<div class="container">
 					<div class="col-md-8 col-md-offset-2">
-					<div class="well">			
+						<div class="well">			
 							<table class="table table-striped" >
 								<tbody>
 									<tr>
@@ -115,7 +115,7 @@ function fn_replyUpdateCancel(){
 									</tr>
 									<tr>
 										<td>내용</td> 
-										<td><c:out value="${boardInfo.brdmemo}" escapeXml="false"/></td> 
+										<td><textarea rows="10" cols="90" readonly><c:out value="${boardInfo.brdmemo}" escapeXml="false"/></textarea></td> 
 									</tr>
 									<tr>
 										<td>첨부파일</td> 
@@ -142,7 +142,7 @@ function fn_replyUpdateCancel(){
 							</c:choose>		
 							<p>&nbsp;</p>
 							</div>
-							<!-- 댓글부분 -->
+							<!-- 댓글부분 
 							<div style="border: 1px solid; width: 600px; padding: 5px">
 								<form name="form1" action="boardReplySave.do" method="post">
 									<input type="hidden" name="brdno" value="<c:out value="${boardInfo.brdno}"/>"> 
@@ -155,7 +155,7 @@ function fn_replyUpdateCancel(){
 							<c:forEach var="replylist" items="${replylist}" varStatus="status">
 								<div >	
 									<c:out value="${replylist.rewriter}"/> <c:out value="${replylist.redate}"/>
-									<!-- 댓글 수정권한 본인id 혹은 관리자-->
+									
 									<c:choose>
 									    <c:when test="${sessionScope.id == replylist.reg_id || sessionScope.id == 'admin'}">
 											<a class="btn btn-xs" href="#" onclick="fn_replyDelete('<c:out value="${replylist.reno}"/>')">삭제</a>
@@ -178,9 +178,11 @@ function fn_replyUpdateCancel(){
 									<a href="#" onclick="fn_replyUpdateCancel()">취소</a>
 									<a><input type="hidden" name="reg_id" value ="<c:out value="${sessionScope.id}"/>"></a>
 								</form>
-							</div>		
+							</div>	
+							
+							-->	
 						</div>
-						</div>				
+					</div>				
 				</td>
 			</tr>
 			<tr>

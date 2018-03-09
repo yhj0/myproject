@@ -227,5 +227,17 @@ public class BoardService {
     
     public void deleteBoardReply(String param) {
         sqlSession.delete("deleteBoardReply", param);
-    } 
+    }
+
+    /**
+     * 검색. 
+     */
+    /*검색된 갯수*/
+    public int searchCount(SearchVO param) {
+        return sqlSession.selectOne("searchCount", param);
+    }    
+    /*검색내용*/
+    public List<?> selectSearch(SearchVO param) {
+        return sqlSession.selectList("selectSearch", param);
+    }    
 }

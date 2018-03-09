@@ -89,9 +89,8 @@ function fn_formSubmit(){
 										<th>#</th> 
 										<th>공지사항</th>
 										<th>작성일</th>
-										<th>작성자</th>
+										<th>글쓴이</th>
 										<th>조회</th>
-										<th>댓글</th>
 									</tr>
 								</thead>
 								<tbody>
@@ -117,7 +116,6 @@ function fn_formSubmit(){
 											<td><c:out value="${listview.brddate}"/></td>
 											<td><c:out value="${listview.brdwriter}"/></td>
 											<td><c:out value="${listview.brdhit}"/></td>
-											<td><c:out value="${listview.replycnt}"/></td>
 										</tr>
 									</c:forEach>
 								</tbody>

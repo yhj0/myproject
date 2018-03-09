@@ -7,7 +7,9 @@ import gu.common.utiletc;
 
 public class BoardVO {
 
+	private String num;	
     private String brdno;
+    private String brdtype;
     private String brdtitle; 
     private String brdwriter; 
     private String brdmemo; 
@@ -32,7 +34,16 @@ public class BoardVO {
         return utiletc.getShortString(brdtitle, len);
     }
     
-    public String getBrdno() {
+
+	public String getNum() {
+		return num;
+	}
+
+	public void setNum(String num) {
+		this.num = num;
+	}
+
+	public String getBrdno() {
         return brdno;
     }
 
@@ -40,6 +51,14 @@ public class BoardVO {
         this.brdno = brdno;
     }
 
+    public String getBrdtype() {
+		return brdtype;
+	}
+
+	public void setBrdtype(String brdtype) {
+		this.brdtype = brdtype;
+	}
+    
     public String getBrdtitle() {
         return brdtitle; 
     }

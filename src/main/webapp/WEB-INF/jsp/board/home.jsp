@@ -32,6 +32,7 @@ $(document).ready(function(){
 		});	
 });
 </script>
+
 <script type="text/javascript">
 function fn_board_contents(boardValue)
 {
@@ -40,10 +41,7 @@ function fn_board_contents(boardValue)
 }
 </script>
 
-<style>
-</style>
-
-<title>Insert title here</title>
+<title>빅데이터센터</title>
 </head>
 
 <body>
@@ -96,12 +94,12 @@ function fn_board_contents(boardValue)
 								</thead>
 								<tbody>
 									<c:forEach var="listview" items="${listview}" varStatus="status">	
-										<c:url var="link" value="boardRead.do">
+										<c:url var="link" value="mainRead.do">
 											<c:param name="brdno" value="${listview.brdno}" />
-										</c:url>		
-																  				
+											<c:param name="brdtype" value="${listview.brdtype}" />
+										</c:url>										  				
 										<tr>
-											<td><c:out value="${listview.brdno}"/></td>
+											<td><c:out value="${listview.num}"/></td>
 											<td style="max-width: 10px;  overflow: hidden; white-space: nowrap; text-overflow: ellipsis;">
 												<a href="${link}"><c:out value="${listview.brdtitle}"/></a>										
 											</td>

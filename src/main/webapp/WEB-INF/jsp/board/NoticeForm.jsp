@@ -60,7 +60,7 @@ function fn_formSubmit(){
 									</tr>
 									<tr>
 										<td align="right">내 용:&nbsp;</td> 
-										<td>&nbsp;<textarea name="brdmemo" rows="5" cols="65"><c:out value="${boardInfo.brdmemo}"/></textarea></td> 
+										<td>&nbsp;<textarea name="brdmemo" rows="10" cols="90"><c:out value="${boardInfo.brdmemo}"/></textarea></td> 
 									</tr>
 									<tr>
 										<td align="right">첨 부:&nbsp;</td> 
