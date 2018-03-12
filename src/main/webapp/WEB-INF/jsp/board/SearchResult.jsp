@@ -31,25 +31,65 @@
 			</tr>
 			<tr>
 				<td>
-					<h4>키워드검색</h4>
 					<h4>공지사항 게시판</h4>
 					<ul>
-						<c:forEach var="listview" items="${listview}" varStatus="status">
-							<li>제목 <c:out value="${listview.brdtitle}"/> 
-								작성일 <c:out value="${listview.brddate}"/> 
+					<c:forEach var="listview" items="${listview}" varStatus="status">
+						<c:if test="${listview.brdtype eq 'N'}" >
+							<c:url var="link" value="mainRead.do">
+								<c:param name="brdno" value="${listview.brdno}" />
+								<c:param name="brdtype" value="${listview.brdtype}" />
+							</c:url>	
+							<li>
+								<a href="${link}">
+								제목 <c:out value="${listview.brdtitle}"/>
+								작성일 <c:out value="${listview.brddate}"/>
 								조회수 <c:out value="${listview.brdhit}"/>
 								작성자 <c:out value="${listview.brdwriter}"/> 
 								본문 <c:out value="${listview.brdmemo}"/>
+								</a>
 							</li>
-						</c:forEach>	
+						</c:if>	
+					</c:forEach>
 					</ul>
 					<h4>소비자경험 게시판</h4>
 					<ul>
-						<li>데이터</li>
+					<c:forEach var="listview" items="${listview}" varStatus="status">
+						<c:if test="${listview.brdtype eq 'C'}" >
+							<c:url var="link" value="mainRead.do">
+								<c:param name="brdno" value="${listview.brdno}" />
+								<c:param name="brdtype" value="${listview.brdtype}" />
+							</c:url>	
+							<li>
+								<a href="${link}">
+								제목 <c:out value="${listview.brdtitle}"/>
+								작성일 <c:out value="${listview.brddate}"/>
+								조회수 <c:out value="${listview.brdhit}"/>
+								작성자 <c:out value="${listview.brdwriter}"/> 
+								본문 <c:out value="${listview.brdmemo}"/>
+								</a>
+							</li>
+						</c:if>	
+					</c:forEach>							
 					</ul>
 					<h4>이슈 게시판</h4>										
 					<ul>
-						<li>데이터</li>
+					<c:forEach var="listview" items="${listview}" varStatus="status">
+						<c:if test="${listview.brdtype eq 'I'}" >
+							<c:url var="link" value="mainRead.do">
+								<c:param name="brdno" value="${listview.brdno}" />
+								<c:param name="brdtype" value="${listview.brdtype}" />
+							</c:url>	
+							<li>
+								<a href="${link}">
+								제목 <c:out value="${listview.brdtitle}"/>
+								작성일 <c:out value="${listview.brddate}"/>
+								조회수 <c:out value="${listview.brdhit}"/>
+								작성자 <c:out value="${listview.brdwriter}"/> 
+								본문 <c:out value="${listview.brdmemo}"/>
+								</a>
+							</li>
+						</c:if>	
+					</c:forEach>	
 					</ul>
 				</td>
 			</tr>			

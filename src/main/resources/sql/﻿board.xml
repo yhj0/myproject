@@ -407,11 +407,26 @@
     </update> 
 
     <select id="searchCount" resultType="Integer" parameterType="gu.common.SearchVO">
-        SELECT COUNT(*)
-          FROM TBL_NOTICE
-         WHERE 1=1
-         	AND BRDDELETEFLAG='N'
-         	AND (BRDTITLE LIKE CONCAT('%', #{searchKeyword},'%' ) OR BRDMEMO LIKE CONCAT('%', #{searchKeyword},'%' ) )            
+     	SELECT N.CNT+C.CNT+I.CNT FROM  ( 
+	        (SELECT COUNT(*) CNT
+	          FROM TBL_NOTICE
+	         WHERE 1=1
+	         	AND BRDDELETEFLAG='N'
+	         	AND (BRDTITLE LIKE CONCAT('%', #{searchKeyword},'%' ) OR BRDMEMO LIKE CONCAT('%', #{searchKeyword},'%' ) )
+	         )N,
+	        (SELECT COUNT(*) CNT
+	          FROM TBL_BOARD
+	         WHERE 1=1
+	         	AND BRDDELETEFLAG='N'
+	         	AND (BRDTITLE LIKE CONCAT('%', #{searchKeyword},'%' ) OR BRDMEMO LIKE CONCAT('%', #{searchKeyword},'%' ) )
+	         )C,
+	        (SELECT COUNT(*) CNT
+	          FROM TBL_ISSUE
+	         WHERE 1=1
+	         	AND BRDDELETEFLAG='N'
+	         	AND (BRDTITLE LIKE CONCAT('%', #{searchKeyword},'%' ) OR BRDMEMO LIKE CONCAT('%', #{searchKeyword},'%' ) )
+	         )I
+	    )      	                       
     </select>      
     
     <select id="selectSearch" resultType="gu.board.BoardVO" parameterType="gu.common.SearchVO">
@@ -419,7 +434,19 @@
           FROM TBL_NOTICE
          WHERE 1=1
          	AND BRDDELETEFLAG='N'
-         	AND (BRDTITLE LIKE CONCAT('%', #{searchKeyword},'%' ) OR BRDMEMO LIKE CONCAT('%', #{searchKeyword},'%' ) )             
+         	AND (BRDTITLE LIKE CONCAT('%', #{searchKeyword},'%' ) OR BRDMEMO LIKE CONCAT('%', #{searchKeyword},'%' ) )   
+        UNION ALL  
+        SELECT BRDNO, BRDTYPE, BRDTITLE, BRDWRITER, BRDMEMO, BRDHIT, DATE_FORMAT(BRDDATE,'%Y.%m.%d') BRDDATE ,REG_ID, REG_DTTM, CHG_ID, CHG_DTTM 
+          FROM TBL_BOARD
+         WHERE 1=1
+         	AND BRDDELETEFLAG='N'
+         	AND (BRDTITLE LIKE CONCAT('%', #{searchKeyword},'%' ) OR BRDMEMO LIKE CONCAT('%', #{searchKeyword},'%' ) ) 
+ 		UNION ALL     
+        SELECT BRDNO, BRDTYPE, BRDTITLE, BRDWRITER, BRDMEMO, BRDHIT, DATE_FORMAT(BRDDATE,'%Y.%m.%d') BRDDATE ,REG_ID, REG_DTTM, CHG_ID, CHG_DTTM 
+          FROM TBL_ISSUE
+         WHERE 1=1
+         	AND BRDDELETEFLAG='N'
+         	AND (BRDTITLE LIKE CONCAT('%', #{searchKeyword},'%' ) OR BRDMEMO LIKE CONCAT('%', #{searchKeyword},'%' ) )  		     	        	          
     </select>   
 </mapper>
 

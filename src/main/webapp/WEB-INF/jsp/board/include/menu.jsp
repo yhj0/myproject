@@ -27,13 +27,13 @@ function fn_search()
 			 		</c:if>		
 			 		<li>
 			 		<form id='searchform' name="searchform" action="search.do" method="post" enctype="multipart/form-data">
-			 			<div id='simpleSearch'>
+			 			<div id='form-group'>
 			 					<a class="menuLink">
 									<input type='text' name='searchKeyword' class='searchInput' placeholder='검색어를 입력하세요' name="searchKeyword" style="width:150px;" maxlength="50" value='<c:out value="${searchVO.searchKeyword}"/>' onkeydown="if(event.keyCode == 13) { fn_formSubmit();}">
 									<input type='submit' name='go' class='searchButton' onclick="fn_search()">
 								</a>
-							</div>
-						</form>
+						</div>
+					</form>
 			 		</li>
 			 	</ul>
 		</nav>
