@@ -2,11 +2,25 @@
 <!DOCTYPE mapper PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN" "http://ibatis.apache.org/dtd/ibatis-3-mapper.dtd">
 
 <mapper namespace="member">
+<!--회원정보 조회 -->
+    <select id="selectMemberOne" parameterType="gu.member.MemberVO" >
+		SELECT *
+		  FROM TBL_MEMBER A, TBL_IMAGE B 
+	     WHERE 1=1
+		   AND A.ID = B.REG_ID 
+		   AND B.REG_DTTM = (SELECT MAX(REG_DTTM) 
+			  	 			   FROM TBL_IMAGE
+			  	 			  WHERE 1=1 
+			  	 			    AND REG_ID = #{id} )
+	       AND A.ID = #{id} 
+    </select> 
+
+<!--회원정보 입력 -->
     <insert id="insertMember" parameterType="gu.member.MemberVO" >
         INSERT INTO TBL_MEMBER(ID, PASSWORD, NAME, NICK_NAME, EMAIL, REG_DTTM)
         VALUES (#{id}, #{password}, #{name}, #{nick_name},#{email},NOW())
     </insert> 
-    
+<!--아이디 갯수 체크 -->    
     <select id="checkID" resultType="String">
         SELECT COUNT(*)
           FROM TBL_MEMBER
@@ -14,7 +28,7 @@
            AND ID=#{id}
     </select> 
 
-<!--이미지업로드 =============================================================================== -->  
+<!--회원사진 업로드 입력 -->  
 	<insert id="insertImage" parameterType="gu.common.ImageVO">
     INSERT INTO TBL_IMAGE 
      	(

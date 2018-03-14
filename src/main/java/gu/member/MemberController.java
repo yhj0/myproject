@@ -20,8 +20,8 @@ import gu.member.MemberVO;
 public class MemberController {
 
     @Autowired
-    private MemberService memberService;	
-	
+    MemberService memberService;	
+    
     /**
      * 회원가입폼.
      */
@@ -31,9 +31,27 @@ public class MemberController {
     
     }	
 	
-	
+    /** 
+     * 회원정보 조회
+     */
+    @RequestMapping(value = "/memberMypage.do")
+    public String memberMypage(HttpServletRequest request, ModelMap modelMap) {
+
+    	String id = request.getParameter("id");
+    					
+    	System.out.println("++++++++++++++++++++++++++++++++++회원아이디:"+id);
+    	
+        if (id != null) {
+            MemberVO memberInfo = memberService.selectMemberOne(id);
+        
+            modelMap.addAttribute("memberInfo", memberInfo);
+        }
+        
+        return "member/memberMypage";
+    }  
+    
 	/**
-	* 회원 저장 
+	* 회원정보 저장 
 	*/
     @RequestMapping(value = "/memberSave.do")
     public String memberJoin(HttpServletRequest request, MemberVO memberInfo)  {
@@ -41,7 +59,7 @@ public class MemberController {
     try {	
     	
         String[] imgno = request.getParameterValues("imgno");
-        System.out.println("+++++++++++++++++++++++++++++이미지 저장유무");
+        System.out.println("+++++++++++++++++++++++++++++이미지 저장유무"+imgno);
         
         ImageUtil iu = new ImageUtil();
         List<ImageVO> imagelist = iu.saveAllFiles(memberInfo.getUploadfile(), memberInfo.getId() );
@@ -49,10 +67,10 @@ public class MemberController {
         
     	memberService.insertMember(memberInfo, imagelist, imgno);
     	
-	} catch (Exception e) {
-
-		}
-        return "redirect:/home.do";
+	} 
+    catch (Exception e) {}
+        
+    	return "redirect:/home.do";
     }
     
 	/**
@@ -66,13 +84,4 @@ public class MemberController {
         return String.valueOf(rowcount);
     }
 
-    /**
-     * 회원 마이페이지
-     */
-    @RequestMapping(value = "/memberMypage.do")
-    public String memberMypage(HttpServletRequest request, ModelMap modelMap) {
-    	
-    	return "member/memberJoinForm";
-    
-    }	
 }

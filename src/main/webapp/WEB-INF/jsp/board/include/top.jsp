@@ -7,6 +7,14 @@
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <link rel="stylesheet" href="css/custom.css" />
 <title>Insert title here</title>
+<script type="text/javascript">
+//id값 전송 함수
+function fn_id_sumbit(){
+	var f = document.form_id;
+	f.submit();
+}
+
+</script>
 </head>
 <body>
 	<div class="container" align="right">
@@ -15,10 +23,13 @@
 	        <a href="${path}/board/login.do"><br></a>
 	    </c:when>
 	    <c:otherwise>
+	     <form id="form_id" name="form_id"  action="memberMypage.do" method="post">
 	    	<img class='photo2' alt="" src="./upload_img/${sessionScope.id}/${sessionScope.filename}" height="50" width="50" >&nbsp;
 	        ${sessionScope.name}(${sessionScope.id}) 님 환영합니다.
-	        <a href="${path}/board/memberMypage.do">마이페이지</a>&nbsp;
+		        <input type="hidden" name="id" value="${sessionScope.id}">
+		        <a href="#" onclick="fn_id_sumbit();">마이페이지</a>&nbsp;
 	        <a href="${path}/board/logout.do">로그아웃</a>
+	      </form>
 	    </c:otherwise>
 	</c:choose>
 	</div>

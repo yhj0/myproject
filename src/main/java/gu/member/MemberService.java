@@ -11,6 +11,7 @@ import org.springframework.transaction.TransactionException;
 import org.springframework.transaction.TransactionStatus;
 import org.springframework.transaction.support.DefaultTransactionDefinition;
 
+
 import gu.common.ImageVO;
 import gu.member.MemberVO;
 
@@ -22,9 +23,13 @@ public class MemberService {
     @Autowired
     private DataSourceTransactionManager txManager;
 	
+    /*회원정보 조회*/    
+    public MemberVO selectMemberOne(String param) {
+        return sqlSession.selectOne("selectMemberOne", param);
+    }     
     
     /**
-     * 회원가입 저장
+     * 회원정보 저장
      */
     public void insertMember(MemberVO param, List<ImageVO> imagelist, String[] imgno) {
         DefaultTransactionDefinition def = new DefaultTransactionDefinition();

@@ -40,32 +40,32 @@ public class BoardService {
         return sqlSession.selectOne("selectIssueCount", param);
     }
     
-    /*공지사항 메인리스트*/
+    /*공지사항 홈리스트 조회*/
     public List<?> selectNoticeListMain(String param) {
         return sqlSession.selectList("selectNoticeListMain", param);
     }   
     
-    /*소비자경험 메인리스트*/
+    /*소비자경험 홈리스트 조회*/
     public List<?> selectConsumerListMain(String param) {
         return sqlSession.selectList("selectConsumerListMain", param);
     }
     
-    /*최근 이슈 메인리스트*/
+    /*최근 이슈 홈리스트 조회*/
     public List<?> selectIssueListMain(String param) {
         return sqlSession.selectList("selectIssueListMain", param);
     }    
     
-    /*공지사항 리스트*/
+    /*공지사항 리스트 조회*/
     public List<?> selectNoticeList(SearchVO param) {
         return sqlSession.selectList("selectNoticeList", param);
     }  
     
-    /*소비자경험 리스트*/
+    /*소비자경험 리스트 조회*/
     public List<?> selectConsumerList(SearchVO param) {
         return sqlSession.selectList("selectConsumerList", param);
     }
     
-    /*이슈 리스트*/
+    /*이슈 리스트 조회*/
     public List<?> selectIssueList(SearchVO param) {
         return sqlSession.selectList("selectIssueList", param);
     }    
@@ -74,7 +74,7 @@ public class BoardService {
     /**
      * 글 저장.
      */
-    /*공지사항*/
+    /*공지사항 입력*/
     public void insertNotice(BoardVO param, List<FileVO> filelist, String[] fileno) {
         DefaultTransactionDefinition def = new DefaultTransactionDefinition();
         def.setPropagationBehavior(TransactionDefinition.PROPAGATION_REQUIRED);
@@ -104,7 +104,7 @@ public class BoardService {
         }            
     }   
     
-    /*소비자경험커뮤니티*/
+    /*소비자경험 입력*/
     public void insertBoard(BoardVO param, List<FileVO> filelist, String[] fileno) {
         DefaultTransactionDefinition def = new DefaultTransactionDefinition();
         def.setPropagationBehavior(TransactionDefinition.PROPAGATION_REQUIRED);
@@ -134,7 +134,7 @@ public class BoardService {
         }            
     }
     
-    /*최근 이슈*/
+    /*최근 이슈 입력*/
     public void insertIssue(BoardVO param, List<FileVO> filelist, String[] fileno) {
         DefaultTransactionDefinition def = new DefaultTransactionDefinition();
         def.setPropagationBehavior(TransactionDefinition.PROPAGATION_REQUIRED);
@@ -164,17 +164,17 @@ public class BoardService {
         }            
     }
  
-    /*공지사항*/    
+    /*공지사항 개별조회*/    
     public BoardVO selectNoticeOne(String param) {
         return sqlSession.selectOne("selectNoticeOne", param);
     }    
     
-    /*소비자경험*/
+    /*소비자경험 개별조회*/
     public BoardVO selectBoardOne(String param) {
         return sqlSession.selectOne("selectBoardOne", param);
     }
 
-    /*이슈*/
+    /*이슈 개별조회*/
     public BoardVO selectIssueOne(String param) {
         return sqlSession.selectOne("selectIssueOne", param);
     }    
@@ -205,6 +205,7 @@ public class BoardService {
         sqlSession.delete("deleteIssueOne", param);
     }
     
+    /*소비자경험 첨부파일 조회*/
     public List<?> selectBoardFileList(String param) {
         return sqlSession.selectList("selectBoardFileList", param);
     }

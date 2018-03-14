@@ -44,28 +44,6 @@ function fn_formSubmit(){
 	document.formMember.submit();	
 } 
 
-  $(document).ready(function(){
-//중복ID 체크
-	  	$('#id').keyup(function(){
-		        	var id = $(this).val();
-		            $.ajax({
-		                type: "POST",
-		                url: "checkID.do",
-		                data: {
-		                    "id" : $('#id').val()
-		                },
-		                success: function(data){
-		                    if($.trim(data) == 0){
-		                    	$('#chkMsg').html("");   
-		                    	$('#joinMember').attr("disabled", false); //회원가입버튼 활성화유무
-		                    }
-		                    else{
-		                    	$('#chkMsg').html("<a> 이미 사용중이거나 탈퇴한 아이디입니다.</a>");
-		                    	$('#joinMember').attr("disabled", true);
-		                    }
-		                }
-		            }); //비동식 ajax DB접근
-  	});
 	  	
 //비밀번호
 	    $('#password').focusout(function(){
@@ -104,9 +82,6 @@ function fn_formSubmit(){
 	    	} 
 	  });	
 
-	  	
-});	  
-
 
 </script>
 <title>Insert title here</title>
@@ -129,19 +104,14 @@ function fn_formSubmit(){
 						<form name ="formMember" class="form-horizontal" action="memberSave.do" method="post" enctype="multipart/form-data" >
 								 <div class="form-group">
 									<label class="col-sm-2 control-label">사진첨부</label>
-									<div class="col-sm-5">
-											<c:forEach var="listview" items="${listview}" varStatus="status">
-												<input type="checkbox" name="fileno" value="<c:out value="${listview.fileno}"/>">	
-					            				<a href="fileDownload?filename=<c:out value="${listview.filename}"/>&downname=<c:out value="${listview.realname }"/>"> 							 
-												<c:out value="${listview.filename}"/></a> <c:out value="${listview.size2String()}"/><br/>
-											</c:forEach>					
+									<div class="col-sm-5">					
 											<input type="file" name="uploadfile" multiple="" />
 									</div>
 								 </div>								
 								 <div class="form-group">
 									<label class="col-sm-2 control-label">아이디</label>
 									<div class="col-sm-5">
-										<input type="text" class="form-control" id ="id" name="id" placeholder="필수입력" value="<c:out value="${memberInfo.id}"/>" > 
+										<input type="text" class="form-control" id ="id" name="id" readonly="readonly" value="${memberInfo.id}" > 
 										<span id="chkMsg"></span>
 									</div>
 								 </div>
@@ -193,7 +163,7 @@ function fn_formSubmit(){
 								</div>
 								<div class="form-group" >
 									<div align="center">
-										<button type="button" class="btn btn-lg btn-success " id="joinMember" onclick="fn_formSubmit()">회원가입</button>
+										<button type="button" class="btn btn-lg btn-success " id="joinMember" onclick="fn_formSubmit()">회원수정</button>
 									</div>
 								</div>
 						</form>	
