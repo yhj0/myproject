@@ -1,5 +1,9 @@
 package gu.member;
 
+import java.util.List;
+
+import org.springframework.web.multipart.MultipartFile;
+
 public class MemberVO {
 	
     private String id;
@@ -8,8 +12,10 @@ public class MemberVO {
     private String nick_name; 
     private String email;
     private String reg_dttm;
-    
    
+    /* 프로필이미지 */
+    private List<MultipartFile> uploadfile;
+    
 	public String getId() {
 		return id;
 	}
@@ -48,4 +54,13 @@ public class MemberVO {
 		this.reg_dttm = reg_dttm;
 	}
 
+    public List<MultipartFile> getUploadfile() {
+        return uploadfile;
+    }
+
+    public void setUploadfile(List<MultipartFile> uploadfile) {
+        this.uploadfile = uploadfile;
+    }
+     
+	
 }

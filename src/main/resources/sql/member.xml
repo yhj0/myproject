@@ -14,4 +14,27 @@
            AND ID=#{id}
     </select> 
 
+<!--이미지업로드 =============================================================================== -->  
+	<insert id="insertImage" parameterType="gu.common.ImageVO">
+    INSERT INTO TBL_IMAGE 
+     	(
+         IMGNO,
+    	 FILENAME,
+    	 FILESIZE,
+    	 REG_ID, 
+         REG_DTTM, 
+         CHG_ID, 
+         CHG_DTTM)
+        VALUES
+        (
+       	 (SELECT IFNULL(MAX(IMGNO),0)+1 FROM TBL_IMAGE A),
+         #{filename},
+         #{filesize},
+         #{parentPK},
+  		 NOW(),
+  		 NULL,
+  		 NULL   
+    	)   
+	</insert>
+
 </mapper>    

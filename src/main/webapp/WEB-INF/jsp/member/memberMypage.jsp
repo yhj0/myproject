@@ -106,35 +106,8 @@ function fn_formSubmit(){
 
 	  	
 });	  
-</script>
 
- <script>  
-//이미지 불러오기 
-function loadname(img, previewName){  
 
-var isIE = (navigator.appName=="Microsoft Internet Explorer");  
-var path = img.value;  
-var ext = path.substring(path.lastIndexOf('.') + 1).toLowerCase();  
-
- if(ext == "gif" || ext == "jpeg" || ext == "jpg" ||  ext == "png" )  
- {       
-    if(isIE) {  
-       $('#'+ previewName).attr('src', path);  
-    }else{  
-       if (img.files[0]) 
-        {  
-            var reader = new FileReader();  
-            reader.onload = function (e) {  
-                $('#'+ previewName).attr('src', e.target.result);  
-            }
-            reader.readAsDataURL(img.files[0]);  
-        }  
-    }  
-
- }else{  
-  "incorrect file type"  
- }   
-}  
 </script>
 <title>Insert title here</title>
 </head>
@@ -155,15 +128,14 @@ var ext = path.substring(path.lastIndexOf('.') + 1).toLowerCase();
 				<div class="well">
 						<form name ="formMember" class="form-horizontal" action="memberSave.do" method="post" enctype="multipart/form-data" >
 								 <div class="form-group">
-									<label class="col-sm-2 control-label">프로필사진</label>
+									<label class="col-sm-2 control-label">사진첨부</label>
 									<div class="col-sm-5">
-											<c:forEach var="imagelist" items="${imagelist}" varStatus="status">
-												<input type="checkbox" name="imgno" value="<c:out value="${imagelist.imgno}"/>">	
-					            				<a href="fileDownload?filename=<c:out value="${imagelist.name}"/>&downname=<c:out value="${imagelist.realname }"/>"> 							 
-												<c:out value="${imagelist.name}"/></a> <c:out value="${imagelist.size2String()}"/><br/>
-											</c:forEach>
-											<img class="photo1" src="" width="200" height="150" name="previewimg" id="previewimg" alt="">
-											<input type="file" class="form-control" id ="uploadfile" name="uploadfile" onchange="loadname(this,'previewimg')" >											
+											<c:forEach var="listview" items="${listview}" varStatus="status">
+												<input type="checkbox" name="fileno" value="<c:out value="${listview.fileno}"/>">	
+					            				<a href="fileDownload?filename=<c:out value="${listview.filename}"/>&downname=<c:out value="${listview.realname }"/>"> 							 
+												<c:out value="${listview.filename}"/></a> <c:out value="${listview.size2String()}"/><br/>
+											</c:forEach>					
+											<input type="file" name="uploadfile" multiple="" />
 									</div>
 								 </div>								
 								 <div class="form-group">

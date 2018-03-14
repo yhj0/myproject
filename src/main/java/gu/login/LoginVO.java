@@ -11,6 +11,8 @@ public class LoginVO {
     private String email;
     private Date reg_dttm;
     
+    private String filename;
+    
 	public String getId() {
 		return id;
 	}
@@ -48,10 +50,17 @@ public class LoginVO {
 		this.reg_dttm = reg_dttm;
 	}
 	
+	public String getFilename() {
+		return filename;
+	}
+	public void setFilename(String filename) {
+		this.filename = filename;
+	}
+	
 	@Override
 	public String toString() {
 		return "LoginVO [id=" + id + ", password=" + password + ", name=" + name + ", nick_name=" + nick_name
-				+ ", email=" + email + ", reg_dttm=" + reg_dttm + "]";
+				+ ", email=" + email + ", reg_dttm=" + reg_dttm + ", filename=" + filename + "]";
 	} 
 
     

@@ -1,5 +1,7 @@
 package gu.member;
 
+import java.util.List;
+
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.datasource.DataSourceTransactionManager;
@@ -9,6 +11,7 @@ import org.springframework.transaction.TransactionException;
 import org.springframework.transaction.TransactionStatus;
 import org.springframework.transaction.support.DefaultTransactionDefinition;
 
+import gu.common.ImageVO;
 import gu.member.MemberVO;
 
 @Service
@@ -23,13 +26,22 @@ public class MemberService {
     /**
      * 회원가입 저장
      */
-    public void insertMember(MemberVO param) {
+    public void insertMember(MemberVO param, List<ImageVO> imagelist, String[] imgno) {
         DefaultTransactionDefinition def = new DefaultTransactionDefinition();
         def.setPropagationBehavior(TransactionDefinition.PROPAGATION_REQUIRED);
         TransactionStatus status = txManager.getTransaction(def);
         
+      	System.out.println("+++++++++++++++++++++++++++++회원가입2");
         try {
-            sqlSession.insert("insertMember", param);    
+            sqlSession.insert("insertMember", param); 
+            
+            //저장해놓은게 없으면 이미지저장
+            for (ImageVO f : imagelist) {
+            	//paretPK에 사용자 아이디를 넣는다.
+                f.setParentPK(param.getId());
+                sqlSession.insert("insertImage", f);
+            }
+            
             txManager.commit(status);
         } catch (TransactionException ex) {
             txManager.rollback(status);

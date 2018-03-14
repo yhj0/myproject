@@ -1,6 +1,6 @@
 package gu.member;
 
-import java.awt.List;
+import java.util.List;
 
 import javax.ejb.DuplicateKeyException;
 import javax.servlet.http.HttpServletRequest;
@@ -12,6 +12,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import gu.common.ImageUtil;
+import gu.common.ImageVO;
 import gu.member.MemberVO;
 
 @Controller 
@@ -31,20 +33,26 @@ public class MemberController {
 	
 	
 	/**
-	* 회원 저장
+	* 회원 저장 
 	*/
     @RequestMapping(value = "/memberSave.do")
     public String memberJoin(HttpServletRequest request, MemberVO memberInfo)  {
 	
     try {	
-    	memberService.insertMember(memberInfo);
+    	
+        String[] imgno = request.getParameterValues("imgno");
+        System.out.println("+++++++++++++++++++++++++++++이미지 저장유무");
+        
+        ImageUtil iu = new ImageUtil();
+        List<ImageVO> imagelist = iu.saveAllFiles(memberInfo.getUploadfile(), memberInfo.getId() );
+    	System.out.println("+++++++++++++++++++++++++++++서버에 이미지저장완료");
+        
+    	memberService.insertMember(memberInfo, imagelist, imgno);
+    	
 	} catch (Exception e) {
-		if(e instanceof DuplicateKeyException){
-			String msg = "fail";
-			return msg;
+
 		}
-	}
-        return "board/home";
+        return "redirect:/home.do";
     }
     
 	/**
@@ -58,5 +66,13 @@ public class MemberController {
         return String.valueOf(rowcount);
     }
 
-	
+    /**
+     * 회원 마이페이지
+     */
+    @RequestMapping(value = "/memberMypage.do")
+    public String memberMypage(HttpServletRequest request, ModelMap modelMap) {
+    	
+    	return "member/memberJoinForm";
+    
+    }	
 }

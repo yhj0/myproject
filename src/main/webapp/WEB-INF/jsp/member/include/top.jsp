@@ -5,8 +5,7 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<script src="js/jquery-2.2.3.min.js"></script>
-<script src="js/bootstrap.js"></script>
+<link rel="stylesheet" href="css/custom.css" />
 <title>Insert title here</title>
 </head>
 <body>
@@ -16,7 +15,9 @@
 	        <a href="${path}/board/login.do"><br></a>
 	    </c:when>
 	    <c:otherwise>
-	        ${sessionScope.name}(${sessionScope.id})님 환영합니다.
+	    	<img class='photo2' alt="" src="./upload_img/${sessionScope.id}/${sessionScope.filename}" height="50" width="50" >&nbsp;
+	        ${sessionScope.name}(${sessionScope.id}) 님 환영합니다.
+	        <a href="${path}/board/memberMypage.do">마이페이지</a>&nbsp;
 	        <a href="${path}/board/logout.do">로그아웃</a>
 	    </c:otherwise>
 	</c:choose>

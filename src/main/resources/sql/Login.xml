@@ -9,13 +9,20 @@
     </select> 
     
 	<select id="viewLogin" resultType="gu.login.LoginVO">
-	        SELECT 
-	            name AS name,
-	            id AS id,
-	            email AS email,
-	            reg_dttm AS reg_dttm
-	        FROM TBL_MEMBER
-	        WHERE id = #{id} AND password = #{password}    
+		SELECT  A.NAME AS NAME,
+	            A.ID AS ID,
+	            A.EMAIL AS EMAIL,
+	            A.REG_DTTM AS REG_DTTM,
+	            B.FILENAME AS FILENAME,
+	            B.REG_DTTM AS FILE_DTTM
+	        FROM TBL_MEMBER A, TBL_IMAGE B 
+	       WHERE 1=1
+			  	 AND A.ID = B.REG_ID 
+			  	 AND B.REG_DTTM = (SELECT MAX(REG_DTTM) 
+			  	 						 FROM TBL_IMAGE
+			  	 						 WHERE 1=1 
+			  	 						 AND REG_ID = #{id} )
+	        	 AND A.ID = #{id} AND A.PASSWORD = #{password}    
 	</select>
 	
 </mapper>      

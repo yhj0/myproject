@@ -447,6 +447,7 @@
          WHERE 1=1
          	AND BRDDELETEFLAG='N'
          	AND (BRDTITLE LIKE CONCAT('%', #{searchKeyword},'%' ) OR BRDMEMO LIKE CONCAT('%', #{searchKeyword},'%' ) )  		     	        	          
-    </select>   
+    </select>  
+
 </mapper>
 
