@@ -3,7 +3,7 @@
 
 <mapper namespace="member">
 <!--회원정보 조회 -->
-    <select id="selectMemberOne" parameterType="gu.member.MemberVO" >
+    <select id="selectMemberOne" parameterType="String"  resultType="gu.member.MemberVO" >
 		SELECT *
 		  FROM TBL_MEMBER A, TBL_IMAGE B 
 	     WHERE 1=1

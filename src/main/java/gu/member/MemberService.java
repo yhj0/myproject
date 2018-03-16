@@ -45,6 +45,7 @@ public class MemberService {
             	//paretPK에 사용자 아이디를 넣는다.
                 f.setParentPK(param.getId());
                 sqlSession.insert("insertImage", f);
+                
             }
             
             txManager.commit(status);

@@ -26,11 +26,20 @@
 			</tr>			
 			<tr>
 				<td>
+					<c:if test="${searchVO.searchKeyword ne ''}" >
 					<h3>검색어 "<font color="red"><c:out value="${searchVO.searchKeyword}"/></font>" 에 대한 검색결과입니다.( <c:out value="${searchCount}"/>건 )</h3>
+					</c:if>
+					<c:if test="${searchVO.searchKeyword eq ''}" >
+					<h3>검색어 "<font color="red"><c:out value="${searchVO.searchKeyword}"/></font>" 에 대한 검색결과입니다.( 0건 )</h3>
+					</c:if>
 				</td>
 			</tr>
 			<tr>
 				<td>
+					<c:if test="${searchVO.searchKeyword eq ''}" >
+					<h3>검색결과가 없습니다.</h3>
+					</c:if>
+					<c:if test="${searchVO.searchKeyword ne ''}" >
 					<h4>공지사항 게시판</h4>
 					<ul>
 					<c:forEach var="listview" items="${listview}" varStatus="status">
@@ -91,6 +100,7 @@
 						</c:if>	
 					</c:forEach>	
 					</ul>
+					</c:if>
 				</td>
 			</tr>			
 			<tr>

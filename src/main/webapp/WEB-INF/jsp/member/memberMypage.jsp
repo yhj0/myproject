@@ -81,9 +81,36 @@ function fn_formSubmit(){
             	$('#joinMember').attr("disabled", false); //회원가입버튼 활성화
 	    	} 
 	  });	
-
-
 </script>
+
+<script>  
+	  //이미지 불러오기 
+	  function loadname(img, previewName){  
+
+	  var isIE = (navigator.appName=="Microsoft Internet Explorer");  
+	  var path = img.value;  
+	  var ext = path.substring(path.lastIndexOf('.') + 1).toLowerCase();  
+
+	   if(ext == "gif" || ext == "jpeg" || ext == "jpg" ||  ext == "png" )  
+	   {       
+	      if(isIE) {  
+	         $('#'+ previewName).attr('src', path);  
+	      }else{  
+	         if (img.files[0]) 
+	          {  
+	              var reader = new FileReader();  
+	              reader.onload = function (e) {  
+	                  $('#'+ previewName).attr('src', e.target.result);  
+	              }
+	              reader.readAsDataURL(img.files[0]);  
+	          }  
+	      }  
+
+	   }else{  
+	    "incorrect file type"  
+	   }   
+	  }  
+	  </script>
 <title>Insert title here</title>
 </head>
 
@@ -103,9 +130,10 @@ function fn_formSubmit(){
 				<div class="well">
 						<form name ="formMember" class="form-horizontal" action="memberSave.do" method="post" enctype="multipart/form-data" >
 								 <div class="form-group">
-									<label class="col-sm-2 control-label">사진첨부</label>
+									<label class="col-sm-2 control-label">프로필사진</label>
 									<div class="col-sm-5">					
-											<input type="file" name="uploadfile" multiple="" />
+											<img class="photo1" src="./upload_img/${sessionScope.id}/${sessionScope.filename}" width="200" height="150" name="previewimg" id="previewimg" alt="">
+											<input type="file" class="form-control" id ="uploadfile" name="uploadfile" onchange="loadname(this,'previewimg')" value="" >
 									</div>
 								 </div>								
 								 <div class="form-group">

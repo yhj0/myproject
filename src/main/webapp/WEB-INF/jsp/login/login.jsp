@@ -39,6 +39,23 @@
             document.formLogin.submit();
         });
     });
+    
+    function fn_formSubmit(){
+        var id = $("#id").val();
+        var password = $("#password").val();
+        if(id == ""){
+            alert("아이디를 입력하세요.");
+            $("#id").focus(); // 입력포커스 이동
+            return; // 함수 종료
+        }
+        if(password == ""){
+            alert("아이디를 입력하세요.");
+            $("#password").focus();
+            return;
+        }
+        document.formLogin.submit();	
+    }
+ 
 </script> 
 	<div class="col-lg-2 col-lg-offset-2">
 		<table class="table-bordered">
@@ -59,7 +76,7 @@
 													<input type="text" class="form-control" id="id" name="id" placeholder="아이디" autofocus/>
 												</div>
 												<div class="form-group">
-													<input type="password" class="form-control"  id="password" name="password" placeholder="패스워드"/>
+													<input type="password" class="form-control"  id="password" name="password" placeholder="패스워드" onkeydown="if(event.keyCode == 13) { fn_formSubmit();}"/>
 												</div>
 												<div class="form-group">
 													<input type="button"  id="btnLogin" value="로그인" class="form-control btn-primary"/>

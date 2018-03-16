@@ -18,8 +18,8 @@ function fn_search()
 	<div class="container">
 		<nav class="navbar navbar-right" role="navigation">
 			 	 <ul class="nav navbar-nav">
-			 		<li><a class="menuLink" href="http://localhost:8080/board/home.do">홈</a></li>
-			 		<li><a class="menuLink" href="http://localhost:8080/board/boardList.do">소비자경험커뮤니티</a></li>
+			 		<li><a class="menuLink" href="${path}/board/home.do">홈</a></li>
+			 		<li><a class="menuLink" href="${path}/board/boardList.do">소비자경험커뮤니티</a></li>
 			 		<li><a class="menuLink">데이터분석시각화</a></li>
 			 		<c:if test="${sessionScope.id == null}">
 			 		<li><a class="menuLink" href="${path}/board/login.do">로그인</a></li>	 		
