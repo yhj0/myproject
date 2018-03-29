@@ -162,7 +162,7 @@ var ext = path.substring(path.lastIndexOf('.') + 1).toLowerCase();
 					            				<a href="fileDownload?filename=<c:out value="${imagelist.name}"/>&downname=<c:out value="${imagelist.realname }"/>"> 							 
 												<c:out value="${imagelist.name}"/></a> <c:out value="${imagelist.size2String()}"/><br/>
 											</c:forEach>
-											<img class="photo1" src="" width="200" height="150" name="previewimg" id="previewimg" alt="">
+											<img class="photo1" src="./upload_img/basic.jpg" width="200" height="150" name="previewimg" id="previewimg" alt="">
 											<input type="file" class="form-control" id ="uploadfile" name="uploadfile" onchange="loadname(this,'previewimg')" >											
 									</div>
 								 </div>								

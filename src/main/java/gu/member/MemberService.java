@@ -31,10 +31,12 @@ public class MemberService {
     /**
      * 회원정보 저장
      */
-    public void insertMember(MemberVO param, List<ImageVO> imagelist, String[] imgno) {
+    public boolean insertMember(MemberVO param, List<ImageVO> imagelist, String[] imgno) {
         DefaultTransactionDefinition def = new DefaultTransactionDefinition();
         def.setPropagationBehavior(TransactionDefinition.PROPAGATION_REQUIRED);
         TransactionStatus status = txManager.getTransaction(def);
+        
+        boolean result = false;
         
       	System.out.println("+++++++++++++++++++++++++++++회원가입2");
         try {
@@ -47,12 +49,15 @@ public class MemberService {
                 sqlSession.insert("insertImage", f);
                 
             }
-            
+            result = true;
             txManager.commit(status);
+            
+            
         } catch (TransactionException ex) {
             txManager.rollback(status);
             System.out.println("데이터 저장 오류: " + ex.toString());
-        }            
+        }
+		return result;            
     }	
 
     /**

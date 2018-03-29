@@ -1,7 +1,11 @@
 package gu.common;
 
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.nio.channels.FileChannel;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -11,13 +15,46 @@ import org.springframework.web.multipart.MultipartFile;
 public class ImageUtil {
     /**
      * 이미지 업로드.
+     * @throws IOException 
      */
-    public List<ImageVO> saveAllFiles(List<MultipartFile> upfiles, String id) {
+    public List<ImageVO> saveAllFiles(List<MultipartFile> upfiles, String id) throws IOException {
         String filePath = "C:\\Users\\SJICT04\\git\\board_sample\\src\\main\\webapp\\upload_img\\"; 
         List<ImageVO> Imagelist = new ArrayList<ImageVO>();
 
         for (MultipartFile uploadfile : upfiles ) {
             if (uploadfile.getSize() == 0) {
+            	//업로드파일 없을경우 
+            	
+            	//디렉토리 생성
+                makeBasePath(filePath + "/"+ id + "/");
+                String serverFullPath = filePath + "/"+ id + "/" + "basic.jpg";
+                
+                long fsize = 0; 
+                //원본위치
+                FileInputStream  org_file = new FileInputStream("C:\\Users\\SJICT04\\git\\board_sample\\src\\main\\webapp\\upload_img\\basic.jpg");
+                //복사될 곳
+                FileOutputStream  new_file = new FileOutputStream(serverFullPath);
+                
+                FileChannel fcin = org_file.getChannel(); 
+                FileChannel fcout = new_file.getChannel(); 
+                
+                //복사될 파일의 size 
+                fsize = fcin.size(); 
+                
+                //transferTo 메소드를 이용하여 복사할 파일의 채널을 지정 
+                //복사할  position은 0부터 파일 크기 만큼
+                fcin.transferTo(0, fsize, fcout); 
+                
+                fcout.close(); 
+                fcin.close(); 
+                org_file.close(); 
+                new_file.close();                
+                //수동 기본 이미지 파일DB입력
+                ImageVO imagevo = new ImageVO();
+                imagevo.setFilename("basic.jpg");
+                imagevo.setFilesize(37132);
+                Imagelist.add(imagevo);
+            	
                 continue;
             }
             
@@ -32,12 +69,14 @@ public class ImageUtil {
         return Imagelist;
     }    
     
+    
     /**
      * 이미지 저장 경로 생성.
      */
     public void makeBasePath(String path) {
         File dir = new File(path); 
         if (!dir.exists()) {
+        	System.out.println("디렉토리만들기");
             dir.mkdirs();
         }
     }
