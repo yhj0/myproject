@@ -23,6 +23,7 @@
 	<mvc:resources location="/js/" mapping="/js/**"/>
 	<mvc:resources location="/img/" mapping="/img/**"/>
 	<mvc:resources location="/upload_img/" mapping="/upload_img/**"/>
+	<mvc:resources location="/daumeditor/" mapping="/daumeditor/**"/>
 	
 	<bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
         <property name="maxUploadSize" value="100000000" />

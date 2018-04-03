@@ -449,5 +449,23 @@
          	AND (BRDTITLE LIKE CONCAT('%', #{searchKeyword},'%' ) OR BRDMEMO LIKE CONCAT('%', #{searchKeyword},'%' ) )  		     	        	          
     </select>  
 
+    <select id="test1" resultType="gu.board.BoardVO" parameterType="gu.common.SearchVO">
+        SELECT BRDNO, BRDTYPE, BRDTITLE, BRDWRITER, BRDMEMO, DATE_FORMAT(BRDDATE,'%Y.%m.%d') BRDDATE ,REG_ID, REG_DTTM, CHG_ID, CHG_DTTM 
+          FROM TBL_BOARD 
+         WHERE 1=1
+         ORDER BY BRDNO DESC 
+         LIMIT  10         
+    </select>
+
+    <select id="test2" resultType="gu.board.BoardVO">
+    	<![CDATA[
+        SELECT BRDNO, BRDTYPE, BRDTITLE, BRDWRITER, BRDMEMO, DATE_FORMAT(BRDDATE,'%Y.%m.%d') BRDDATE ,REG_ID, REG_DTTM, CHG_ID, CHG_DTTM 
+          FROM TBL_BOARD 
+        WHERE 1=1
+         AND BRDNO <= #{brdno}
+         AND BRDNO > #{brdno}-10
+        ORDER BY BRDNO DESC
+        ]]>      
+    </select>
 </mapper>
 

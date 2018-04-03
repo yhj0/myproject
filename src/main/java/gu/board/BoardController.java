@@ -6,8 +6,12 @@ import javax.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 
+import gu.board.BoardVO;
 import gu.common.FileUtil;
 import gu.common.FileVO;
 import gu.common.SearchVO;
@@ -83,12 +87,12 @@ public class BoardController {
 
         searchVO.pageCalculate( boardservice.selectConsumerCount(searchVO) ); // startRow, endRow
 
-        List<?> listview  = boardservice.selectConsumerList(searchVO);
+        List<?> listview  = boardservice.selectBoardOneTest(searchVO);
         
         modelMap.addAttribute("listview", listview);
         modelMap.addAttribute("searchVO", searchVO);
         
-        return "board/BoardList";
+        return "board/BoardReadTest";
     }
     
     
@@ -289,7 +293,7 @@ public class BoardController {
         modelMap.addAttribute("listview", listview);
         modelMap.addAttribute("replylist", replylist);
         
-        return "board/BoardRead";
+        return "board/BoardReadTest";
     }
     
     /*최근이슈*/
@@ -386,5 +390,31 @@ public class BoardController {
         modelMap.addAttribute("searchVO", searchVO);
        
         return "board/SearchResult";
-    }
+    }  
+    
+    
+    /**
+     * 다운스크롤시 게시물 읽기 
+     */    
+    //@ResponseBody json 데이터를 객체로 자동바인딩하는 함수
+    @RequestMapping(value = "/scrollDown.do", method = RequestMethod.POST)
+    public @ResponseBody List<BoardVO> scrollDown(@RequestBody BoardVO board,SearchVO searchVO, ModelMap modelMap ) {
+    	
+    	//페이징 계산을 위한 함수
+    	searchVO.pageCalculate( boardservice.selectConsumerCount(searchVO) ); // startRow, endRow
+    	
+    	//마지막번호 밑으로만 검색
+        Integer brdno = Integer.parseInt(board.getBrdno())-1;
+        
+        System.out.println("+++++++++++++++++++++++++++++마지막 번호:"+brdno);
+        
+        List<?> listview = boardservice.selectBoardOneTest2(brdno);
+        
+        modelMap.addAttribute("listview", listview);
+        
+        //테스트 읽기페이지
+        return boardservice.selectBoardOneTest2(brdno);
+    }    
+    
+    
 }

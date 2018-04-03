@@ -3,18 +3,18 @@ package gu.common;
 
 public class SearchVO extends  PageVO  {
 
-    private String bgno;                       // 게시판 그룹
+    private String brdno;                       // 게시판 그룹
     private String searchKeyword = "";         // 검색 키워드
     private String searchType = "";            // 검색 필드: 제목, 내용  
     private String[] searchTypeArr;            // 검색 필드를 배열로 변환
     private int searchCount;            // 검색된 건수
     
-	public String getBgno() {
-        return bgno;
+	public String getbrdno() {
+        return brdno;
     }
 
-    public void setBgno(String bgno) {
-        this.bgno = bgno;
+    public void setbrdno(String brdno) {
+        this.brdno = brdno;
     }
 
     public String getSearchKeyword() {

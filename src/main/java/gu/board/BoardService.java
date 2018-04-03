@@ -3,8 +3,6 @@ package gu.board;
 import java.util.HashMap;
 import java.util.List;
 
-import javax.servlet.http.HttpServletRequest;
-
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.datasource.DataSourceTransactionManager;
@@ -240,5 +238,17 @@ public class BoardService {
     /*검색내용*/
     public List<?> selectSearch(SearchVO param) {
         return sqlSession.selectList("selectSearch", param);
+    }    
+    
+    /**
+     * 무한스크롤 조회
+     */
+    
+    public List<?> selectBoardOneTest(SearchVO param) {
+        return sqlSession.selectList("test1", param);
+    }    
+    
+    public List<BoardVO> selectBoardOneTest2(Integer param) {
+        return sqlSession.selectList("test2", param);
     }    
 }

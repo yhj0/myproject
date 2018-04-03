@@ -96,7 +96,7 @@ function fn_formSubmit(){
 								</thead>
 								<tbody>
 									<c:forEach var="listview" items="${listview}" varStatus="status">	
-										<c:url var="link" value="boardRead.do">
+										<c:url var="link" value="scrollDown.do">
 											<c:param name="brdno" value="${listview.brdno}" />
 										</c:url>		
 																  				
