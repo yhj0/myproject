@@ -215,6 +215,11 @@ public class BoardService {
     public List<?> selectBoardReplyList(String param) {
         return sqlSession.selectList("selectBoardReplyList", param);
     }
+ 
+    /*신 댓글리스트*/
+    public List<BoardReplyVO> selectBoardReplyListNew(Integer param) {
+        return sqlSession.selectList("selectBoardReplyList", param);
+    }    
     
     public void insertBoardReply(BoardReplyVO param) {
         if (param.getReno()==null || "".equals(param.getReno())) {
@@ -244,11 +249,11 @@ public class BoardService {
      * 무한스크롤 조회
      */
     
-    public List<?> selectBoardOneTest(SearchVO param) {
+    public List<?> selectBoardOneNew(SearchVO param) {
         return sqlSession.selectList("test1", param);
     }    
     
-    public List<BoardVO> selectBoardOneTest2(Integer param) {
+    public List<BoardVO> selectBoardOneNew2(Integer param) {
         return sqlSession.selectList("test2", param);
     }    
 }

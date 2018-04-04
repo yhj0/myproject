@@ -31,20 +31,14 @@
       30% {color: yellow;}
       100% {color:red; font-weight: bold;} */
     }   
- </style>
+</style>
 <title>board</title>
 <script>
 function fn_formSubmit(){
 	document.form1.submit();	
 }
 
-//최초이벤트
-$('document').ready(function(){  
-    fn_appendList();   
-});  
-
-
-// 1. 스크롤 이벤트 발생
+// 스크롤 이벤트 발생
 $(window).scroll(function(){ // ① 스크롤 이벤트 최초 발생
      
 	 var maxHeight = $(document).height();
@@ -55,7 +49,9 @@ $(window).scroll(function(){ // ① 스크롤 이벤트 최초 발생
             // 3. class가 scrolling인 것의 요소 중 마지막인 요소를 선택한 다음 그것의 data-bno속성 값을 받아온다.
             //      즉, 현재 뿌려진 게시글의 마지막 bno값을 읽어오는 것이다.( 이 다음의 게시글들을 가져오기 위해 필요한 데이터이다.)
             var lastbno = $(".scrolling:last").attr("data-bno");
-
+         
+            $("#loading").append("<img src="+"'./img/loading.gif'"+">");
+            
             // 4. ajax를 이용하여 현재 뿌려진 게시글의 마지막 bno를 서버로 보내어 그 다음 게시물 데이터를 받아온다.
             $.ajax({
                 type : 'POST',  // 요청 method 방식
@@ -78,7 +74,8 @@ $(window).scroll(function(){ // ① 스크롤 이벤트 최초 발생
                     	//6. 서버로부터 받아온 data가 list이므로 이 각각의 원소에 접근하려면 each문을 사용한다.
                         $(data).each(
                             // 7. 새로운 데이터를 갖고 html코드형태의 문자열을 만들어준다.
-                            function(){  
+                          
+                         function(){  
                                 str += "<tr class=" + "'listToChange'" + ">"
                             	+ 	"<td>"
                             	+	 "<div class="+ "'well'"+">"
@@ -111,14 +108,15 @@ $(window).scroll(function(){ // ① 스크롤 이벤트 최초 발생
                                 +	"</td>"
                                 +   "</tr>"; 
                                      
-                        	});
+                        	}
+                          );
                     	// each
                         // 8. 이전까지 뿌려졌던 데이터를 비워주고, <th>헤더 바로 밑에 위에서 만든 str을  뿌려준다.
                         $(".listToChange:last").empty();// 셀렉터 태그 안의 모든 텍스트를 지운다.    
-                        
                         $(".listToChange:last").after(str); 
+                        $("#loading").remove(); //로딩이미지지움
                     }// if : data!=null
-                    else{ // 9. 만약 서버로 부터 받아온 데이터가 없으면 그냥 아무것도 하지말까..
+                    else{ // 9. 만약 서버로 부터 받아온 데이터가 없을때
                         alert("더 불러올 데이터가 없습니다.");
                     }// else
      
@@ -128,6 +126,64 @@ $(window).scroll(function(){ // ① 스크롤 이벤트 최초 발생
   
 });// scroll event
 
+//댓글읽기 이벤트
+function fn_reply(rbrdno){
+	
+	form_menu.final_reply_no.value = rbrdno;
+	
+    $.ajax({
+        type : 'POST',  // 요청 method 방식
+        url : 'replyRead.do',// 요청할 서버의 url
+        headers : {
+            "Content-Type" : "application/json",
+            "X-HTTP-Method-Override" : "POST"
+        },
+        dataType : 'json', // 서버로부터 되돌려받는 데이터의 타입을 명시하는 것이다.
+        data : JSON.stringify({ // 서버로 보낼 데이터 명시
+        	brdno : rbrdno 
+        }),	
+        
+        beforeSend:function() {
+            console.log("읽어오기 시작 전...");
+        },
+        complete:function() {
+            console.log("읽어오기 완료 후...");
+        },
+        success:function(data) {
+        	
+            var str = "";
+            if(data != ""){
+            	
+                $(data).each(
+                		
+                 function(){  
+                        str += 	"<table class="+"'table table-striped'"+">"
+                    	+		 "<tbody>"
+                        +			"<tr>"
+                        +				"<td>작성자</td>"	
+                        +				"<td>" + this.rewriter + "</td>"  
+                        +       	"</tr>"  
+                        +			"<tr>"
+                        +				"<td>내용</td>"	
+                        +				"<td>" + this.rememo + "</td>"  
+                        +       	"</tr>"                          
+                        +		"</tbody>" 
+                        +		"</table>"  
+                	}
+                  );
+                
+	                $(".listToChange:last").empty();// 셀렉터 태그 안의 모든 텍스트를 지운다.    
+	                $(".listToChange:last").after(str);                 
+                
+                } else {
+            	
+                    alert("댓글이없습니다.");
+            	}
+            }
+           
+    });
+
+}
 
 </script>
 </head>
@@ -148,7 +204,7 @@ $(window).scroll(function(){ // ① 스크롤 이벤트 최초 발생
 						    <br>
 						</c:when>
 						<c:otherwise>
-						&nbsp;<a class="btn btn-info" href="boardForm.do">글쓰기</a>
+						&nbsp;<a class="btn btn-info" href="noticeForm.do">글쓰기</a>
 						</c:otherwise>
 					</c:choose>			
 				</td>
@@ -156,10 +212,11 @@ $(window).scroll(function(){ // ① 스크롤 이벤트 최초 발생
 			<tr>
 				<td>
 				<form id="form_menu" name="form_menu" action="boardList.do" method="post" enctype="multipart/form-data">
+				<input type="hidden" id="final_reply_no" name="final_reply_no">
 						<input type="hidden" name="boardtype"></input>
 							<ul class="nav navbar-nav">
 								<li><a class="menuLink" href="noticeList.do" >공지사항</a></li>
-								<li><a class="menuLink" href="boardList.do" >최근글</a></li>
+								<li><a class="menuLink" href="consumerList.do" >최근글</a></li>
 								<li><a class="menuLink" href="issueList.do" >최근이슈</a></li>
 							</ul>
 					</form>
@@ -168,7 +225,7 @@ $(window).scroll(function(){ // ① 스크롤 이벤트 최초 발생
 			<tr>
 				<td align="center">
 					<div class="container">
-							<table class="table table-hover" >
+							<table class="table table-bordered" >
 									<c:forEach var="listview" items="${listview}" varStatus="status">	
 										<c:url var="link" value="scrollDown.do">
 											<c:param name="brdno" value="${listview.brdno}" />
@@ -177,7 +234,7 @@ $(window).scroll(function(){ // ① 스크롤 이벤트 최초 발생
 										<tr >
 											<td>
 												<div class="well">			
-													<table class="table table-striped" >
+													<table class="table table-bordered" >
 														<tbody>
 															<tr>
 																<td>고유번호</td>
@@ -199,46 +256,58 @@ $(window).scroll(function(){ // ① 스크롤 이벤트 최초 발생
 																<td>첨부파일</td> 
 																<td></td> 
 															</tr>
+															<tr>
+																<td colspan="2" align="right" >
+																<a href="#" onclick="fn_reply('${listview.brdno}')"> 댓글 <c:out value="${listview.replycnt}"/>개</a>
+																&nbsp;&nbsp;좋아요 <c:out value="${listview.brdlike}"/>개</td> 
+															</tr>																
+																										
 														</tbody>
 													</table>    
+													<div align="center">
+														<a class="btn btn-default btn-sm">좋아요+</a>
+														<a class="btn btn-default btn-sm">댓글달기+</a>
+													</div>		
 													<a><input type="hidden" value ="<c:out value="${sessionScope.id}"/>"></a>
 													<!-- 수정권한 본인id 혹은 관리자-->
 													<c:choose>
 													    <c:when test="${sessionScope.id == boardInfo.reg_id || sessionScope.id == 'admin'}">
-													    	<a class="btn btn-default btn-sm" href="boardDelete.do?brdno=<c:out value="${listview.brdno}"/>">삭제</a>
-															<a class="btn btn-default btn-sm" href="boardForm.do?brdno=<c:out value="${listview.brdno}"/>">수정</a>
+													    	<a class="btn btn-default btn-sm" href="boardDelete.do?brdno=<c:out value="${boardInfo.brdno}"/>">삭제</a>
+															<a class="btn btn-default btn-sm" href="boardForm.do?brdno=<c:out value="${boardInfo.brdno}"/>">수정</a>
 													    </c:when>
 													    <c:otherwise>
 													    	<br>
 													    </c:otherwise>
 													</c:choose>		
-													<p>&nbsp;</p>
 												</div>
 											</td>
 										</tr>
 									</c:forEach>
 									
-									<tbody>
-									<!-- 다운스크롤시 -->
+									
+								<!-- Comment 태그 추가 -->
+								<tbody>
+									<c:forEach var="replylist" items="${replylist}" varStatus="status">
+									<tr class="showComment">
+									</tr>
+									</c:forEach>
+								</tbody>							
+
+
+								<!-- 다운스크롤시 조회 추가 -->	
+								<tbody>
 									<c:forEach var="listview" items="${listview}" varStatus="status">
-									<tr class="listToChange"></tr>
+									<tr class="listToChange">
+									</tr>
 									</c:forEach>										
 								</tbody>
 							</table>
+							<div id="loading" align="center" >
+							</div>
 													
 							
 							<form id="form1" name="form1"  method="post" enctype="multipart/form-data" >
-							    <jsp:include page="/WEB-INF/jsp/common/pagingforSubmit.jsp" />
-							    
 								<div>
-									<!--  
-									<select name ="seach_item">
-									<option value= "" selected ="selected">통합검색</option>
-									<option value= "brdtitle" <c:if test="${fn:indexOf(searchVO.searchType, 'brdtitle')!=-1}">selected="selected"</c:if>>제목</option>
-									<option value= "brdmemo"<c:if test="${fn:indexOf(searchVO.searchType, 'brdmemo')!=-1}">selected="selected"</c:if>>내용</option>
-									</select>
-									-->
-									
 									<input type="checkbox" name="searchType" value="brdtitle" <c:if test="${fn:indexOf(searchVO.searchType, 'brdtitle')!=-1}">checked="checked"</c:if>/>
 									<label class="chkselect" for="searchType1">제목</label>
 									<input type="checkbox" name="searchType" value="brdmemo" <c:if test="${fn:indexOf(searchVO.searchType, 'brdmemo')!=-1}">checked="checked"</c:if>/>

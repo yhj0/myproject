@@ -22,7 +22,7 @@ public class BoardVO {
     private String reg_dttm;
     private String chg_id;
     private String chg_dttm;
-    
+    private String brdlike;
     
     /* 첨부파일 */
     private List<MultipartFile> uploadfile;
@@ -162,5 +162,14 @@ public class BoardVO {
 	public void setChg_dttm(String chg_dttm) {
 		this.chg_dttm = chg_dttm;
 	}
-    
+
+	public String getBrdlike() {
+		return brdlike;
+	}
+
+	public void setBrdlike(String brdlike) {
+		this.brdlike = brdlike;
+	}
+
+
 }

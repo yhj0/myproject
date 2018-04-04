@@ -87,7 +87,7 @@ public class BoardController {
 
         searchVO.pageCalculate( boardservice.selectConsumerCount(searchVO) ); // startRow, endRow
 
-        List<?> listview  = boardservice.selectBoardOneTest(searchVO);
+        List<?> listview  = boardservice.selectConsumerList(searchVO);
         
         modelMap.addAttribute("listview", listview);
         modelMap.addAttribute("searchVO", searchVO);
@@ -136,7 +136,7 @@ public class BoardController {
         if (brdno != null) {
             BoardVO boardInfo = boardservice.selectBoardOne(brdno);
             List<?> listview = boardservice.selectBoardFileList(brdno);
-        
+            
             modelMap.addAttribute("boardInfo", boardInfo);
             modelMap.addAttribute("listview", listview);
         }
@@ -293,7 +293,7 @@ public class BoardController {
         modelMap.addAttribute("listview", listview);
         modelMap.addAttribute("replylist", replylist);
         
-        return "board/BoardReadTest";
+        return "board/BoardRead";
     }
     
     /*최근이슈*/
@@ -392,6 +392,39 @@ public class BoardController {
         return "board/SearchResult";
     }  
     
+
+    /* 신 소비자 경험===================================================================== */
+    @RequestMapping(value = "/consumerList.do")
+    public String consumerList(SearchVO searchVO, ModelMap modelMap) {
+
+        List<?> listview  = boardservice.selectBoardOneNew(searchVO);
+        
+        
+        modelMap.addAttribute("listview", listview);
+        modelMap.addAttribute("searchVO", searchVO);
+        
+        return "board/BoardReadTest";
+    }    
+    
+    
+    /**
+     * 신 댓글 읽기
+     */
+    @RequestMapping(value = "/replyRead.do", method = RequestMethod.POST)
+    public @ResponseBody List<BoardReplyVO> replyRead(@RequestBody BoardReplyVO replyVO,  ModelMap modelMap) {
+
+    	Integer brdno = Integer.parseInt(replyVO.getBrdno());
+    	
+        System.out.println("+++++++++++++++++++++++++++++댓글 번호:"+brdno);
+        //조회수 올림(사용x)
+        //boardservice.updateBoardRead(brdno);
+        
+        List<?> replylist = boardservice.selectBoardReplyListNew(brdno);
+        
+        modelMap.addAttribute("replylist", replylist);
+    	
+        return  boardservice.selectBoardReplyListNew(brdno);
+    }    
     
     /**
      * 다운스크롤시 게시물 읽기 
@@ -400,20 +433,17 @@ public class BoardController {
     @RequestMapping(value = "/scrollDown.do", method = RequestMethod.POST)
     public @ResponseBody List<BoardVO> scrollDown(@RequestBody BoardVO board,SearchVO searchVO, ModelMap modelMap ) {
     	
-    	//페이징 계산을 위한 함수
-    	searchVO.pageCalculate( boardservice.selectConsumerCount(searchVO) ); // startRow, endRow
-    	
     	//마지막번호 밑으로만 검색
         Integer brdno = Integer.parseInt(board.getBrdno())-1;
         
         System.out.println("+++++++++++++++++++++++++++++마지막 번호:"+brdno);
         
-        List<?> listview = boardservice.selectBoardOneTest2(brdno);
+        List<?> listview = boardservice.selectBoardOneNew2(brdno);
         
         modelMap.addAttribute("listview", listview);
         
         //테스트 읽기페이지
-        return boardservice.selectBoardOneTest2(brdno);
+        return boardservice.selectBoardOneNew2(brdno);
     }    
     
     

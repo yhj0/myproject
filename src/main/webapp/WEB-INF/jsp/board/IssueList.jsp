@@ -66,7 +66,7 @@ function fn_formSubmit(){
 						<input type="hidden" name="boardtype"></input>
 							<ul class="nav navbar-nav">
 								<li><a class="menuLink" href="noticeList.do" >공지사항</a></li>
-								<li><a class="menuLink" href="boardList.do" >최근글</a></li>
+								<li><a class="menuLink" href="consumerList.do" >최근글</a></li>
 								<li><a class="menuLink" href="issueList.do" >최근이슈</a></li>
 							</ul>
 					</form>
