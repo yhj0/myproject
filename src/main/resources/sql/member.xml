@@ -4,7 +4,14 @@
 <mapper namespace="member">
 <!--회원정보 조회 -->
     <select id="selectMemberOne" parameterType="String"  resultType="gu.member.MemberVO" >
-		SELECT *
+		SELECT  A.NAME AS NAME,
+	            A.ID AS ID,
+	            A.EMAIL AS EMAIL,
+	            A.REG_DTTM AS REG_DTTM,
+	            A.PASSWORD,
+	            A.NICK_NAME,
+	            B.FILENAME AS FILENAME,
+	            B.REG_DTTM AS FILE_DTTM
 		  FROM TBL_MEMBER A, TBL_IMAGE B 
 	     WHERE 1=1
 		   AND A.ID = B.REG_ID 
@@ -20,6 +27,19 @@
         INSERT INTO TBL_MEMBER(ID, PASSWORD, NAME, NICK_NAME, EMAIL, REG_DTTM)
         VALUES (#{id}, #{password}, #{name}, #{nick_name},#{email},NOW())
     </insert> 
+    
+<!--회원정보 수정 -->
+    <update id="updateMember" parameterType="String"> 
+        UPDATE TBL_MEMBER
+           SET   password = #{password}
+           	   , name =	#{name}
+           	   , nick_name = #{nick_name}#
+           	   , email = #{email}
+           	   , CHG_DTTM = NOW()
+         WHERE ID = #{id} 
+    </update>     
+    
+    
 <!--아이디 갯수 체크 -->    
     <select id="checkID" resultType="String">
         SELECT COUNT(*)
@@ -50,5 +70,15 @@
   		 NULL   
     	)   
 	</insert>
+	
+<!--회원사진 업로드 수정 -->  
+	<update id="updateImage" parameterType="gu.common.ImageVO">
+    UPDATE TBL_IMAGE 
+       SET   FILENAME = #{filename}
+       		,FILESIZE = #{filesize}
+       		,CHG_DTTM =  NOW()
+     WHERE 1=1
+       AND REG_ID = #{parentPK}	
+	</update>	
 
 </mapper>    

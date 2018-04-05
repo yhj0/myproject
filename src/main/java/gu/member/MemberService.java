@@ -29,7 +29,7 @@ public class MemberService {
     }     
     
     /**
-     * 회원정보 저장
+     * 회원가입
      */
     public boolean insertMember(MemberVO param, List<ImageVO> imagelist, String[] imgno) {
         DefaultTransactionDefinition def = new DefaultTransactionDefinition();
@@ -38,7 +38,6 @@ public class MemberService {
         
         boolean result = false;
         
-      	System.out.println("+++++++++++++++++++++++++++++회원가입2");
         try {
             sqlSession.insert("insertMember", param); 
             
@@ -60,6 +59,38 @@ public class MemberService {
 		return result;            
     }	
 
+    /**
+     * 회원정보수정
+     */
+    public boolean updateMember(MemberVO param, List<ImageVO> imagelist, String[] imgno) {
+        DefaultTransactionDefinition def = new DefaultTransactionDefinition();
+        def.setPropagationBehavior(TransactionDefinition.PROPAGATION_REQUIRED);
+        TransactionStatus status = txManager.getTransaction(def);
+        
+        boolean result = false;
+        
+        try {
+        	//회원정보수정
+            sqlSession.update("updateMember", param); 
+            
+            //저장해놓은게 없으면 이미지저장
+            for (ImageVO f : imagelist) {
+            	//paretPK에 사용자 아이디를 넣는다.
+                f.setParentPK(param.getId());
+                sqlSession.update("updateImage", f);
+                
+            }
+            result = true;
+            txManager.commit(status);
+            
+            
+        } catch (TransactionException ex) {
+            txManager.rollback(status);
+            System.out.println("데이터 저장 오류: " + ex.toString());
+        }
+		return result;            
+    }	    
+    
     /**
      * ID조회
      *

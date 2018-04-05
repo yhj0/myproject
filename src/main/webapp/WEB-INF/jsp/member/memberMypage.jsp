@@ -81,6 +81,33 @@ function fn_formSubmit(){
             	$('#joinMember').attr("disabled", false); //회원가입버튼 활성화
 	    	} 
 	  });	
+	  
+//이미지 불러오기 
+	    function loadname(img, previewName){  
+
+	    var isIE = (navigator.appName=="Microsoft Internet Explorer");  
+	    var path = img.value;  
+	    var ext = path.substring(path.lastIndexOf('.') + 1).toLowerCase();  
+
+	     if(ext == "gif" || ext == "jpeg" || ext == "jpg" ||  ext == "png" )  
+	     {       
+	        if(isIE) {  
+	           $('#'+ previewName).attr('src', path);  
+	        }else{  
+	           if (img.files[0]) 
+	            {  
+	                var reader = new FileReader();  
+	                reader.onload = function (e) {  
+	                    $('#'+ previewName).attr('src', e.target.result);  
+	                }
+	                reader.readAsDataURL(img.files[0]);  
+	            }  
+	        }  
+
+	     }else{  
+	      "incorrect file type"  
+	     }   
+	    }  	  
 </script>
 
 <title>Insert title here</title>
@@ -101,11 +128,19 @@ function fn_formSubmit(){
 				<div class="col-md-8 col-md-offset-2">
 				<div class="well">
 						<form name ="formMember" class="form-horizontal" action="memberSave.do" method="post" enctype="multipart/form-data" >
+						<!-- 이미지 업로드안했을때 대체데이터 -->
+						<input type="hidden" name="filename" value ="<c:out value="${sessionScope.filename}"/>">
+						<input type="hidden" name="filesize" value ="<c:out value="${sessionScope.filesize}"/>">
 								 <div class="form-group">
 									<label class="col-sm-2 control-label">프로필사진</label>
 									<div class="col-sm-5">					
+											<c:forEach var="imagelist" items="${imagelist}" varStatus="status">
+												<input type="checkbox" name="imgno" value="<c:out value="${imagelist.imgno}"/>">	
+					            				<a href="fileDownload?filename=<c:out value="${imagelist.name}"/>&downname=<c:out value="${imagelist.realname }"/>"> 							 
+												<c:out value="${imagelist.name}"/></a> <c:out value="${imagelist.size2String()}"/><br/>
+											</c:forEach>					
 											<img class="photo1" src="./upload_img/${sessionScope.id}/${sessionScope.filename}" width="200" height="150" name="previewimg" id="previewimg" alt="">
-											<input type="file" class="form-control" id ="uploadfile" name="uploadfile" onchange="loadname(this,'previewimg')" value="" >
+											<input type="file" class="form-control" id ="uploadfile" name="uploadfile" onchange="loadname(this,'previewimg')" >		
 									</div>
 								 </div>								
 								 <div class="form-group">

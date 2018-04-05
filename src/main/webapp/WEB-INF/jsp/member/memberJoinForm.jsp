@@ -108,7 +108,7 @@ function fn_formSubmit(){
 });	  
 </script>
 
- <script>  
+<script>  
 //이미지 불러오기 
 function loadname(img, previewName){  
 

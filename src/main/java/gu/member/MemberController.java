@@ -4,7 +4,9 @@ import java.util.List;
 
 import javax.ejb.DuplicateKeyException;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
+import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -14,13 +16,16 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import gu.common.ImageUtil;
 import gu.common.ImageVO;
+import gu.login.LoginVO;
 import gu.member.MemberVO;
+
 
 @Controller 
 public class MemberController {
 
     @Autowired
     MemberService memberService;	
+    SqlSession sqlSession; //top 이미지 갱신
     
     /**
      * 회원가입폼.
@@ -54,18 +59,34 @@ public class MemberController {
 	* 회원정보 저장 
 	*/
     @RequestMapping(value = "/memberSave.do")
-    public String memberJoin(HttpServletRequest request, MemberVO memberInfo)  {
+    public String memberJoin(HttpServletRequest request, MemberVO memberInfo, HttpSession session)  {
 	
     try {	
     	
         String[] imgno = request.getParameterValues("imgno");
-        System.out.println("+++++++++++++++++++++++++++++이미지 저장유무"+imgno);
+
+        System.out.println("+++++++++++++++++++++++++++++이미지 저장유무"+memberInfo.getFilename());
         
         ImageUtil iu = new ImageUtil();
-        List<ImageVO> imagelist = iu.saveAllFiles(memberInfo.getUploadfile(), memberInfo.getId() );
-    	System.out.println("+++++++++++++++++++++++++++++서버에 이미지저장완료");
+        List<ImageVO> imagelist = iu.saveAllFiles(memberInfo.getUploadfile(), memberInfo.getId(), request);
         
-    	memberService.insertMember(memberInfo, imagelist, imgno);
+    	String id = request.getParameter("id");
+    	
+    	//회원가입일때
+    	if(id == null || id == ""){
+        	memberService.insertMember(memberInfo, imagelist, imgno);
+    	}
+    	//회원수정일때
+    	else {
+    		memberService.updateMember(memberInfo, imagelist, imgno);
+    	}
+    	System.out.println("+++++++++++++++++++++++++++++이미지 갱신");
+    	  
+    	MemberVO memberInfo2 = memberService.selectMemberOne(id);
+
+        session.setAttribute("id", memberInfo2.getId());
+        session.setAttribute("name", memberInfo2.getName());
+        session.setAttribute("filename", memberInfo2.getFilename());
     	
 	} 
     catch (Exception e) {}

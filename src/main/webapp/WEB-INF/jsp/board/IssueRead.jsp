@@ -142,7 +142,7 @@ function fn_replyUpdateCancel(){
 							</c:choose>		
 							<p>&nbsp;</p>
 							</div>
-							<!-- 댓글부분 
+							 댓글부분 
 							<div style="border: 1px solid; width: 600px; padding: 5px">
 								<form name="form1" action="boardReplySave.do" method="post">
 									<input type="hidden" name="brdno" value="<c:out value="${boardInfo.brdno}"/>"> 
@@ -177,9 +177,7 @@ function fn_replyUpdateCancel(){
 									<a href="#" onclick="fn_replyUpdateCancel()">취소</a>
 									<a><input type="hidden" name="reg_id" value ="<c:out value="${sessionScope.id}"/>"></a>
 								</form>
-							</div>	
-							
-								-->		
+							</div>		
 						</div>
 					</div>				
 				</td>

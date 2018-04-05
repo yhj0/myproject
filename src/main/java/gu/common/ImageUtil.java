@@ -9,6 +9,8 @@ import java.nio.channels.FileChannel;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.springframework.web.multipart.MultipartFile;
 
 
@@ -17,13 +19,17 @@ public class ImageUtil {
      * 이미지 업로드.
      * @throws IOException 
      */
-    public List<ImageVO> saveAllFiles(List<MultipartFile> upfiles, String id) throws IOException {
-        String filePath = "C:\\Users\\SJICT04\\git\\board_sample\\src\\main\\webapp\\upload_img\\"; 
+    public List<ImageVO> saveAllFiles(List<MultipartFile> upfiles, String id , HttpServletRequest request) throws IOException {
+        //이미지 유무를 확인하는 flag
+    	String fileName = request.getParameter("filename");
+    	String fileSize = request.getParameter("filesize");
+    	
+    	String filePath = "C:\\Users\\SJICT04\\git\\board_sample\\src\\main\\webapp\\upload_img\\"; 
         List<ImageVO> Imagelist = new ArrayList<ImageVO>();
-
+        
         for (MultipartFile uploadfile : upfiles ) {
-            if (uploadfile.getSize() == 0) {
-            	//업로드파일 없을경우 
+        	//신규회원가입일때
+            if (uploadfile.getSize() == 0 && fileName == null || fileName == "") {
             	
             	//디렉토리 생성
                 makeBasePath(filePath + "/"+ id + "/");
@@ -61,10 +67,20 @@ public class ImageUtil {
             saveFile(uploadfile, filePath + "/"+ id + "/", uploadfile.getOriginalFilename());
             
             ImageVO imagevo = new ImageVO();
-            imagevo.setFilename(uploadfile.getOriginalFilename());
-            //filedo.setRealname(newName);
-            imagevo.setFilesize(uploadfile.getSize());
-            Imagelist.add(imagevo);
+            
+            //수정을 하나 이미지를 첨부하지않았을때 
+            if (uploadfile.getOriginalFilename() == null||uploadfile.getOriginalFilename()==""){
+                imagevo.setFilename(fileName);
+                //filedo.setRealname(newName);
+                imagevo.setFilesize(uploadfile.getSize());            	
+            }
+            else 
+            {
+                imagevo.setFilename(uploadfile.getOriginalFilename());
+                //filedo.setRealname(newName);
+                imagevo.setFilesize(uploadfile.getSize());
+            }
+            Imagelist.add(imagevo);	
         }
         return Imagelist;
     }    

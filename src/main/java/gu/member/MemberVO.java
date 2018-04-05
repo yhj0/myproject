@@ -12,6 +12,8 @@ public class MemberVO {
     private String nick_name; 
     private String email;
     private String reg_dttm;
+    
+    private String filename;
    
     /* 프로필이미지 */
     private List<MultipartFile> uploadfile;
@@ -61,6 +63,11 @@ public class MemberVO {
     public void setUploadfile(List<MultipartFile> uploadfile) {
         this.uploadfile = uploadfile;
     }
-     
-	
+	public String getFilename() {
+		return filename;
+	}
+	public void setFilename(String filename) {
+		this.filename = filename;
+	}
+
 }

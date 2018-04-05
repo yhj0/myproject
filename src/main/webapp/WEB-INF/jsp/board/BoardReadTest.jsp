@@ -68,6 +68,9 @@ $(window).scroll(function(){ // ① 스크롤 이벤트 최초 발생
                 success : function(data){// ajax 가 성공했을시에 수행될 function이다. 이 function의 파라미터는 서버로 부터 return받은 데이터이다.
                 	
                     var str = "";
+                	var str1 = "";
+                	var str2 = "";
+                	
                     // 5. 받아온 데이터가 ""이거나 null이 아닌 경우에 DOM handling을 해준다.
                     if(data != ""){
                     	
@@ -76,6 +79,7 @@ $(window).scroll(function(){ // ① 스크롤 이벤트 최초 발생
                             // 7. 새로운 데이터를 갖고 html코드형태의 문자열을 만들어준다.
                           
                          function(){  
+                            	
                                 str += "<tr class=" + "'listToChange'" + ">"
                             	+ 	"<td>"
                             	+	 "<div class="+ "'well'"+">"
@@ -99,20 +103,30 @@ $(window).scroll(function(){ // ① 스크롤 이벤트 최초 발생
                                 +       	"</tr>"                                     
                                 +			"<tr>"
                                 +				"<td>첨부파일</td>"	
-                                +				"<td>" + "</td>"  
+                                +				"<td>" + "</td>"
                                 +       	"</tr>" 
                                 +			"<td colspan="+"'2'"+ "align="+"'right'"+">"
                                 +			"<a href="+"'#'"+ "onclick="+"'fn_reply('"+this.brdno+"')>댓글 "+ this.replycnt + "개</a>"
 								+			"&nbsp;&nbsp;좋아요 "+ this.brdlike+"개</td>" 
-                                +       	"</tr>"                                 
-                                +		"</tbody>" 
-                                +		"</table>"
-                                + 		"<a><input type="+"'hidden'"+ "value ="+this.id+"/></a>"
-                                +	   "</div>"
-                                +	"</td>"
-                                +   "</tr>";    
-                        	}
-                          );
+								+			"</tr>"
+								+			"<tr id="+"'showComment'"+">"
+								+			"</tr>"								
+								+		  "</tbody>"
+								+		"</table>"    
+								+		"<div align="+"'center'"+">"
+								+			"<a class="+"'btn btn-default btn-sm'"+">좋아요+</a>"
+								+			"<a class="+"'btn btn-default btn-sm'"+">댓글달기+</a>"
+								+		"</div>"		
+								+		"<a><input type="+"'hidden'"+"value ="+this.id+"></a>"
+                                if(this.brdno==this.reg_id || this.brdno == 'admin'){
+						    	+			"<a class="+"'btn btn-default btn-sm'"+"href="+"boardDelete.do?brdno="+ this.brdno +">"+"삭제</a>"
+								+			"<a class="+"'btn btn-default btn-sm'"+"href="+"boardForm.do?brdno="+ this.brdno +">"+"수정</a>"                                	
+                                }
+								+	"</div>"
+								+  "</td>"
+								+ "</tr>"	
+                            }
+                         );
                     	// each
                         // 8. 이전까지 뿌려졌던 데이터를 비워주고, <th>헤더 바로 밑에 위에서 만든 str을  뿌려준다.
                         $(".listToChange:last").empty();// 셀렉터 태그 안의 모든 텍스트를 지운다.    
@@ -270,9 +284,9 @@ function fn_reply(rbrdno){
 													<c:choose>
 														<c:when test="${sessionScope.id == null|| sessionScope.id == ''}">
 														</c:when>
-													    <c:when test="${sessionScope.id == boardInfo.reg_id || sessionScope.id == 'admin'}">
-													    	<a class="btn btn-default btn-sm" href="boardDelete.do?brdno=<c:out value="${boardInfo.brdno}"/>">삭제</a>
-															<a class="btn btn-default btn-sm" href="boardForm.do?brdno=<c:out value="${boardInfo.brdno}"/>">수정</a>
+													    <c:when test="${sessionScope.id == listview.reg_id || sessionScope.id == 'admin'}">
+													    	<a class="btn btn-default btn-sm" href="boardDelete.do?brdno=<c:out value="${listview.brdno}"/>">삭제</a>
+															<a class="btn btn-default btn-sm" href="boardForm.do?brdno=<c:out value="${listview.brdno}"/>">수정</a>
 													    </c:when>
 													    <c:otherwise>
 													    </c:otherwise>
@@ -283,12 +297,8 @@ function fn_reply(rbrdno){
 									</c:forEach>
 															
 								<!-- 다운스크롤시 조회 추가 -->	
-								<tbody>
-									<c:forEach var="listview" items="${listview}" varStatus="status">
 									<tr class="listToChange">
-									</tr>
-									</c:forEach>										
-								</tbody>
+									</tr>									
 							</table>
 							<div id="loading" align="center" >
 							</div>
