@@ -79,7 +79,7 @@ $(window).scroll(function(){ // ① 스크롤 이벤트 최초 발생
                                 str += "<tr class=" + "'listToChange'" + ">"
                             	+ 	"<td>"
                             	+	 "<div class="+ "'well'"+">"
-                            	+		"<table class="+"'table table-striped'"+">"
+                            	+		"<table class="+"'table table-bordered'"+">"
                             	+		 "<tbody>"
                             	+			"<tr>"
                             	+				"<td>고유번호</td>"		
@@ -101,13 +101,16 @@ $(window).scroll(function(){ // ① 스크롤 이벤트 최초 발생
                                 +				"<td>첨부파일</td>"	
                                 +				"<td>" + "</td>"  
                                 +       	"</tr>" 
+                                +			"<td colspan="+"'2'"+ "align="+"'right'"+">"
+                                +			"<a href="+"'#'"+ "onclick="+"'fn_reply('"+this.brdno+"')>댓글 "+ this.replycnt + "개</a>"
+								+			"&nbsp;&nbsp;좋아요 "+ this.brdlike+"개</td>" 
+                                +       	"</tr>"                                 
                                 +		"</tbody>" 
                                 +		"</table>"
                                 + 		"<a><input type="+"'hidden'"+ "value ="+this.id+"/></a>"
                                 +	   "</div>"
                                 +	"</td>"
-                                +   "</tr>"; 
-                                     
+                                +   "</tr>";    
                         	}
                           );
                     	// each
@@ -157,27 +160,19 @@ function fn_reply(rbrdno){
                 $(data).each(
                 		
                  function(){  
-                        str += 	"<table class="+"'table table-striped'"+">"
-                    	+		 "<tbody>"
-                        +			"<tr>"
+                        str += 		"<tr>"
                         +				"<td>작성자</td>"	
                         +				"<td>" + this.rewriter + "</td>"  
                         +       	"</tr>"  
                         +			"<tr>"
                         +				"<td>내용</td>"	
                         +				"<td>" + this.rememo + "</td>"  
-                        +       	"</tr>"                          
-                        +		"</tbody>" 
-                        +		"</table>"  
+                        +       	"</tr>"                           
                 	}
                   );
-                
-	                $(".listToChange:last").empty();// 셀렉터 태그 안의 모든 텍스트를 지운다.    
-	                $(".listToChange:last").after(str);                 
-                
+	                $("#showComment").empty(str);// 셀렉터 태그 안의 모든 텍스트를 지운다.  
+	                $("#showComment").after(str);                 
                 } else {
-            	
-                    alert("댓글이없습니다.");
             	}
             }
            
@@ -260,8 +255,10 @@ function fn_reply(rbrdno){
 																<td colspan="2" align="right" >
 																<a href="#" onclick="fn_reply('${listview.brdno}')"> 댓글 <c:out value="${listview.replycnt}"/>개</a>
 																&nbsp;&nbsp;좋아요 <c:out value="${listview.brdlike}"/>개</td> 
-															</tr>																
-																										
+															</tr>
+															<!-- Comment 태그 추가 -->
+															<tr id="showComment">
+															</tr>								
 														</tbody>
 													</table>    
 													<div align="center">
@@ -271,29 +268,20 @@ function fn_reply(rbrdno){
 													<a><input type="hidden" value ="<c:out value="${sessionScope.id}"/>"></a>
 													<!-- 수정권한 본인id 혹은 관리자-->
 													<c:choose>
+														<c:when test="${sessionScope.id == null|| sessionScope.id == ''}">
+														</c:when>
 													    <c:when test="${sessionScope.id == boardInfo.reg_id || sessionScope.id == 'admin'}">
 													    	<a class="btn btn-default btn-sm" href="boardDelete.do?brdno=<c:out value="${boardInfo.brdno}"/>">삭제</a>
 															<a class="btn btn-default btn-sm" href="boardForm.do?brdno=<c:out value="${boardInfo.brdno}"/>">수정</a>
 													    </c:when>
 													    <c:otherwise>
-													    	<br>
 													    </c:otherwise>
 													</c:choose>		
 												</div>
 											</td>
 										</tr>
 									</c:forEach>
-									
-									
-								<!-- Comment 태그 추가 -->
-								<tbody>
-									<c:forEach var="replylist" items="${replylist}" varStatus="status">
-									<tr class="showComment">
-									</tr>
-									</c:forEach>
-								</tbody>							
-
-
+															
 								<!-- 다운스크롤시 조회 추가 -->	
 								<tbody>
 									<c:forEach var="listview" items="${listview}" varStatus="status">
@@ -304,8 +292,7 @@ function fn_reply(rbrdno){
 							</table>
 							<div id="loading" align="center" >
 							</div>
-													
-							
+							<!--  검색창
 							<form id="form1" name="form1"  method="post" enctype="multipart/form-data" >
 								<div>
 									<input type="checkbox" name="searchType" value="brdtitle" <c:if test="${fn:indexOf(searchVO.searchType, 'brdtitle')!=-1}">checked="checked"</c:if>/>
@@ -316,7 +303,7 @@ function fn_reply(rbrdno){
 									<input name="btn_search" value="검색" class="btn btn-success" type="button" onclick="fn_formSubmit()" />
 								</div>
 							</form>  
-							
+							-->	
 						</div>			
 				</td>
 			</tr>
