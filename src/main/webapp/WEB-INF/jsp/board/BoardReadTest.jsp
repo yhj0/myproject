@@ -11,32 +11,25 @@
 <script src="js/jquery-2.2.3.min.js"></script>
 <script src="js/bootstrap.js"></script>
 <script src="js/jquery-ui.min.js"></script>
-
-<style>
-.hit {
-      animation-name: blink;
-      animation-duration: 1.5s; 
-      animation-timing-function: ease;
-      animation-iteration-count: infinite;
-      /* 위 속성들을 한 줄로 표기하기 */
-      /* -webkit-animation: blink 1.5s ease infinite; */
-    }
-    /* 애니메이션 지점 설정하기 */
-    /* 익스플로러 10 이상, 최신 모던 브라우저에서 지원 */
-    @keyframes blink {
-      from {color: white;}
-      30% {color: grey;}
-      to {color: black; font-weight: bold;}
-      /* 0% {color:white;}
-      30% {color: yellow;}
-      100% {color:red; font-weight: bold;} */
-    }   
-</style>
-<title>board</title>
+<!-- 다음에디터 링크 -->
+<link rel=stylesheet type=text/css href="daumeditor/css/editor.css" charset=utf-8 />
+<script type=text/javascript charset=utf-8 src="daumeditor/js/editor_loader.js"></script>
+<title>소비자경험커뮤니티 뉴스피드</title>
 <script>
 function fn_formSubmit(){
 	document.form1.submit();	
 }
+
+$(document).ready(function() {
+	loadContent();
+});
+
+//에디터 본문 내용 불러오기
+function loadContent() {
+    Editor.modify({
+    	"content": document.getElementById("brdmemo") /* 내용 문자열, 주어진 필드(textarea) 엘리먼트 */
+    	});
+    }    
 
 // 스크롤 이벤트 발생
 $(window).scroll(function(){ // ① 스크롤 이벤트 최초 발생
@@ -68,8 +61,6 @@ $(window).scroll(function(){ // ① 스크롤 이벤트 최초 발생
                 success : function(data){// ajax 가 성공했을시에 수행될 function이다. 이 function의 파라미터는 서버로 부터 return받은 데이터이다.
                 	
                     var str = "";
-                	var str1 = "";
-                	var str2 = "";
                 	
                     // 5. 받아온 데이터가 ""이거나 null이 아닌 경우에 DOM handling을 해준다.
                     if(data != ""){
@@ -85,12 +76,8 @@ $(window).scroll(function(){ // ① 스크롤 이벤트 최초 발생
                             	+	 "<div class="+ "'well'"+">"
                             	+		"<table class="+"'table table-bordered'"+">"
                             	+		 "<tbody>"
-                            	+			"<tr>"
-                            	+				"<td>고유번호</td>"		
-                                +      			"<td class="+"'scrolling'"+ "data-bno="+ this.brdno +">" + this.brdno +"</td>"  
-                                +			"</tr>"
                                 +			"<tr>"
-                                +				"<td>제목</td>"	
+                                +				"<td class="+"'scrolling'"+ "data-bno="+ this.brdno +">제목</td>"	
                                 +				"<td>" + this.brdtitle + "</td>"  
                                 +       	"</tr>"     
                                 +			"<tr>"
@@ -112,11 +99,7 @@ $(window).scroll(function(){ // ① 스크롤 이벤트 최초 발생
 								+			"<tr id="+"'showComment'"+">"
 								+			"</tr>"								
 								+		  "</tbody>"
-								+		"</table>"    
-								+		"<div align="+"'center'"+">"
-								+			"<a class="+"'btn btn-default btn-sm'"+">좋아요+</a>"
-								+			"<a class="+"'btn btn-default btn-sm'"+">댓글달기+</a>"
-								+		"</div>"		
+								+		"</table>"    	
 								+		"<a><input type="+"'hidden'"+"value ="+this.id+"></a>"
                                 if(this.brdno==this.reg_id || this.brdno == 'admin'){
 						    	+			"<a class="+"'btn btn-default btn-sm'"+"href="+"boardDelete.do?brdno="+ this.brdno +">"+"삭제</a>"
@@ -143,11 +126,9 @@ $(window).scroll(function(){ // ① 스크롤 이벤트 최초 발생
   
 });// scroll event
 
-//댓글읽기 이벤트
+//댓글읽기 이벤트 (페기전 )
 function fn_reply(rbrdno){
-	
 	form_menu.final_reply_no.value = rbrdno;
-	
     $.ajax({
         type : 'POST',  // 요청 method 방식
         url : 'replyRead.do',// 요청할 서버의 url
@@ -159,7 +140,6 @@ function fn_reply(rbrdno){
         data : JSON.stringify({ // 서버로 보낼 데이터 명시
         	brdno : rbrdno 
         }),	
-        
         beforeSend:function() {
             console.log("읽어오기 시작 전...");
         },
@@ -167,7 +147,6 @@ function fn_reply(rbrdno){
             console.log("읽어오기 완료 후...");
         },
         success:function(data) {
-        	
             var str = "";
             if(data != ""){
             	
@@ -188,10 +167,8 @@ function fn_reply(rbrdno){
 	                $("#showComment").after(str);                 
                 } else {
             	}
-            }
-           
+            } 
     });
-
 }
 
 </script>
@@ -245,12 +222,14 @@ function fn_reply(rbrdno){
 												<div class="well">			
 													<table class="table table-bordered" >
 														<tbody>
+															<!--  
 															<tr>
 																<td>고유번호</td>
 																<td class="scrolling" data-bno="${listview.brdno}"><c:out value="${listview.brdno}"/></td>
 															</tr>
+															-->
 															<tr>
-																<td>제목</td> 
+																<td class="scrolling" data-bno="${listview.brdno}">제목</td> 
 																<td><c:out value="${listview.brdtitle}"/></td> 
 															</tr>															
 															<tr>
@@ -259,7 +238,7 @@ function fn_reply(rbrdno){
 															</tr>														
 															<tr>
 																<td>내용</td> 
-																<td><textarea rows="10" cols="90" readonly><c:out value="${listview.brdmemo}" escapeXml="false"/></textarea></td> 
+																<td><textarea id="brdmemo" rows="10" cols="90" readonly><c:out value="${listview.brdmemo}" /></textarea></td> 
 															</tr>
 															<tr>
 																<td>첨부파일</td> 
@@ -267,7 +246,7 @@ function fn_reply(rbrdno){
 															</tr>
 															<tr>
 																<td colspan="2" align="right" >
-																<a href="#" onclick="fn_reply('${listview.brdno}')"> 댓글 <c:out value="${listview.replycnt}"/>개</a>
+																<a href="boardRead.do?brdno=<c:out value="${listview.brdno}"/>" > 댓글 <c:out value="${listview.replycnt}"/>개</a>
 																&nbsp;&nbsp;좋아요 <c:out value="${listview.brdlike}"/>개</td> 
 															</tr>
 															<!-- Comment 태그 추가 -->
@@ -275,10 +254,12 @@ function fn_reply(rbrdno){
 															</tr>								
 														</tbody>
 													</table>    
+													<!--  
 													<div align="center">
 														<a class="btn btn-default btn-sm">좋아요+</a>
 														<a class="btn btn-default btn-sm">댓글달기+</a>
 													</div>		
+													-->
 													<a><input type="hidden" value ="<c:out value="${sessionScope.id}"/>"></a>
 													<!-- 수정권한 본인id 혹은 관리자-->
 													<c:choose>

@@ -401,33 +401,11 @@
 			<img hspace="4" height="14" width="78" align="absmiddle" src="daumeditor/images/icon/editor/editor_bi.png" />
 		</div>
 	</div>
-				<!-- 편집영역 끝 -->
-			<!-- 첨부박스 시작 -->
- <!-- 파일첨부박스 Start -->
-	<div id="tx_attach_div" class="tx-attach-div">
-		<div id="tx_attach_txt" class="tx-attach-txt">파일 첨부</div>
-		<div id="tx_attach_box" class="tx-attach-box">
-			<div class="tx-attach-box-inner">
-				<div id="tx_attach_preview" class="tx-attach-preview"><p></p><img src="daumeditor/images/icon/editor/pn_preview.gif" width="147" height="108" unselectable="on"/></div>
-				<div class="tx-attach-main">
-					<div id="tx_upload_progress" class="tx-upload-progress"><div>0%</div><p>파일을 업로드하는 중입니다.</p></div>
-					<ul class="tx-attach-top">
-						<li id="tx_attach_delete" class="tx-attach-delete"><a>전체삭제</a></li>
-						<li id="tx_attach_size" class="tx-attach-size">
-							파일: <span id="tx_attach_up_size" class="tx-attach-size-up"></span>/<span id="tx_attach_max_size"></span>
-						</li>
-						<li id="tx_attach_tools" class="tx-attach-tools">
-						</li>
-					</ul>
-					<ul id="tx_attach_list" class="tx-attach-list"></ul>
-				</div>
-			</div>
-		</div>
-	</div>
-			<!-- 첨부박스 끝 -->
-		</div>
-	<!-- 에디터 컨테이너 끝 -->
-	</form>	
+<!-- 편집영역 끝 -->
+<!-- 첨부박스 시작 -->
+</div>
+<!-- 에디터 컨테이너 끝 -->
+</form>	
 <!-- 에디터 끝 -->
 <script type="text/javascript">
 	var config = {
@@ -436,7 +414,7 @@
 		txService: 'sample', /* 수정필요없음. */
 		txProject: 'sample', /* 수정필요없음. 프로젝트가 여러개일 경우만 수정한다. */
 		initializedId: "", /* 대부분의 경우에 빈문자열 */
-		wrapper: "tx_trex_container", /* 에디터를 둘러싸고 있는 레이어 이름(에디터 컨테이너) */
+		wrapper: "", /* 에디터를 둘러싸고 있는 레이어 이름(에디터 컨테이너) */
 		form: 'form1'+"", /* 등록하기 위한 Form 이름 */
 		txIconPath: "daumeditor/images/icon/editor/", /*에디터에 사용되는 이미지 디렉터리, 필요에 따라 수정한다. */
 		txDecoPath: "daumeditor/images/deco/contents/", /*본문에 사용되는 이미지 디렉터리, 서비스에서 사용할 때는 완성된 컨텐츠로 배포되기 위해 절대경로로 수정한다. */

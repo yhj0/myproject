@@ -129,7 +129,7 @@ function fn_replyUpdateCancel(){
 								</tbody>
 							</table>    
 							<a><input type="hidden" value ="<c:out value="${sessionScope.id}"/>"></a>
-							<a class="btn btn-default btn-sm" href="boardList.do">돌아가기</a>
+							<a class="btn btn-default btn-sm" href="consumerList.do">돌아가기</a>
 							<!-- 수정권한 본인id 혹은 관리자-->
 							<c:choose>
 							    <c:when test="${sessionScope.id == boardInfo.reg_id || sessionScope.id == 'admin'}">

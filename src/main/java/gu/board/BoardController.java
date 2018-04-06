@@ -178,14 +178,14 @@ public class BoardController {
     /*소비자경험*/
     @RequestMapping(value = "/boardSave.do")
     public String boardSave(HttpServletRequest request, BoardVO boardInfo) {
-        String[] fileno = request.getParameterValues("fileno");
+    	String[] fileno = request.getParameterValues("fileno");
         
         FileUtil fs = new FileUtil();
         List<FileVO> filelist = fs.saveAllFiles(boardInfo.getUploadfile());
 
         boardservice.insertBoard(boardInfo, filelist, fileno);
 
-        return "redirect:/boardList.do";
+        return "redirect:/consumerList.do";
     }
     
     /*최근이슈*/
@@ -446,5 +446,14 @@ public class BoardController {
         return boardservice.selectBoardOneNew2(brdno);
     }    
     
+    /**
+     * 다음에디터 맵핑  
+     */    
+    
+    @RequestMapping(value = "/daumEditor.do")
+    public String home(HttpServletRequest request) {
+
+        return "daumeditor/editor_frame";
+    }    
     
 }

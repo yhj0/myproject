@@ -103,9 +103,11 @@ function fn_formSubmit(){
 	                reader.readAsDataURL(img.files[0]);  
 	            }  
 	        }  
-
-	     }else{  
-	      "incorrect file type"  
+	     }
+	     else
+	     {  
+	    	alert('jpg, gif, png, bmp 확장자만 업로드 가능합니다.');
+	       	return false;
 	     }   
 	    }  	  
 </script>
