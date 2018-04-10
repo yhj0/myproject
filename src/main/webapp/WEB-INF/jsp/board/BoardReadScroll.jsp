@@ -77,6 +77,10 @@ $(window).scroll(function(){ // ① 스크롤 이벤트 최초 발생
                             	+		"<table class="+"'table table-bordered'"+">"
                             	+		 "<tbody>"
                                 +			"<tr>"
+                                +				"<td>번호</td>"	
+                                +				"<td>" + this.brdno + "</td>"  
+                                +       	"</tr>"                              	
+                                +			"<tr>"
                                 +				"<td class="+"'scrolling'"+ "data-bno="+ this.brdno +">제목</td>"	
                                 +				"<td>" + this.brdtitle + "</td>"  
                                 +       	"</tr>"     
@@ -101,10 +105,6 @@ $(window).scroll(function(){ // ① 스크롤 이벤트 최초 발생
 								+		  "</tbody>"
 								+		"</table>"    	
 								+		"<a><input type="+"'hidden'"+"value ="+this.id+"></a>"
-                                if(this.brdno==this.reg_id || this.brdno == 'admin'){
-						    	+			"<a class="+"'btn btn-default btn-sm'"+"href="+"boardDelete.do?brdno="+ this.brdno +">"+"삭제</a>"
-								+			"<a class="+"'btn btn-default btn-sm'"+"href="+"boardForm.do?brdno="+ this.brdno +">"+"수정</a>"                                	
-                                }
 								+	"</div>"
 								+  "</td>"
 								+ "</tr>"	
@@ -125,51 +125,6 @@ $(window).scroll(function(){ // ① 스크롤 이벤트 최초 발생
         }
   
 });// scroll event
-
-//댓글읽기 이벤트 (페기전 )
-function fn_reply(rbrdno){
-	form_menu.final_reply_no.value = rbrdno;
-    $.ajax({
-        type : 'POST',  // 요청 method 방식
-        url : 'replyRead.do',// 요청할 서버의 url
-        headers : {
-            "Content-Type" : "application/json",
-            "X-HTTP-Method-Override" : "POST"
-        },
-        dataType : 'json', // 서버로부터 되돌려받는 데이터의 타입을 명시하는 것이다.
-        data : JSON.stringify({ // 서버로 보낼 데이터 명시
-        	brdno : rbrdno 
-        }),	
-        beforeSend:function() {
-            console.log("읽어오기 시작 전...");
-        },
-        complete:function() {
-            console.log("읽어오기 완료 후...");
-        },
-        success:function(data) {
-            var str = "";
-            if(data != ""){
-            	
-                $(data).each(
-                		
-                 function(){  
-                        str += 		"<tr>"
-                        +				"<td>작성자</td>"	
-                        +				"<td>" + this.rewriter + "</td>"  
-                        +       	"</tr>"  
-                        +			"<tr>"
-                        +				"<td>내용</td>"	
-                        +				"<td>" + this.rememo + "</td>"  
-                        +       	"</tr>"                           
-                	}
-                  );
-	                $("#showComment").empty(str);// 셀렉터 태그 안의 모든 텍스트를 지운다.  
-	                $("#showComment").after(str);                 
-                } else {
-            	}
-            } 
-    });
-}
 
 </script>
 </head>
@@ -222,14 +177,12 @@ function fn_reply(rbrdno){
 												<div class="well">			
 													<table class="table table-bordered" >
 														<tbody>
-															<!--  
 															<tr>
-																<td>고유번호</td>
+																<td>번호</td>
 																<td class="scrolling" data-bno="${listview.brdno}"><c:out value="${listview.brdno}"/></td>
 															</tr>
-															-->
 															<tr>
-																<td class="scrolling" data-bno="${listview.brdno}">제목</td> 
+																<td >제목</td> 
 																<td><c:out value="${listview.brdtitle}"/></td> 
 															</tr>															
 															<tr>
@@ -238,7 +191,7 @@ function fn_reply(rbrdno){
 															</tr>														
 															<tr>
 																<td>내용</td> 
-																<td><textarea id="brdmemo" rows="10" cols="90" readonly><c:out value="${listview.brdmemo}" /></textarea></td> 
+																<td><div id="editor_frame"></div><c:out value="${listview.brdmemo}" escapeXml="false"/></td> 
 															</tr>
 															<tr>
 																<td>첨부파일</td> 
@@ -261,17 +214,6 @@ function fn_reply(rbrdno){
 													</div>		
 													-->
 													<a><input type="hidden" value ="<c:out value="${sessionScope.id}"/>"></a>
-													<!-- 수정권한 본인id 혹은 관리자-->
-													<c:choose>
-														<c:when test="${sessionScope.id == null|| sessionScope.id == ''}">
-														</c:when>
-													    <c:when test="${sessionScope.id == listview.reg_id || sessionScope.id == 'admin'}">
-													    	<a class="btn btn-default btn-sm" href="boardDelete.do?brdno=<c:out value="${listview.brdno}"/>">삭제</a>
-															<a class="btn btn-default btn-sm" href="boardForm.do?brdno=<c:out value="${listview.brdno}"/>">수정</a>
-													    </c:when>
-													    <c:otherwise>
-													    </c:otherwise>
-													</c:choose>		
 												</div>
 											</td>
 										</tr>

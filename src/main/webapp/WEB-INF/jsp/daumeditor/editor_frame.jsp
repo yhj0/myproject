@@ -446,7 +446,15 @@
 			attachbox: {
 				show: true,
 				confirmForDeleteAll: true
-			}
+			},
+			
+			// 이미지첨부 관련 추가 config 
+			attacher: { 
+				image:{ features:{left:250,top:65,width:400,height:190,scrollbars:0}, //팝업창 사이즈 
+					popPageUrl:'${pageContext.request.contextPath}/imagePopup.do' //팝업창 주소 
+					} 
+			},
+			// 이미지첨부 관련 추가 config 
 		},
 		size: {
 			contentWidth: 700 /* 지정된 본문영역의 넓이가 있을 경우에 설정 */

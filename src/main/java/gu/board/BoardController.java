@@ -92,7 +92,7 @@ public class BoardController {
         modelMap.addAttribute("listview", listview);
         modelMap.addAttribute("searchVO", searchVO);
         
-        return "board/BoardReadTest";
+        return "board/BoardReadScroll";
     }
     
     
@@ -403,7 +403,7 @@ public class BoardController {
         modelMap.addAttribute("listview", listview);
         modelMap.addAttribute("searchVO", searchVO);
         
-        return "board/BoardReadTest";
+        return "board/BoardReadScroll";
     }    
     
     
@@ -455,5 +455,13 @@ public class BoardController {
 
         return "daumeditor/editor_frame";
     }    
+    
+    // 이미지 첨부 팝업 
+    @RequestMapping(value = "/imagePopup.do") 
+    public String imagePopup() { 
+    	
+    	return "daumeditor/image"; 
+    }
+
     
 }

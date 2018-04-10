@@ -101,9 +101,8 @@ function fn_replyUpdateCancel(){
 			<tr>
 				<td height="522">
 					<div class="container">
-					<div class="col-md-8 col-md-offset-2">
-					<div class="well">			
-							<table class="table table-striped" >
+					<div class ="well">		
+							<table class="table table-bordered" >
 								<tbody>
 									<tr>
 										<td>작성자</td> 
@@ -115,7 +114,7 @@ function fn_replyUpdateCancel(){
 									</tr>
 									<tr>
 										<td>내용</td> 
-										<td><textarea rows="10" cols="90" readonly><c:out value="${boardInfo.brdmemo}" escapeXml="false"/></textarea></td> 
+										<td><c:out value="${boardInfo.brdmemo}" escapeXml="false"/></td> 
 									</tr>
 									<tr>
 										<td>첨부파일</td> 
@@ -143,15 +142,21 @@ function fn_replyUpdateCancel(){
 							<p>&nbsp;</p>
 							</div>
 							<!-- 댓글부분 -->
-							<div style="border: 1px solid; width: 600px; padding: 5px">
-								<form name="form1" action="boardReplySave.do" method="post">
-									<input type="hidden" name="brdno" value="<c:out value="${boardInfo.brdno}"/>"> 
-									작성자: <input type="text"  name="rewriter" size="20" maxlength="20" readonly="readonly" style="background-color:transparent;border:0px "  value="<c:out value="${sessionScope.name}"/>"> <br/>
-									<textarea name="rememo" rows="3" cols="60" maxlength="500" placeholder="댓글을 달아주세요."></textarea>
-									<a class="btn btn-xs" href="#" onclick="fn_formSubmit()">저장</a>
-									<a><input type="hidden" name="reg_id" value ="<c:out value="${sessionScope.id}"/>"></a>
-								</form>
-							</div>
+							<c:choose>
+							    <c:when test="${sessionScope.id == boardInfo.reg_id || sessionScope.id == 'admin'}">							
+								<div style="border: 1px solid; width: 600px; padding: 5px">
+									<form name="form1" action="boardReplySave.do" method="post">
+										<input type="hidden" name="brdno" value="<c:out value="${boardInfo.brdno}"/>"> 
+										작성자: <input type="text"  name="rewriter" size="20" maxlength="20" readonly="readonly" style="background-color:transparent;border:0px "  value="<c:out value="${sessionScope.name}"/>"> <br/>
+										<textarea name="rememo" rows="3" cols="60" maxlength="500" placeholder="댓글을 달아주세요."></textarea>
+										<a class="btn btn-xs" href="#" onclick="fn_formSubmit()">저장</a>
+										<a><input type="hidden" name="reg_id" value ="<c:out value="${sessionScope.id}"/>"></a>
+									</form>
+								</div>
+							    </c:when>
+							    <c:otherwise>
+							    </c:otherwise>
+							</c:choose>									
 							<c:forEach var="replylist" items="${replylist}" varStatus="status">
 								<div >	
 									<c:out value="${replylist.rewriter}"/> <c:out value="${replylist.redate}"/>
@@ -178,9 +183,8 @@ function fn_replyUpdateCancel(){
 									<a href="#" onclick="fn_replyUpdateCancel()">취소</a>
 									<a><input type="hidden" name="reg_id" value ="<c:out value="${sessionScope.id}"/>"></a>
 								</form>
-							</div>		
-						</div>
-						</div>				
+							</div>	
+						</div>			
 				</td>
 			</tr>
 			<tr>
