@@ -17,3 +17,5 @@
 	.tx-content-container button { background-color:transparent; border:none; padding:0; text-align:left; margin:0; }
 	.tx-content-container button img { vertical-align:middle; }
 	
+	.tx-content-container img { max-width: 100%; }
+	

@@ -12,7 +12,9 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.web.multipart.MultipartFile;
-
+/**
+ * 프로필 사진을 처리하는 로직
+ */
 
 public class ImageUtil {
     /**

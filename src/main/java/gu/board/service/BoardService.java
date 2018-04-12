@@ -1,4 +1,4 @@
-package gu.board;
+package gu.board.service;
 
 import java.util.HashMap;
 import java.util.List;
@@ -12,6 +12,8 @@ import org.springframework.transaction.TransactionException;
 import org.springframework.transaction.TransactionStatus;
 import org.springframework.transaction.support.DefaultTransactionDefinition;
 
+import gu.board.BoardReplyVO;
+import gu.board.BoardVO;
 import gu.common.FileVO;
 import gu.common.SearchVO;
 
@@ -215,11 +217,6 @@ public class BoardService {
     public List<?> selectBoardReplyList(String param) {
         return sqlSession.selectList("selectBoardReplyList", param);
     }
- 
-    /*신 댓글리스트*/
-    public List<BoardReplyVO> selectBoardReplyListNew(Integer param) {
-        return sqlSession.selectList("selectBoardReplyList", param);
-    }    
     
     public void insertBoardReply(BoardReplyVO param) {
         if (param.getReno()==null || "".equals(param.getReno())) {

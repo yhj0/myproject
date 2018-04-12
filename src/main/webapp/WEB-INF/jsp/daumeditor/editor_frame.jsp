@@ -391,14 +391,8 @@
 			<textarea id="tx_canvas_text" rows="30" cols="30"></textarea>
 		</div>
 	</div>
-					<!-- 높이조절 Start -->
-	<div id="tx_resizer" class="tx-resize-bar">
-		<div class="tx-resize-bar-bg"></div>
-		<img id="tx_resize_holder" src="daumeditor/images/icon/editor/skin/01/btn_drag01.gif" width="58" height="12" unselectable="on" alt="" />
-	</div>
 					<div class="tx-side-bi" id="tx_side_bi">
 		<div style="text-align: right;">
-			<img hspace="4" height="14" width="78" align="absmiddle" src="daumeditor/images/icon/editor/editor_bi.png" />
 		</div>
 	</div>
 <!-- 편집영역 끝 -->
@@ -454,7 +448,7 @@
 					popPageUrl:'${pageContext.request.contextPath}/imagePopup.do' //팝업창 주소 
 					} 
 			},
-			// 이미지첨부 관련 추가 config 
+			
 		},
 		size: {
 			contentWidth: 700 /* 지정된 본문영역의 넓이가 있을 경우에 설정 */
