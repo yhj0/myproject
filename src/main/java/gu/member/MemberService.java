@@ -25,18 +25,19 @@ public class MemberService {
 	
     /*회원정보 조회*/    
     public MemberVO selectMemberOne(String param) {
+    	
         return sqlSession.selectOne("selectMemberOne", param);
     }     
     
     /**
      * 회원가입
      */
-    public boolean insertMember(MemberVO param, List<ImageVO> imagelist, String[] imgno) {
+    public boolean insertMember(MemberVO param, List<ImageVO> imagelist) throws Exception {
         DefaultTransactionDefinition def = new DefaultTransactionDefinition();
         def.setPropagationBehavior(TransactionDefinition.PROPAGATION_REQUIRED);
         TransactionStatus status = txManager.getTransaction(def);
         
-        boolean result = false;
+        boolean result = true;
         
         try {
             sqlSession.insert("insertMember", param); 
@@ -48,13 +49,14 @@ public class MemberService {
                 sqlSession.insert("insertImage", f);
                 
             }
-            result = true;
+
             txManager.commit(status);
             
             
-        } catch (TransactionException ex) {
+        } catch (Exception e) {
             txManager.rollback(status);
-            System.out.println("데이터 저장 오류: " + ex.toString());
+            System.out.println("데이터 저장 오류: " + e.toString());
+            throw e;
         }
 		return result;            
     }	
@@ -62,12 +64,12 @@ public class MemberService {
     /**
      * 회원정보수정
      */
-    public boolean updateMember(MemberVO param, List<ImageVO> imagelist, String[] imgno) {
+    public boolean updateMember(MemberVO param, List<ImageVO> imagelist) {
         DefaultTransactionDefinition def = new DefaultTransactionDefinition();
         def.setPropagationBehavior(TransactionDefinition.PROPAGATION_REQUIRED);
         TransactionStatus status = txManager.getTransaction(def);
         
-        boolean result = false;
+        boolean result = true;
         
         try {
         	//회원정보수정
@@ -80,7 +82,7 @@ public class MemberService {
                 sqlSession.update("updateImage", f);
                 
             }
-            result = true;
+            
             txManager.commit(status);
             
             

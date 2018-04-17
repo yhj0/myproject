@@ -10,6 +10,7 @@ import java.util.List;
 
 import javax.servlet.http.HttpSession;
 
+import org.apache.commons.lang3.RandomStringUtils;
 import org.springframework.web.multipart.MultipartFile;
 
 public class FileUtil2 {
@@ -23,7 +24,7 @@ public class FileUtil2 {
             if (uploadfile.getSize() == 0) {
                 return fileInfo;
             }
-            String defaultPath ="C:\\Users\\SJICT04\\git\\board_sample\\src\\main\\webapp\\upload_img\\";  // 서버기본경로 (프로젝트 폴더 아님)
+            String defaultPath ="C:\\web_project\\worksplace\\.metadata\\.plugins\\org.eclipse.wst.server.core\\tmp1\\wtpwebapps\\board\\upload_img\\";  // 서버기본경로 (프로젝트 폴더 아님)
             //String path = defaultPath + File.separator + "upload" + File.separator + "board" + File.separator + "images" + File.separator + "";
             
             String modifyName = getNewName(uploadfile);
@@ -99,7 +100,8 @@ public class FileUtil2 {
         String originalName = uploadfile.getOriginalFilename(); // 실제 파일명
         String originalNameExtension = originalName.substring(originalName.lastIndexOf(".") + 1).toLowerCase(); // 실제파일 확장자 (소문자변경)
         SimpleDateFormat ft = new SimpleDateFormat("yyyyMMddhhmmssSSS");
-        return ft.format(new Date()) + "." + originalNameExtension;
+        return ft.format(new Date()) + RandomStringUtils.random(5,33,125,true,true).toString()+ "." + originalNameExtension;
+        
     }
     
     public String getFileExtension(String filename) {

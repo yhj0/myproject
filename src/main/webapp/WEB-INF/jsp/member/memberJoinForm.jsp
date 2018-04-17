@@ -12,6 +12,42 @@
 <script src="js/bootstrap.js"></script>
 
 <script>
+
+// 기본값 체크
+function fn_validation() { 
+
+	var formMember = document.formMember;
+	
+	if (formMember.id.value=="") {
+		alert("ID를 입력해주세요.");
+		formMember.id.focus();
+		return;
+	}
+	if (formMember.password.value=="") {
+		alert("비밀번호를 입력해주세요.");
+		formMember.password.focus();
+		return;
+	}
+	if (formMember.name.value=="") {
+		alert("이름을 입력해주세요.");
+		formMember.name.focus();
+		return;
+	}
+	if (formMember.nick_name.value=="") {
+		alert("닉네임을 입력해주세요.");
+		formMember.nick_name.focus();
+		return;
+	}	
+	if (formMember.email.value=="") {
+		alert("이메일을 입력해주세요.");
+		formMember.email.focus();
+		return;
+	}		
+	
+	formMember.submit();
+}
+
+
 // 기본값 체크
 function fn_formSubmit(){
 	var formMember = document.formMember;
@@ -65,7 +101,7 @@ function fn_formSubmit(){
 		                    }
 		                }
 		            }); //비동식 ajax DB접근
-  	});
+  		});
 	  	
 //비밀번호
 	    $('#password').focusout(function(){
@@ -103,8 +139,7 @@ function fn_formSubmit(){
             	$('#joinMember').attr("disabled", false); //회원가입버튼 활성화
 	    	} 
 	  });	
-
-	  	
+	  	  
 });	  
 </script>
 
@@ -221,7 +256,7 @@ var ext = path.substring(path.lastIndexOf('.') + 1).toLowerCase();
 								</div>
 								<div class="form-group" >
 									<div align="center">
-										<button type="button" class="btn btn-lg btn-success " id="joinMember" onclick="fn_formSubmit()">회원가입</button>
+										<button type="button" class="btn btn-lg btn-success" id="joinMember" onclick="fn_validation()" >회원가입</button>
 									</div>
 								</div>
 						</form>	

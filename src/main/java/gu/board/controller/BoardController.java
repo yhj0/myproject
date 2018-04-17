@@ -406,13 +406,12 @@ public class BoardController {
     }  
     
 
-    /* 신 소비자 경험===================================================================== */
+    /* 스크롤 소비자 경험===================================================================== */
     @RequestMapping(value = "/consumerList.do")
     public String consumerList(SearchVO searchVO, ModelMap modelMap) throws Exception{
 
         List<?> listview  = boardservice.selectBoardOneNew(searchVO);
-        
-        
+ 
         modelMap.addAttribute("listview", listview);
         modelMap.addAttribute("searchVO", searchVO);
         
@@ -459,7 +458,7 @@ public class BoardController {
     
     //이미지 첨부파일
    @RequestMapping(value = "/uploadImageAjax.do", method = RequestMethod.POST) 
-    public @ResponseBody HashMap uploadImageAjax(@RequestParam("Filedata") MultipartFile multipartFile, HttpServletRequest request, BoardVO boardInfo, HttpSession httpSession) throws Exception{
+    public @ResponseBody HashMap uploadImageAjax(@RequestParam("Filedata") MultipartFile multipartFile,HttpSession httpSession) throws Exception{
 	   
             FileUtil2 fs = new FileUtil2();
 

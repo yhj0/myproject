@@ -97,7 +97,7 @@ $(window).scroll(function(){ // ① 스크롤 이벤트 최초 발생
                                 +				"<td>" + "</td>"
                                 +       	"</tr>" 
                                 +			"<td colspan="+"'2'"+ "align="+"'right'"+">"
-                                +			"<a href="+"'#'"+ "onclick="+"'fn_reply('"+this.brdno+"')>댓글 "+ this.replycnt + "개</a>"
+                                +			"<a href="+"boardRead.do?brdno="+ this.brdno +">댓글 "+ this.replycnt + "개</a>"
 								+			"&nbsp;&nbsp;좋아요 "+ this.brdlike+"개</td>" 
 								+			"</tr>"
 								+			"<tr id="+"'showComment'"+">"
@@ -145,7 +145,7 @@ $(window).scroll(function(){ // ① 스크롤 이벤트 최초 발생
 						    <br>
 						</c:when>
 						<c:otherwise>
-						&nbsp;<a class="btn btn-info" href="noticeForm.do">글쓰기</a>
+						&nbsp;<a class="btn btn-info" href="boardForm.do?brdno=''">글쓰기</a>
 						</c:otherwise>
 					</c:choose>			
 				</td>
@@ -195,7 +195,7 @@ $(window).scroll(function(){ // ① 스크롤 이벤트 최초 발생
 															</tr>
 															<tr>
 																<td>첨부파일</td> 
-																<td></td> 
+																<td><c:out value="${listview.filename}"/>(<c:out value="${listview.filesize}"/>)</td> 
 															</tr>
 															<tr>
 																<td colspan="2" align="right" >

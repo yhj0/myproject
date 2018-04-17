@@ -72,19 +72,19 @@ function setForm(editor) {
 	    $("#brdmemo").val(content)
 
         /* 이미지값 저장 */
-        var images = editor.getAttachments('image');
-        for (i = 0; i < images.length; i++) {
+        //var images = editor.getAttachments('image');
+        //for (i = 0; i < images.length; i++) {
             // existStage는 현재 본문에 존재하는지 여부
-            if (images[i].existStage) {
+        //    if (images[i].existStage) {
                 // data는 팝업에서 execAttach 등을 통해 넘긴 데이터
-                alert('attachment information - image[' + i + '] \r\n' + JSON.stringify(images[i].data));
-                input = document.createElement('input');
-                input.type = 'hidden';
-                input.name = 'attach_image';
-                input.value = images[i].data.imageurl;  // 예에서는 이미지경로만 받아서 사용
-                form.createField(input);
-            }
-        }    
+        //        alert('attachment information - image[' + i + '] \r\n' + JSON.stringify(images[i].data));
+        //        input = document.createElement('input');
+        //        input.type = 'hidden';
+        //        input.name = 'attach_image';
+        //        input.value = images[i].data.imageurl;  // 예에서는 이미지경로만 받아서 사용
+        //        form.createField(input);
+        //    }
+        //}    
     
     return true;
 }

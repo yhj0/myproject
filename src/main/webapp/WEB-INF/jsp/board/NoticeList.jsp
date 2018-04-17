@@ -50,7 +50,6 @@ function fn_formSubmit(){
 			</tr>
 			<tr>
 				<td align="left"  >
-									<a><c:out value="${sessionScope.id}"/></a>
 					<c:choose>
 						<c:when test="${sessionScope.id == null}">
 						    <br>

@@ -13,6 +13,7 @@ public class BoardReplyVO {
     private String chg_id;
     private String chg_dttm;
     
+    
     public String getBrdno() {
         return brdno;
     }

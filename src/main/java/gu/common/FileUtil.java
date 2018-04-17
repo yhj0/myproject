@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import org.apache.commons.lang3.RandomStringUtils;
 import org.springframework.web.multipart.MultipartFile;
 
 public class FileUtil {
@@ -72,8 +73,8 @@ public class FileUtil {
      * 날짜로 새로운 파일명 부여.
      */
     public String getNewName() {
-        SimpleDateFormat ft = new SimpleDateFormat("yyyyMMddhhmmssSSS");
-        return ft.format(new Date()) + (int) (Math.random() * 10);
+        SimpleDateFormat ft = new SimpleDateFormat("yyyyMMddhhmmss");
+        return ft.format(new Date()) +  RandomStringUtils.random(5,33,125,true,true).toString();
     }
     
     public String getFileExtension(String filename) {

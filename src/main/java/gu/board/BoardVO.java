@@ -23,6 +23,8 @@ public class BoardVO {
     private String chg_id;
     private String chg_dttm;
     private String brdlike;
+    private String filename;
+    private long filesize;    
     
     /* 첨부파일 */
     private List<MultipartFile> uploadfile;
@@ -172,4 +174,20 @@ public class BoardVO {
 	}
 
 
+	public String getFilename() {
+		return filename;
+	}
+
+	public void setFilename(String filename) {
+		this.filename = filename;
+	}
+
+	public long getFilesize() {
+		return filesize;
+	}
+
+	public void setFilesize(long filesize) {
+		this.filesize = filesize;
+	}
+	
 }

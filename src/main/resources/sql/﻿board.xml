@@ -469,11 +469,14 @@
 				, TB.CHG_DTTM 
           	 	,(SELECT COUNT(*) FROM TBL_BOARDREPLY WHERE BRDNO=TB.BRDNO AND REDELETEFLAG='N') REPLYCNT
           		, IFNULL(TB.BRDLIKE,0) BRDLIKE
-          FROM TBL_BOARD TB
+	          	, TF.FILENAME 
+	          	, TF.FILESIZE
+          FROM TBL_BOARD TB LEFT OUTER JOIN TBL_BOARDFILE TF 
+          ON TB.BRDNO = TF.BRDNO
          WHERE 1=1 
 	         AND TB.BRDDELETEFLAG='N'
          ORDER BY TB.BRDNO DESC 
-           LIMIT  10              
+           LIMIT  10                    
     </select>
 
     <select id="test2" resultType="gu.board.BoardVO">

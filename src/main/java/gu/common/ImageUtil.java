@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 import org.springframework.web.multipart.MultipartFile;
 /**
@@ -26,7 +27,7 @@ public class ImageUtil {
     	String fileName = request.getParameter("filename");
     	String fileSize = request.getParameter("filesize");
     	
-    	String filePath = "C:\\Users\\SJICT04\\git\\board_sample\\src\\main\\webapp\\upload_img\\"; 
+    	String filePath = "C:\\web_project\\worksplace\\.metadata\\.plugins\\org.eclipse.wst.server.core\\tmp1\\wtpwebapps\\board\\upload_img\\"; 
         List<ImageVO> Imagelist = new ArrayList<ImageVO>();
         
         for (MultipartFile uploadfile : upfiles ) {
@@ -39,7 +40,7 @@ public class ImageUtil {
                 
                 long fsize = 0; 
                 //원본위치
-                FileInputStream  org_file = new FileInputStream("C:\\Users\\SJICT04\\git\\board_sample\\src\\main\\webapp\\upload_img\\basic.jpg");
+                FileInputStream  org_file = new FileInputStream("C:\\web_project\\worksplace\\.metadata\\.plugins\\org.eclipse.wst.server.core\\tmp1\\wtpwebapps\\board\\upload_img\\basic.jpg");
                 //복사될 곳
                 FileOutputStream  new_file = new FileOutputStream(serverFullPath);
                 
@@ -106,9 +107,9 @@ public class ImageUtil {
         if (file == null || file.getName().equals("") || file.getSize() < 1) {
             return null;
         }
-     
+        
         makeBasePath(basePath);
-        String serverFullPath = basePath + fileName;
+        String serverFullPath =  basePath + fileName;
   
         File file1 = new File(serverFullPath);
         try {
