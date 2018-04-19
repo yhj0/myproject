@@ -47,8 +47,17 @@ public class MemberController {
     	
         if (id != null) {
             MemberVO memberInfo = memberService.selectMemberOne(id);
-        
+            
+            //이메일 @를 구분하여 보이기
+            String email= memberInfo.getEmail();
+            int idx = email.indexOf("@");
+            
+            String email_1 = email.substring(0, idx);
+            String email_2 = email.substring(idx+1);		
+            
             modelMap.addAttribute("memberInfo", memberInfo);
+            modelMap.put("email_1", email_1);
+            modelMap.put("email_2", email_2);
         }
         
         return "member/memberMypage";

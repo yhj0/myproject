@@ -42,37 +42,24 @@ public class BoardController {
     	
     	String boardtype =  StringUtils.defaultString((String)request.getParameter("boardtype"),"");
     	
-    	System.out.println("++++++++++++++++++++++++++boardtype:"+boardtype);
-    	
     	//보안코딩 변수가 앞으로
     	//소비자경험
-    	if("consumer".equals(boardtype)) 
-    	{
 			String brdno = request.getParameter("brdno");
-			
-	        List<?> listview  = boardservice.selectConsumerListMain(brdno);
-	            
-	        modelMap.addAttribute("listview", listview);
-    	}
+	        List<?> consumerList  = boardservice.selectConsumerListMain(brdno);
+	        System.out.println("++++++++++++++++++++++++++boardtype:1"+boardtype);
+	        modelMap.addAttribute("consumerList", consumerList);
+	        
     	//이슈
-    	else if("issue".equals(boardtype))
-    	{
-			String brdno = request.getParameter("brdno");
-			
-	        List<?> listview  = boardservice.selectIssueListMain(brdno);
-	            
-	        modelMap.addAttribute("listview", listview);
-    	}
-    	else
-    	{
-			String brdno = request.getParameter("brdno");
-			
-	        List<?> listview  = boardservice.selectNoticeListMain(brdno);
-	            
-	        modelMap.addAttribute("listview", listview);
+	        List<?> issueList  = boardservice.selectIssueListMain(brdno);  
+	        System.out.println("++++++++++++++++++++++++++boardtype:2"+boardtype);
+	        modelMap.addAttribute("issueList", issueList);
+	        
+	    //공지사항
+	        List<?> noticeList  = boardservice.selectNoticeListMain(brdno);  
+	        System.out.println("++++++++++++++++++++++++++boardtype:3"+boardtype);
+	        modelMap.addAttribute("noticeList", noticeList);
           	  		
-    	}
-      	return "board/home";  
+      	return "board/home_test";  
     }	 
     
     /**
@@ -349,7 +336,7 @@ public class BoardController {
         
         boardservice.deleteBoardOne(brdno);
         
-        return "redirect:/boardList.do";
+        return "redirect:/consumerList.do";
     }
     
     /*최근이슈*/

@@ -1,0 +1,83 @@
+
+@import "reset.css";
+#accessibility{position:relative}
+#accessibility a{display:block;width:1px;height:1px;margin-bottom:-1px;overflow:hidden;text-align:center;color:#000;white-space:nowrap}
+#accessibility a:focus,
+#accessibility a:active{position:absolute;height:auto;width:100%;padding:5px;margin-bottom:10px;background:#fff;z-index:9999}
+.skip, hr, legend{position:absolute;left:-5000px;overflow:hidden;width:1px;height:1px;padding:0;margin-top:-1px;font-size:0;line-height:0}
+caption{overflow:hidden;width:1px;height:1px;height:0;padding:0;margin-top:-1px;font-size:0;line-height:0;text-indent:-10000px}
+/* CLEAR FIX*/
+.clearfix:after{content:".";display:block;height:0;clear:both;visibility:hidden}
+.clearfix{display:inline-block}
+/* Hides from IE-mac \*/
+* html .clearfix{height:1%}
+.clearfix{display:block}
+/* End hide from IE-mac */
+html{overflow-y:scroll}
+html, body{height:100%}
+body{-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale}
+body{font-size:16px;font-family:'NanumGothic',sans-serif}
+body, th, td, input, select, textarea, button{font-size:16px;color:#888}
+h1, h2, h3, h4, h5, h6{line-height:100%;font-family:'NanumBarunGothicBold',sans-serif;font-weight:normal}
+input[type="text"],
+input[type="password"]{height:38px;padding:0 14px;border:1px solid #d6d6d6}
+/*form*/
+.select-box{position:relative;display:inline-block;height:38px;background:#fff url(../images/arr_select.png) no-repeat 100% 50%;border: 1px solid #d6d6d6;box-sizing:border-box;vertical-align:middle}
+.select-box label{position:absolute;font-size:14px;color:#919191;top:0;left:12px;letter-spacing:1px;line-height:36px}
+.select-box select{width:100%;height:36px;min-height:36px;line-height:36px;padding: 0 36px 0 10px;opacity:0;filter:alpha(opacity=0);box-sizing:border-box}
+.select-box-wht{position:relative;display:inline-block;height:45px;background: url(../images/arr_select_w.png) no-repeat 100% 50%;border:1px solid rgba(255,255,255,0.3);box-sizing:border-box;vertical-align:middle}
+.select-box-wht label{position:absolute;font-size:14px;color:#fff;top:0;left:12px;height:44px;line-height:44px}
+.select-box-wht select{width:100%;height:44px;min-height:44px;line-height:44px;padding: 0 36px 0 10px;opacity:0;filter:alpha(opacity=0);box-sizing:border-box}
+.sel_date{display:inline-block;width:170px;height:38px;padding:0 36px 0 10px;background:#fff url(../images/arr_select.png) no-repeat 100% 50%;border: 1px solid #d6d6d6;box-sizing:border-box;vertical-align:middle}
+.sel_area{width:150px}
+.sel_room{width:100px}
+.checks{display:inline-block;vertical-align:middle;position:relative;}
+.checks input{position:absolute;top:50%;left:50%;width:1px;height:1px;padding:0;margin:-1px;border:0;background-color:transparent;display:none}
+.checks label{display:inline-block;position:relative;cursor:pointer;line-height:19px;vertical-align:middle;height:19px}
+.checks input+label{padding-left:23px}
+.checks input+label:before{content:'';position:absolute;left:0;top:0;width:19px;height:19px;line-height:19px;box-sizing:border-box}
+.checks input[type="checkbox"] + label:before{background:#fff url(../images/ico_checkbox.png) no-repeat 0 0}
+.checks input[type="checkbox"]:checked + label:before{background-position:0 100%}
+.checks input[type="radio"] + label:before{background:#fff url(../images/ico_radio.png) no-repeat 0 0}
+.checks input[type="radio"]:checked + label:before{background-position:0 100%}
+.checks.sm label{line-height:14px;color:#898989;height:14px}
+.checks.sm input+label{padding-left:20px}
+.checks.sm input+label:before{content:'';position:absolute;left:0;top:0;width:14px;height:14px;line-height:14px}
+.checks.sm input[type="checkbox"] + label:before{background:#fff url(../images/ico_checkbox_s.png) no-repeat 0 0}
+.checks.sm input[type="checkbox"]:checked + label:before{background-position:0 100%}
+.checks.notx input+label{padding-left:19px}
+.checks.sm.notx input+label{padding-left:14px;width:14px;height:14px}
+.input-wp1, .input-wp2{display:inline-block;vertical-align:middle}
+.input-wp1 .checks{margin-right:15px}
+.input-wp2 .checks{margin-right:30px}
+.ipt_full{width:100%}
+.ipt_half{width:400px}
+.ipt_point[type="text"]{width:100px;height:30px}
+.ipt_quota{width:160px}
+.ipt_secret{width:585px;margin-right:20px}
+
+/**/
+.hColor1{color:#282c6b !important}
+.hColor2{color:#ff5857 !important}
+.hColor3{color:#2a92d4 !important}
+.hTy1{font-size:26px;color:#333;font-weight:500}
+.hTy2{font-size:22px;color:#333;font-weight:500}
+.hTy3{font-size:20px;color:#333;font-weight:500}
+.hTy4{font-size:18px;color:#333;font-weight:500}
+.hTy5{font-size:16px;color:#333;font-weight:500}
+.mg3{margin:3px}
+.mgT05{margin-top:5px}
+.mgT1{margin-top:10px}
+.mgT2{margin-top:20px}
+.mgT3{margin-top:30px}
+.mgT4{margin-top:40px}
+.mgB2{margin-bottom:20px}
+.mgB3{margin-bottom:30px}
+.mgL2{margin-left:20px}
+.fL{float:left !important}
+.fR{float:right !important}
+.agL{text-align:left}
+.agC{text-align:center}
+.agR{text-align:right}
+
+.btn-more{display:inline-block;width:36px;height:36px;background:#fff url(../images/ico_plus.png) no-repeat 50% 50%;border-radius:100%;font-size:0;vertical-align:middle}

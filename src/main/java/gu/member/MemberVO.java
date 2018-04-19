@@ -11,8 +11,9 @@ public class MemberVO {
     private String name; 
     private String nick_name; 
     private String email;
+    private String email_1;
+    private	String email_2;
     private String reg_dttm;
-    
     private String filename;
    
     /* 프로필이미지 */
@@ -69,5 +70,17 @@ public class MemberVO {
 	public void setFilename(String filename) {
 		this.filename = filename;
 	}
-
+	public String getEmail_1() {
+		return email_1;
+	}
+	public void setEmail_1(String email_1) {
+		this.email_1 = email_1;
+	}
+	public String getEmail_2() {
+		return email_2;
+	}
+	public void setEmail_2(String email_2) {
+		this.email_2 = email_2;
+	}
+	
 }

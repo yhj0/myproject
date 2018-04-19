@@ -139,11 +139,16 @@ function fn_replyUpdateCancel(){
 							    	<br>
 							    </c:otherwise>
 							</c:choose>		
-							<p>&nbsp;</p>
+								<div align="right">
+									<a>좋아요 1개</a>
+								</div>
+								<div align="center">
+									<a class="btn btn-default btn-sm" href="#" >좋아요</a>
+								</div>
 							</div>
 							<!-- 댓글부분 -->
 							<c:choose>
-							    <c:when test="${sessionScope.id == boardInfo.reg_id || sessionScope.id == 'admin'}">							
+							    <c:when test="${sessionScope.id ne null || sessionScope.id == 'admin'}">							
 								<div style="border: 1px solid; width: 600px; padding: 5px">
 									<form name="form1" action="boardReplySave.do" method="post">
 										<input type="hidden" name="brdno" value="<c:out value="${boardInfo.brdno}"/>"> 

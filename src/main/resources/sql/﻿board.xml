@@ -38,43 +38,43 @@
     <select id="selectNoticeListMain" resultType="gu.board.BoardVO" parameterType="gu.common.SearchVO">
 		SELECT A.* FROM(
 			SELECT @ROWNUM := @ROWNUM + 1 AS NUM, BRDNO, BRDTYPE, BRDTITLE, BRDWRITER, DATE_FORMAT(BRDDATE,'%Y.%m.%d') BRDDATE, BRDHIT
-			             , (SELECT COUNT(*) FROM TBL_BOARDFILE WHERE BRDNO=TB.BRDNO) FILECNT
-			             , (SELECT COUNT(*) FROM TBL_BOARDREPLY WHERE BRDNO=TB.BRDNO AND REDELETEFLAG='N') REPLYCNT
-			             , REG_ID , REG_DTTM, CHG_ID, CHG_DTTM
+						 , BRDMEMO, REG_ID , REG_DTTM, CHG_ID, CHG_DTTM  
+						 , NOTICE_FLAG1 , NOTICE_FLAG2 , NOTICE_FLAG3 ,NOTICE_FLAG4
 			          FROM TBL_NOTICE TB,
 			           (SELECT @ROWNUM := 0) R
 			        WHERE BRDDELETEFLAG='N'
+			         AND (NOTICE_FLAG1 = 'Y' OR NOTICE_FLAG2 = 'Y' OR NOTICE_FLAG3 = 'Y' OR NOTICE_FLAG4 = 'Y')
 		        )A                
 		     ORDER BY A.NUM DESC 
-		     LIMIT 6
+		     LIMIT 4
     </select>
 
     <select id="selectConsumerListMain" resultType="gu.board.BoardVO" parameterType="gu.common.SearchVO">
 		SELECT A.* FROM(
 			SELECT @ROWNUM := @ROWNUM + 1 AS NUM, BRDNO, BRDTYPE, BRDTITLE, BRDWRITER, DATE_FORMAT(BRDDATE,'%Y.%m.%d') BRDDATE, BRDHIT
-			             , (SELECT COUNT(*) FROM TBL_BOARDFILE WHERE BRDNO=TB.BRDNO) FILECNT
-			             , (SELECT COUNT(*) FROM TBL_BOARDREPLY WHERE BRDNO=TB.BRDNO AND REDELETEFLAG='N') REPLYCNT
-			             , REG_ID , REG_DTTM, CHG_ID, CHG_DTTM
+						, BRDMEMO, REG_ID , REG_DTTM, CHG_ID, CHG_DTTM
+						, NOTICE_FLAG1 , NOTICE_FLAG2 , NOTICE_FLAG3 ,NOTICE_FLAG4
 			          FROM TBL_BOARD TB,
 			           (SELECT @ROWNUM := 0) R
 			        WHERE BRDDELETEFLAG='N'
+			        AND (NOTICE_FLAG1 = 'Y' OR NOTICE_FLAG2 = 'Y' OR NOTICE_FLAG3 = 'Y' OR NOTICE_FLAG4 = 'Y')
 		        )A                
 		     ORDER BY A.NUM DESC 
-		     LIMIT 6
+		     LIMIT 4
     </select>
 
     <select id="selectIssueListMain" resultType="gu.board.BoardVO" parameterType="gu.common.SearchVO">
 		SELECT A.* FROM(
 			SELECT @ROWNUM := @ROWNUM + 1 NUM, BRDNO, BRDTYPE, BRDTITLE, BRDWRITER, DATE_FORMAT(BRDDATE,'%Y.%m.%d') BRDDATE, BRDHIT
-			             , (SELECT COUNT(*) FROM TBL_BOARDFILE WHERE BRDNO=TB.BRDNO) FILECNT
-			             , (SELECT COUNT(*) FROM TBL_BOARDREPLY WHERE BRDNO=TB.BRDNO AND REDELETEFLAG='N') REPLYCNT
-			             , REG_ID , REG_DTTM, CHG_ID, CHG_DTTM
+							, BRDMEMO, REG_ID , REG_DTTM, CHG_ID, CHG_DTTM
+							, NOTICE_FLAG1 , NOTICE_FLAG2 , NOTICE_FLAG3 ,NOTICE_FLAG4
 			          FROM TBL_ISSUE TB,
 			           (SELECT @ROWNUM := 0) R
 			        WHERE BRDDELETEFLAG='N'
+			        AND (NOTICE_FLAG1 = 'Y' OR NOTICE_FLAG2 = 'Y' OR NOTICE_FLAG3 = 'Y' OR NOTICE_FLAG4 = 'Y')
 		        )A                
 		     ORDER BY A.NUM DESC 
-		     LIMIT 6
+		     LIMIT 4
     </select>
  
      <select id="selectNoticeList" resultType="gu.board.BoardVO" parameterType="gu.common.SearchVO">
@@ -467,8 +467,8 @@
 				, TB.REG_DTTM
 				, TB.CHG_ID
 				, TB.CHG_DTTM 
-          	 	,(SELECT COUNT(*) FROM TBL_BOARDREPLY WHERE BRDNO=TB.BRDNO AND REDELETEFLAG='N') REPLYCNT
-          		, IFNULL(TB.BRDLIKE,0) BRDLIKE
+          	 	, (SELECT COUNT(*) FROM TBL_BOARDREPLY WHERE BRDNO=TB.BRDNO AND REDELETEFLAG='N') REPLYCNT 
+          		, (SELECT COUNT(*) FROM TBL_LIKES WHERE BRDNO = TB.BRDNO)BRDLIKE
 	          	, TF.FILENAME 
 	          	, TF.FILESIZE
           FROM TBL_BOARD TB LEFT OUTER JOIN TBL_BOARDFILE TF 
@@ -492,8 +492,8 @@
 				, TB.REG_DTTM
 				, TB.CHG_ID
 				, TB.CHG_DTTM 
-          	 	,(SELECT COUNT(*) FROM TBL_BOARDREPLY WHERE BRDNO=TB.BRDNO AND REDELETEFLAG='N') REPLYCNT
-          		, IFNULL(TB.BRDLIKE,0) BRDLIKE
+          	 	, (SELECT COUNT(*) FROM TBL_BOARDREPLY WHERE BRDNO=TB.BRDNO AND REDELETEFLAG='N') REPLYCNT
+          		, (SELECT COUNT(*) FROM TBL_LIKES WHERE BRDNO = TB.BRDNO)BRDLIKE
           FROM TBL_BOARD TB
          WHERE 1=1 
 	         AND TB.BRDDELETEFLAG='N'

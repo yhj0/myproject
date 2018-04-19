@@ -25,6 +25,10 @@ public class BoardVO {
     private String brdlike;
     private String filename;
     private long filesize;    
+    private String notice_flag1;
+    private String notice_flag2;
+    private String notice_flag3;
+    private String notice_flag4;
     
     /* 첨부파일 */
     private List<MultipartFile> uploadfile;
@@ -188,6 +192,38 @@ public class BoardVO {
 
 	public void setFilesize(long filesize) {
 		this.filesize = filesize;
+	}
+
+	public String getNotice_flag1() {
+		return notice_flag1;
+	}
+
+	public void setNotice_flag1(String notice_flag1) {
+		this.notice_flag1 = notice_flag1;
+	}
+
+	public String getNotice_flag2() {
+		return notice_flag2;
+	}
+
+	public void setNotice_flag2(String notice_flag2) {
+		this.notice_flag2 = notice_flag2;
+	}
+
+	public String getNotice_flag3() {
+		return notice_flag3;
+	}
+
+	public void setNotice_flag3(String notice_flag3) {
+		this.notice_flag3 = notice_flag3;
+	}
+
+	public String getNotice_flag4() {
+		return notice_flag4;
+	}
+
+	public void setNotice_flag4(String notice_flag4) {
+		this.notice_flag4 = notice_flag4;
 	}
 	
 }

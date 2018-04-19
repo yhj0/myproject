@@ -12,6 +12,30 @@
 <script src="js/bootstrap.js"></script>
 
 <script>
+$(document).ready(function() {
+	 if (formMember.email_2.value == 'etc') {
+		 $('#email_3').show();
+		 $('#email_3').focus();
+		 formMember.email_3.value ='';
+	 }
+	 else {
+		 $('#email_3').attr("readonly",true);
+	 }
+});
+
+//직접입력박스
+function fn_emailbox(){
+	 if (formMember.email_2.value == 'etc') {
+		 $('#email_3').show();
+		 $('#email_3').attr("readonly",false);
+		 $('#email_3').focus();
+		 formMember.email_3.value ='';
+	 }
+	 else {
+		 $('#email_3').hide();
+	 }
+}
+
 // 기본값 체크
 function fn_formSubmit(){
 	var formMember = document.formMember;
@@ -36,12 +60,26 @@ function fn_formSubmit(){
 		formMember.nick_name.focus();
 		return;
 	}	
-	if (formMember.email.value=="") {
+	if (formMember.email_1.value=="") {
 		alert("이메일을 입력해주세요.");
-		formMember.email.focus();
+		formMember.email_1.focus();
 		return;
-	}		
-	document.formMember.submit();	
+	}
+	
+	//이메일 직접입력 or 선택유무
+	if(formMember.email_2.value != 'etc')
+	{
+		
+		var e = formMember.email_1.value +"@"+formMember.email_2.value 
+		document.formMember.email.value = e;
+		document.formMember.submit();	
+	}
+	else
+	{
+		var e = formMember.email_1.value +"@"+formMember.email_3.value 
+		document.formMember.email.value = e;
+		document.formMember.submit();		
+	}
 } 
 
 	  	
@@ -112,7 +150,7 @@ function fn_formSubmit(){
 	    }  	  
 </script>
 
-<title>Insert title here</title>
+<title>회원정보수정</title>
 </head>
 
 <body>
@@ -182,20 +220,22 @@ function fn_formSubmit(){
 								 <div class="form-group">
 										<label class="col-sm-2 control-label">이메일</label>
 										<div class="col-sm-5">
-											<input type="text" class="form-control" id="email" name="email" placeholder="필수입력"  value="<c:out value="${memberInfo.email}"/>">
+											<input type="hidden" name = "email" value="">
+											<input type="text" class="form-control" id="email_1" name="email_1" placeholder="필수입력"  value="<c:out value="${email_1}"/>">
 										</div>
 										<div class="col-sm-1">
 										@
 										</div>
 										<div class="col-sm-3">
-										<select class ="form-control" id="selectEmail">
+											<select class ="form-control" name="email_2" onChange="fn_emailbox()">
 												<option value="" >선택하세요</option>
-												<option value="gmail.com" >gmail.com</option>
-												<option value="nate.com" >nate.com</option>
-												<option value="naver.com" >naver.com</option>
-												<option value="hanmail.com" >hanmail.com</option>
+												<option value="gmail.com" 	<c:if test="${email_2 eq 'gmail.com'}">selected</c:if> >gmail.com</option>
+												<option value="nate.com"  	<c:if test="${email_2 eq 'nate.com'}">selected</c:if> >nate.com</option>
+												<option value="naver.com" 	<c:if test="${email_2 eq 'naver.com' }">selected</c:if> >naver.com</option>
+												<option value="hanmail.com" <c:if test="${email_2 eq 'hanmail.com' }">selected</c:if> >hanmail.com</option>
 												<option value="etc">직접입력</option>
 											</select>
+											<input type="text" class="form-control" id="email_3" name="email_3" placeholder="필수입력" value="${email_2}" >
 										</div>
 								</div>
 								<div class="form-group" >

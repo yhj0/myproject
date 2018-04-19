@@ -1,0 +1,46 @@
+@charset "utf-8";
+
+@font-face {
+	font-family: 'NanumSquare';
+	src: local("☺");
+	src: url(../fonts/NanumSquareR.eot),
+	url(../fonts/NanumSquareR.woff) format('woff');
+}
+
+@font-face {
+	font-family: 'NanumSquareB';
+	src: local("☺");
+	src: url(../fonts/NanumSquareB.eot),
+	url(../fonts/NanumSquareB.woff) format('woff');
+}
+
+@font-face {
+	font-family:'NanumBarunGothic';
+	src: local("☺");
+	src: url(../fonts/NanumBarunGothic.eot),
+	url(../fonts/NanumBarunGothic.woff) format('woff');
+}
+
+@font-face {
+	font-family:'NanumBarunGothicBold';
+	src: local("☺");
+	src: url(../fonts/NanumBarunGothicBold.eot),
+	url(../fonts/NanumBarunGothicBold.woff) format('woff');
+}
+
+@font-face {
+	font-family:'NanumGothic';
+	src: local("☺");
+	src: url(./webfont/NanumGothic.eot),
+	url(../fonts/NanumGothic.eot?#iefix) format('embedded-opentype'),
+	url(../fonts/NanumGothic.woff) format('woff');
+}
+
+@font-face {
+	font-family:'NanumGothicBold';
+	font-weight:bold;
+	src: local("☺");
+	src: url(../fonts/NanumGothic-Bold.eot),
+	url(../fonts/NanumGothic-Bold.eot?#iefix) format('embedded-opentype'),
+	url(../fonts/NanumGothic-Bold.woff) format('woff');
+}

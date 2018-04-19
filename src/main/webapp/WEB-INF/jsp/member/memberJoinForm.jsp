@@ -12,6 +12,18 @@
 <script src="js/bootstrap.js"></script>
 
 <script>
+//직접입력박스
+function fn_emailbox(){
+	 if (formMember.email_2.value == 'etc') {
+		 $('#email_3').show();
+		 $('#email_3').attr("readonly",false);
+		 $('#email_3').focus();
+		 formMember.email_3.value ='';
+	 }
+	 else {
+		 $('#email_3').hide();
+	 }
+}
 
 // 기본값 체크
 function fn_validation() { 
@@ -38,49 +50,39 @@ function fn_validation() {
 		formMember.nick_name.focus();
 		return;
 	}	
-	if (formMember.email.value=="") {
+	if (formMember.email_1.value=="") {
 		alert("이메일을 입력해주세요.");
-		formMember.email.focus();
+		formMember.email_1.focus();
 		return;
 	}		
-	
-	formMember.submit();
+	//이메일 직접입력 or 선택유무
+	if(formMember.email_2.value != 'etc')
+	{	
+		var e = formMember.email_1.value +"@"+formMember.email_2.value 
+		document.formMember.email.value = e;
+		document.formMember.submit();	
+	}
+	else
+	{
+		var e = formMember.email_1.value +"@"+formMember.email_3.value 
+		document.formMember.email.value = e;
+		document.formMember.submit();		
+	}
 }
 
-
-// 기본값 체크
-function fn_formSubmit(){
-	var formMember = document.formMember;
-	
-	if (formMember.id.value=="") {
-		alert("ID를 입력해주세요.");
-		formMember.id.focus();
-		return;
-	}
-	if (formMember.password.value=="") {
-		alert("비밀번호를 입력해주세요.");
-		formMember.password.focus();
-		return;
-	}
-	if (formMember.name.value=="") {
-		alert("이름을 입력해주세요.");
-		formMember.name.focus();
-		return;
-	}
-	if (formMember.nick_name.value=="") {
-		alert("닉네임을 입력해주세요.");
-		formMember.nick_name.focus();
-		return;
-	}	
-	if (formMember.email.value=="") {
-		alert("이메일을 입력해주세요.");
-		formMember.email.focus();
-		return;
-	}		
-	document.formMember.submit();	
-} 
-
-  $(document).ready(function(){
+$(document).ready(function(){
+//이메일 박스
+		 if (formMember.email_2.value == 'etc') {
+			 $('#email_3').show();
+			 $('#email_3').focus();
+			 formMember.email_3.value ='';
+		 }
+		 else {
+			 $('#email_3').hide();
+			 $('#email_3').attr("readonly",true);
+			 
+		 }	  
+	  
 //중복ID 체크
 	  	$('#id').keyup(function(){
 		        	var id = $(this).val();
@@ -171,7 +173,7 @@ var ext = path.substring(path.lastIndexOf('.') + 1).toLowerCase();
  }   
 }  
 </script>
-<title>Insert title here</title>
+<title>회원가입</title>
 </head>
 
 <body>
@@ -238,20 +240,22 @@ var ext = path.substring(path.lastIndexOf('.') + 1).toLowerCase();
 								 <div class="form-group">
 										<label class="col-sm-2 control-label">이메일</label>
 										<div class="col-sm-5">
-											<input type="text" class="form-control" id="email" name="email" placeholder="필수입력"  value="<c:out value="${memberInfo.email}"/>">
+											<input type="hidden" name = "email" value="">
+											<input type="text" class="form-control" id="email_1" name="email_1" placeholder="필수입력"  value="${email_1}"/>
 										</div>
 										<div class="col-sm-1">
 										@
 										</div>
 										<div class="col-sm-3">
-										<select class ="form-control" id="selectEmail">
+											<select class ="form-control" name="email_2" id="email_2" onChange="fn_emailbox()">
 												<option value="" >선택하세요</option>
 												<option value="gmail.com" >gmail.com</option>
-												<option value="nate.com" >nate.com</option>
+												<option value="nate.com"  >nate.com</option>
 												<option value="naver.com" >naver.com</option>
 												<option value="hanmail.com" >hanmail.com</option>
 												<option value="etc">직접입력</option>
 											</select>
+											<input type="text" class="form-control" id="email_3" name="email_3" placeholder="필수입력" value="${email_2}" >
 										</div>
 								</div>
 								<div class="form-group" >
