@@ -14,7 +14,8 @@
 	            A.EMAIL AS EMAIL,
 	            A.REG_DTTM AS REG_DTTM,
 	            B.FILENAME AS FILENAME,
-	            B.REG_DTTM AS FILE_DTTM
+	            B.REG_DTTM AS FILE_DTTM,
+	            NOW() AS SYSDATE
 	        FROM TBL_MEMBER A, TBL_IMAGE B 
 	       WHERE 1=1
 			  	 AND A.ID = B.REG_ID 

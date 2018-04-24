@@ -16,21 +16,15 @@ caption{overflow:hidden;width:1px;height:1px;height:0;padding:0;margin-top:-1px;
 html{overflow-y:scroll}
 html, body{height:100%}
 body{-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale}
-body{font-size:16px;font-family:'NanumGothic',sans-serif}
+body{font-size:16px;font-family:'NanumBarunGothic',sans-serif;}
 body, th, td, input, select, textarea, button{font-size:16px;color:#888}
 h1, h2, h3, h4, h5, h6{line-height:100%;font-family:'NanumBarunGothicBold',sans-serif;font-weight:normal}
+button,textarea,input,select{box-sizing:border-box;font-size:15px}
 input[type="text"],
-input[type="password"]{height:38px;padding:0 14px;border:1px solid #d6d6d6}
+input[type="password"]{height:27px;padding:0 14px;border:1px solid #dbdbdb;line-height:25px;font-size:15px}
 /*form*/
-.select-box{position:relative;display:inline-block;height:38px;background:#fff url(../images/arr_select.png) no-repeat 100% 50%;border: 1px solid #d6d6d6;box-sizing:border-box;vertical-align:middle}
-.select-box label{position:absolute;font-size:14px;color:#919191;top:0;left:12px;letter-spacing:1px;line-height:36px}
-.select-box select{width:100%;height:36px;min-height:36px;line-height:36px;padding: 0 36px 0 10px;opacity:0;filter:alpha(opacity=0);box-sizing:border-box}
-.select-box-wht{position:relative;display:inline-block;height:45px;background: url(../images/arr_select_w.png) no-repeat 100% 50%;border:1px solid rgba(255,255,255,0.3);box-sizing:border-box;vertical-align:middle}
-.select-box-wht label{position:absolute;font-size:14px;color:#fff;top:0;left:12px;height:44px;line-height:44px}
-.select-box-wht select{width:100%;height:44px;min-height:44px;line-height:44px;padding: 0 36px 0 10px;opacity:0;filter:alpha(opacity=0);box-sizing:border-box}
-.sel_date{display:inline-block;width:170px;height:38px;padding:0 36px 0 10px;background:#fff url(../images/arr_select.png) no-repeat 100% 50%;border: 1px solid #d6d6d6;box-sizing:border-box;vertical-align:middle}
-.sel_area{width:150px}
-.sel_room{width:100px}
+.select{background:#fff url(../images/sel_arr.png) no-repeat 100% 50%;background-size:auto 100%;border:1px solid #cecece;height:27px;line-height:27px;padding:0 35px 0 12px;box-sizing:border-box;color:#999;border-radius:0;font-size:15px}
+.select:focus, .select.selected{outline:none;border:1px solid #9b9b9b}
 .checks{display:inline-block;vertical-align:middle;position:relative;}
 .checks input{position:absolute;top:50%;left:50%;width:1px;height:1px;padding:0;margin:-1px;border:0;background-color:transparent;display:none}
 .checks label{display:inline-block;position:relative;cursor:pointer;line-height:19px;vertical-align:middle;height:19px}
@@ -47,15 +41,6 @@ input[type="password"]{height:38px;padding:0 14px;border:1px solid #d6d6d6}
 .checks.sm input[type="checkbox"]:checked + label:before{background-position:0 100%}
 .checks.notx input+label{padding-left:19px}
 .checks.sm.notx input+label{padding-left:14px;width:14px;height:14px}
-.input-wp1, .input-wp2{display:inline-block;vertical-align:middle}
-.input-wp1 .checks{margin-right:15px}
-.input-wp2 .checks{margin-right:30px}
-.ipt_full{width:100%}
-.ipt_half{width:400px}
-.ipt_point[type="text"]{width:100px;height:30px}
-.ipt_quota{width:160px}
-.ipt_secret{width:585px;margin-right:20px}
-
 /**/
 .hColor1{color:#282c6b !important}
 .hColor2{color:#ff5857 !important}
@@ -79,5 +64,13 @@ input[type="password"]{height:38px;padding:0 14px;border:1px solid #d6d6d6}
 .agL{text-align:left}
 .agC{text-align:center}
 .agR{text-align:right}
-
+.full{width:100%}
 .btn-more{display:inline-block;width:36px;height:36px;background:#fff url(../images/ico_plus.png) no-repeat 50% 50%;border-radius:100%;font-size:0;vertical-align:middle}
+.btn{display:inline-block;box-sizing:border-box;background:#555;color:#fff;text-align:center}
+.large{min-width:120px;height:40px;font-size:15px;padding:10px;line-height:20px}
+.blue{background:#367eeb;color:#fff}
+.ico-file{display:inline-block;width:15px;height:19px;background:url(../images/ico_file.png) no-repeat 50% 50%;font-size:0;vertical-align:middle}
+.ico-file-link{display:inline-block;padding-left:25px;background:url(../images/ico_file.png) no-repeat 0 0;line-height:1.4;margin-right:20px}
+.fileBox .fileName{display:inline-block;width:220px;height:27px;padding-left:10px;margin-right:5px;line-height:25px;border:1px solid #dbdbdb;background-color:#fff;vertical-align:middle}
+.fileBox .btn_file{display:inline-block;background:#555;width:86px;height:27px;color:#fff;font-size:15px;line-height:27px;text-align:center;vertical-align:middle}
+.fileBox input[type="file"] {position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);border:0}

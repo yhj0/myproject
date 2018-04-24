@@ -2,6 +2,7 @@ package gu.common;
 
 public class FileVO {
     private Integer fileno; 
+    private String brdtype;
     private String parentPK;
     private String filename;
     private String realname;
@@ -32,7 +33,15 @@ public class FileVO {
         this.fileno = fileno;
     }
 
-    public String getParentPK() {
+    public String getBrdtype() {
+		return brdtype;
+	}
+
+	public void setBrdtype(String brdtype) {
+		this.brdtype = brdtype;
+	}
+
+	public String getParentPK() {
         return parentPK;
     }
     

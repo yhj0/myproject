@@ -10,6 +10,7 @@ public class LoginVO {
     private String nick_name;
     private String email;
     private Date reg_dttm;
+    private Date sysdate;
     
     private String filename;
     
@@ -56,11 +57,16 @@ public class LoginVO {
 	public void setFilename(String filename) {
 		this.filename = filename;
 	}
-	
+	public Date getSysdate() {
+		return sysdate;
+	}
+	public void setSysdate(Date sysdate) {
+		this.sysdate = sysdate;
+	}
 	@Override
 	public String toString() {
 		return "LoginVO [id=" + id + ", password=" + password + ", name=" + name + ", nick_name=" + nick_name
-				+ ", email=" + email + ", reg_dttm=" + reg_dttm + ", filename=" + filename + "]";
+				+ ", email=" + email + ", reg_dttm=" + reg_dttm + ",  sysdate=" + sysdate + ",filename=" + filename + "]";
 	} 
 
     

@@ -1,4 +1,5 @@
 @charset "utf-8";
+html, body, #wrap{height:100%}
 #wrap{min-width:1280px}
 .static{width:1200px;margin:0 auto;padding:0 40px}
 .header-top{text-align:right;border-bottom:1px solid #ddd;font-family:'NanumSquareB',sans-serif;font-size:14px}
@@ -47,6 +48,17 @@
 .srv-link-list .srv-link3{background:url(../images/ico_link3.png) no-repeat 0 50%}
 .srv-link-list .srv-link4{background:url(../images/ico_link4.png) no-repeat 0 50%}
 .srv-link-list .srv-link5{background:url(../images/ico_link5.png) no-repeat 0 50%}
+.main-section .sect1 .static{padding:40px 0}
+.srv-link-list{overflow:hidden}
+.srv-link-list li{float:left;position:relative;width:20%;text-align:center}
+.srv-link-list li:before{content:'';display:inline-block;position:absolute;top:50%;left:0;width:1px;height:60px;margin-top:-30px;background-color:#eee}
+.srv-link-list li:first-child:before{display:none}
+.srv-link-list li a{display:inline-block;padding:8px 0 8px 83px;font-family:'NanumSquareB',sans-serif;font-size:18px;color:#555;line-height:1.4;text-align:left}
+.srv-link-list .srv-link1{background:url(../images/ico_link1.png) no-repeat 0 50%}
+.srv-link-list .srv-link2{background:url(../images/ico_link2.png) no-repeat 0 50%}
+.srv-link-list .srv-link3{background:url(../images/ico_link3.png) no-repeat 0 50%}
+.srv-link-list .srv-link4{background:url(../images/ico_link4.png) no-repeat 0 50%}
+.srv-link-list .srv-link5{background:url(../images/ico_link5.png) no-repeat 0 50%}
 .main-section h3, .main-section .tx{text-align:center}
 .main-section h3{font-size:42px;font-family:'NanumBarunGothicBold',sans-serif;color:#367eeb}
 .main-section .tx{margin:15px 0 25px;font-size:20px;font-family:'NanumBarunGothic',sans-serif;color:#646464}
@@ -76,3 +88,6 @@
 .notices-list .con{padding:20px 0;min-height:134px;font-size:15px}
 .copyright{padding:35px 0 40px 218px;background:url(../images/foot_logo.png) no-repeat 0 50%}
 .copyright address, .copyright .copy{font-size:14px;line-height:1.5}
+#header{}
+#container{min-height:100%}
+#footer{border-top:1px solid #ddd}

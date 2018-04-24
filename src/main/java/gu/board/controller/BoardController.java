@@ -31,47 +31,54 @@ public class BoardController {
 
     @Autowired
     private BoardService boardservice;
+
     /**
-     * 메인으로 이동
-     */
+     * <ul>
+     * <li>제  목 : 메인페이지 조회</li>
+     * <li>설  명 : 메인페이지 조회하며 게시물중 메인홈에 나타낼 값도 조회한다.</li>
+     * <li>작성일 : 2018-04-19</li>
+     * <li>작성자 : 유형준</li>
+     * </ul>
+     *
+     * @author 유형준
+     */    
     @RequestMapping(value = "/home.do")
     public String home(HttpServletRequest request, ModelMap modelMap)  throws Exception{
 
-//    	 String boardtype = request.getParameter("boardtype");
+    	//String boardtype =  StringUtils.defaultString((String)request.getParameter("boardtype"),"");
     	
-    	
-    	String boardtype =  StringUtils.defaultString((String)request.getParameter("boardtype"),"");
-    	
-    	//보안코딩 변수가 앞으로
     	//소비자경험
 			String brdno = request.getParameter("brdno");
 	        List<?> consumerList  = boardservice.selectConsumerListMain(brdno);
-	        System.out.println("++++++++++++++++++++++++++boardtype:1"+boardtype);
 	        modelMap.addAttribute("consumerList", consumerList);
 	        
     	//이슈
 	        List<?> issueList  = boardservice.selectIssueListMain(brdno);  
-	        System.out.println("++++++++++++++++++++++++++boardtype:2"+boardtype);
+
 	        modelMap.addAttribute("issueList", issueList);
 	        
 	    //공지사항
 	        List<?> noticeList  = boardservice.selectNoticeListMain(brdno);  
-	        System.out.println("++++++++++++++++++++++++++boardtype:3"+boardtype);
 	        modelMap.addAttribute("noticeList", noticeList);
           	  		
-      	return "board/home_test";  
+      	return "board/home";  
     }	 
     
     /**
-     * 리스트.
-     */
-    
+     * <ul>
+     * <li>제  목 : 게시판 조회</li>
+     * <li>설  명 : 게시판을 조회한다</li>
+     * <li>작성일 : 2018-04-19</li>
+     * <li>작성자 : 유형준</li>
+     * </ul>
+     *
+     * @author 유형준
+     */   
     /* 공지사항===================================================================== */
     @RequestMapping(value = "/noticeList.do")
     public String noticeList(SearchVO searchVO, ModelMap modelMap) throws Exception{
-
+        System.out.println("xxxxxxxxxxxxxxxxxxxxxxxxxxxx:"+searchVO);
         searchVO.pageCalculate( boardservice.selectNoticeCount(searchVO) ); // startRow, endRow
-
         List<?> listview  = boardservice.selectNoticeList(searchVO);
         
         modelMap.addAttribute("listview", listview);
@@ -110,17 +117,25 @@ public class BoardController {
         return "board/IssueList";
     }        
     
-    /** 
-     * 글 쓰기. 
-     */
-    
+    /**
+     * <ul>
+     * <li>제  목 : 게시판 읽기</li>
+     * <li>설  명 : 게시판 읽기 기능을 수행한다</li>
+     * <li>작성일 : 2018-04-19</li>
+     * <li>작성자 : 유형준</li>
+     * </ul>
+     *
+     * @author 유형준
+     */  
     /* 공지사항===================================================================== */
     @RequestMapping(value = "/noticeForm.do")
     public String noticeForm(HttpServletRequest request, ModelMap modelMap) throws Exception{
         String brdno = request.getParameter("brdno");
+        
         if (brdno != null) {
             BoardVO boardInfo = boardservice.selectNoticeOne(brdno);
-            List<?> listview = boardservice.selectBoardFileList(brdno);
+            
+            List<?> listview = boardservice.selectNoticeFileList(brdno);
         
             modelMap.addAttribute("boardInfo", boardInfo);
             modelMap.addAttribute("listview", listview);
@@ -135,6 +150,7 @@ public class BoardController {
         String brdno = request.getParameter("brdno");
         if (brdno != null) {
             BoardVO boardInfo = boardservice.selectBoardOne(brdno);
+            
             List<?> listview = boardservice.selectBoardFileList(brdno);
             
             modelMap.addAttribute("boardInfo", boardInfo);
@@ -150,7 +166,8 @@ public class BoardController {
         String brdno = request.getParameter("brdno");
         if (brdno != null) {
             BoardVO boardInfo = boardservice.selectIssueOne(brdno);
-            List<?> listview = boardservice.selectBoardFileList(brdno);
+            
+            List<?> listview = boardservice.selectIssueFileList(brdno);
         
             modelMap.addAttribute("boardInfo", boardInfo);
             modelMap.addAttribute("listview", listview);
@@ -160,8 +177,15 @@ public class BoardController {
     }    
     
     /**
-     * 글 저장.
-     */
+     * <ul>
+     * <li>제  목 : 게시판 저장</li>
+     * <li>설  명 : 게시판을 저장한다</li>
+     * <li>작성일 : 2018-04-19</li>
+     * <li>작성자 : 유형준</li>
+     * </ul>
+     *
+     * @author 유형준
+     */  
     /*공지사항*/
     @RequestMapping(value = "/noticeSave.do")
     public String noticeSave(HttpServletRequest request, BoardVO boardInfo) throws Exception{
@@ -202,8 +226,15 @@ public class BoardController {
     }    
 
     /**
-     * 글 읽기.
-     */
+     * <ul>
+     * <li>제  목 : 메인홈에서 게시판 조회</li>
+     * <li>설  명 : 메인홈에서 게시된 게시판 조회한다. 처음 게시판분류값을 썼으나 현재사용하지않음</li>
+     * <li>작성일 : 2018-04-19</li>
+     * <li>작성자 : 유형준</li>
+     * </ul>
+     *
+     * @author 유형준
+     */  
     @RequestMapping(value = "/mainRead.do")
     public String mainRead(HttpServletRequest request, ModelMap modelMap) throws Exception{
     	
@@ -232,7 +263,7 @@ public class BoardController {
     	{
             boardservice.updateIssueRead(brdno);
             BoardVO boardInfo = boardservice.selectIssueOne(brdno);
-            List<?> listview = boardservice.selectBoardFileList(brdno);
+            List<?> listview = boardservice.selectIssueFileList(brdno);
             List<?> replylist = boardservice.selectBoardReplyList(brdno);
             
             modelMap.addAttribute("boardInfo", boardInfo);
@@ -245,7 +276,7 @@ public class BoardController {
     	{
             boardservice.updateNoticeRead(brdno);
             BoardVO boardInfo = boardservice.selectNoticeOne(brdno);
-            List<?> listview = boardservice.selectBoardFileList(brdno);
+            List<?> listview = boardservice.selectNoticeFileList(brdno);
             List<?> replylist = boardservice.selectBoardReplyList(brdno);
             
             modelMap.addAttribute("boardInfo", boardInfo);
@@ -268,7 +299,7 @@ public class BoardController {
         
         boardservice.updateNoticeRead(brdno);
         BoardVO boardInfo = boardservice.selectNoticeOne(brdno);
-        List<?> listview = boardservice.selectBoardFileList(brdno);
+        List<?> listview = boardservice.selectNoticeFileList(brdno);
         List<?> replylist = boardservice.selectBoardReplyList(brdno);
         
         modelMap.addAttribute("boardInfo", boardInfo);
@@ -304,7 +335,7 @@ public class BoardController {
         
         boardservice.updateIssueRead(brdno);
         BoardVO boardInfo = boardservice.selectIssueOne(brdno);
-        List<?> listview = boardservice.selectBoardFileList(brdno);
+        List<?> listview = boardservice.selectIssueFileList(brdno);
         List<?> replylist = boardservice.selectBoardReplyList(brdno);
         
         modelMap.addAttribute("boardInfo", boardInfo);
@@ -315,8 +346,15 @@ public class BoardController {
     }
     
     /**
-     * 글 삭제.
-     */
+     * <ul>
+     * <li>제  목 : 게시물 삭제</li>
+     * <li>설  명 : 게시물을 삭제한다</li>
+     * <li>작성일 : 2018-04-19</li>
+     * <li>작성자 : 유형준</li>
+     * </ul>
+     *
+     * @author 유형준
+     */  
     /*공지사항*/
     @RequestMapping(value = "/noticeDelete.do")
     public String noticeDelete(HttpServletRequest request) throws Exception{
@@ -353,8 +391,15 @@ public class BoardController {
     /* ===================================================================== */
     
     /**
-     * 댓글 저장.
-     */
+     * <ul>
+     * <li>제  목 : 게시판 댓글 저장</li>
+     * <li>설  명 : 게시물 댓글 저장한다</li>
+     * <li>작성일 : 2018-04-19</li>
+     * <li>작성자 : 유형준</li>
+     * </ul>
+     *
+     * @author 유형준
+     */  
     @RequestMapping(value = "/boardReplySave.do")
     public String boardReplySave(HttpServletRequest request, BoardReplyVO boardReplyInfo) throws Exception{
         
@@ -364,8 +409,15 @@ public class BoardController {
     }
     
     /**
-     * 댓글 삭제.
-     */
+     * <ul>
+     * <li>제  목 : 게시판 댓글 삭제</li>
+     * <li>설  명 : 게시물 댓글 삭제한다</li>
+     * <li>작성일 : 2018-04-19</li>
+     * <li>작성자 : 유형준</li>
+     * </ul>
+     *
+     * @author 유형준
+     */  
     @RequestMapping(value = "/boardReplyDelete.do")
     public String boardReplyDelete(HttpServletRequest request, BoardReplyVO boardReplyInfo) throws Exception{
         
@@ -375,8 +427,15 @@ public class BoardController {
     }      
     
     /**
-     * 전체검색.
-     */    
+     * <ul>
+     * <li>제  목 : 통합 검색 </li>
+     * <li>설  명 : 검색어를 통해 각 게시판을 검색하여 결과값을 알려준다</li>
+     * <li>작성일 : 2018-04-19</li>
+     * <li>작성자 : 유형준</li>
+     * </ul>
+     *
+     * @author 유형준
+     */   
     @RequestMapping(value = "/search.do")
     public String mainSearch(HttpServletRequest request, SearchVO searchVO, ModelMap modelMap) throws Exception{
        System.out.println("+++++++++++++++++++++++++++mainSearch");
@@ -393,7 +452,16 @@ public class BoardController {
     }  
     
 
-    /* 스크롤 소비자 경험===================================================================== */
+    /**
+     * <ul>
+     * <li>제  목 : 소비자경험 커뮤니티 조회</li>
+     * <li>설  명 : 소비자경험 커뮤니티를 페이스북처럼 게시물보여준다</li>
+     * <li>작성일 : 2018-04-19</li>
+     * <li>작성자 : 유형준</li>
+     * </ul>
+     *
+     * @author 유형준
+     */ 
     @RequestMapping(value = "/consumerList.do")
     public String consumerList(SearchVO searchVO, ModelMap modelMap) throws Exception{
 
@@ -407,8 +475,15 @@ public class BoardController {
     
     
     /**
-     * 다운스크롤시 게시물 읽기 
-     */    
+     * <ul>
+     * <li>제  목 : 소비자경험 커뮤니티 스크롤 다운</li>
+     * <li>설  명 : 마우스 스크롤 다운시 db를 조회하여 화면 뿌려준다</li>
+     * <li>작성일 : 2018-04-19</li>
+     * <li>작성자 : 유형준</li>
+     * </ul>
+     *
+     * @author 유형준
+     */ 
     //@ResponseBody json 데이터를 객체로 자동바인딩하는 함수
     @RequestMapping(value = "/scrollDown.do", method = RequestMethod.POST)
     public @ResponseBody List<BoardVO> scrollDown(@RequestBody BoardVO board,SearchVO searchVO, ModelMap modelMap ) throws Exception{
@@ -426,10 +501,17 @@ public class BoardController {
         return boardservice.selectBoardOneNew2(brdno);
     }    
     
-    /**
-     * 다음에디터 관련 로직   
-     */    
     
+    /**
+     * <ul>
+     * <li>제  목 : 다음에디터 링크</li>
+     * <li>설  명 : 이하 다음에디터를 이용하여 첨부파일, 이미지를 나타내는 기능이다</li>
+     * <li>작성일 : 2018-04-19</li>
+     * <li>작성자 : 유형준</li>
+     * </ul>
+     *
+     * @author 유형준
+     */  
     @RequestMapping(value = "/daumEditor.do")
     public String home(HttpServletRequest request) throws Exception{
 

@@ -25,6 +25,7 @@ public class LoginServiceImpl implements LoginService {
             session.setAttribute("id", vo2.getId());
             session.setAttribute("name", vo2.getName());
             session.setAttribute("filename", vo2.getFilename());
+            session.setAttribute("sysdate", vo2.getSysdate());
         } 
         return result;
     }

@@ -24,6 +24,7 @@ public class BoardVO {
     private String chg_dttm;
     private String brdlike;
     private String filename;
+    private String realname;    
     private long filesize;    
     private String notice_flag1;
     private String notice_flag2;
@@ -185,6 +186,16 @@ public class BoardVO {
 	public void setFilename(String filename) {
 		this.filename = filename;
 	}
+
+	public String getRealname() {
+		return realname;
+	}
+
+
+	public void setRealname(String realname) {
+		this.realname = realname;
+	}
+
 
 	public long getFilesize() {
 		return filesize;

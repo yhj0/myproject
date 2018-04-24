@@ -135,6 +135,7 @@ function setForm(editor) {
 								</tbody>
 							</table>    
 							<input type="hidden" name="reg_id" value ="<c:out value="${sessionScope.id}"/>">
+							<input type="hidden" name="brdtype" value="C"> 							
 							<input type="hidden" name="brdno" value="<c:out value="${boardInfo.brdno}"/>"> 
 							<a class="btn btn-default btn-sm" href="#" id="save_button">저장</a>
 						</form>			

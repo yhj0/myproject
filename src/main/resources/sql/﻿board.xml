@@ -79,7 +79,9 @@
  
      <select id="selectNoticeList" resultType="gu.board.BoardVO" parameterType="gu.common.SearchVO">
         SELECT BRDNO, BRDTYPE, BRDTITLE, BRDWRITER, DATE_FORMAT(BRDDATE,'%Y.%m.%d') BRDDATE, BRDHIT
-             , (SELECT COUNT(*) FROM TBL_BOARDFILE WHERE BRDNO=TB.BRDNO) FILECNT
+             , (SELECT COUNT(*) FROM TBL_BOARDFILE WHERE BRDNO=TB.BRDNO AND BRDTYPE='N') FILECNT
+             , (SELECT FILENAME FROM TBL_BOARDFILE WHERE BRDNO=TB.BRDNO AND BRDTYPE='N') FILENAME  
+             , (SELECT REALNAME FROM TBL_BOARDFILE WHERE BRDNO=TB.BRDNO AND BRDTYPE='N') REALNAME               
              , (SELECT COUNT(*) FROM TBL_BOARDREPLY WHERE BRDNO=TB.BRDNO AND REDELETEFLAG='N') REPLYCNT
              , REG_ID , REG_DTTM, CHG_ID, CHG_DTTM
           FROM TBL_NOTICE TB
@@ -90,7 +92,9 @@
     
     <select id="selectConsumerList" resultType="gu.board.BoardVO" parameterType="gu.common.SearchVO">
         SELECT BRDNO, BRDTYPE, BRDTITLE, BRDWRITER, DATE_FORMAT(BRDDATE,'%Y.%m.%d') BRDDATE, BRDHIT
-             , (SELECT COUNT(*) FROM TBL_BOARDFILE WHERE BRDNO=TB.BRDNO) FILECNT
+             , (SELECT COUNT(*) FROM TBL_BOARDFILE WHERE BRDNO=TB.BRDNO AND BRDTYPE='C') FILECNT
+             , (SELECT FILENAME FROM TBL_BOARDFILE WHERE BRDNO=TB.BRDNO AND BRDTYPE='C') FILENAME   
+             , (SELECT REALNAME FROM TBL_BOARDFILE WHERE BRDNO=TB.BRDNO AND BRDTYPE='C') REALNAME                         
              , (SELECT COUNT(*) FROM TBL_BOARDREPLY WHERE BRDNO=TB.BRDNO AND REDELETEFLAG='N') REPLYCNT
              , REG_ID , REG_DTTM, CHG_ID, CHG_DTTM
           FROM TBL_BOARD TB
@@ -101,7 +105,9 @@
 
     <select id="selectIssueList" resultType="gu.board.BoardVO" parameterType="gu.common.SearchVO">
         SELECT BRDNO, BRDTYPE, BRDTITLE, BRDWRITER, DATE_FORMAT(BRDDATE,'%Y.%m.%d') BRDDATE, BRDHIT
-             , (SELECT COUNT(*) FROM TBL_BOARDFILE WHERE BRDNO=TB.BRDNO) FILECNT
+             , (SELECT COUNT(*) FROM TBL_BOARDFILE WHERE BRDNO=TB.BRDNO AND BRDTYPE='I') FILECNT
+             , (SELECT FILENAME FROM TBL_BOARDFILE WHERE BRDNO=TB.BRDNO AND BRDTYPE='I') FILENAME   
+             , (SELECT REALNAME FROM TBL_BOARDFILE WHERE BRDNO=TB.BRDNO AND BRDTYPE='I') REALNAME                            
              , (SELECT COUNT(*) FROM TBL_BOARDREPLY WHERE BRDNO=TB.BRDNO AND REDELETEFLAG='N') REPLYCNT
              , REG_ID , REG_DTTM, CHG_ID, CHG_DTTM
           FROM TBL_ISSUE TB
@@ -223,6 +229,7 @@
            SET BRDTITLE=#{brdtitle}
              , BRDWRITER=#{brdwriter}
              , BRDMEMO=#{brdmemo} 
+             , BRDDATE =  NOW()
              , CHG_ID = #{reg_id}
              , CHG_DTTM = NOW()
          WHERE BRDDELETEFLAG='N'
@@ -234,6 +241,7 @@
            SET BRDTITLE=#{brdtitle}
              , BRDWRITER=#{brdwriter}
              , BRDMEMO=#{brdmemo} 
+             , BRDDATE =  NOW()             
              , CHG_ID = #{reg_id}
              , CHG_DTTM = NOW()
          WHERE BRDDELETEFLAG='N'
@@ -245,6 +253,7 @@
            SET BRDTITLE=#{brdtitle}
              , BRDWRITER=#{brdwriter}
              , BRDMEMO=#{brdmemo} 
+             , BRDDATE =  NOW()             
              , CHG_ID = #{reg_id}
              , CHG_DTTM = NOW()
          WHERE BRDDELETEFLAG='N'
@@ -252,21 +261,21 @@
     </update> 
 
     <select id="selectNoticeOne" parameterType="String" resultType="gu.board.BoardVO">
-        SELECT BRDNO, BRDTYPE, BRDTITLE, BRDWRITER, BRDMEMO, DATE_FORMAT(BRDDATE,'%Y.%m.%d') BRDDATE ,REG_ID, REG_DTTM, CHG_ID, CHG_DTTM 
+        SELECT BRDNO, BRDTYPE, BRDTITLE, BRDWRITER, BRDMEMO, BRDHIT, DATE_FORMAT(BRDDATE,'%Y.%m.%d') BRDDATE ,REG_ID, REG_DTTM, CHG_ID, CHG_DTTM 
           FROM TBL_NOTICE
          WHERE BRDDELETEFLAG='N'
            AND BRDNO=#{brdno}
     </select> 
         
     <select id="selectBoardOne" parameterType="String" resultType="gu.board.BoardVO">
-        SELECT BRDNO, BRDTYPE, BRDTITLE, BRDWRITER, BRDMEMO, DATE_FORMAT(BRDDATE,'%Y.%m.%d') BRDDATE ,REG_ID, REG_DTTM, CHG_ID, CHG_DTTM 
+        SELECT BRDNO, BRDTYPE, BRDTITLE, BRDWRITER, BRDMEMO, BRDHIT, DATE_FORMAT(BRDDATE,'%Y.%m.%d') BRDDATE ,REG_ID, REG_DTTM, CHG_ID, CHG_DTTM 
           FROM TBL_BOARD
          WHERE BRDDELETEFLAG='N'
            AND BRDNO=#{brdno}
     </select> 
 
     <select id="selectIssueOne" parameterType="String" resultType="gu.board.BoardVO">
-        SELECT BRDNO, BRDTYPE, BRDTITLE, BRDWRITER, BRDMEMO, DATE_FORMAT(BRDDATE,'%Y.%m.%d') BRDDATE ,REG_ID, REG_DTTM, CHG_ID, CHG_DTTM 
+        SELECT BRDNO, BRDTYPE, BRDTITLE, BRDWRITER, BRDMEMO, BRDHIT, DATE_FORMAT(BRDDATE,'%Y.%m.%d') BRDDATE ,REG_ID, REG_DTTM, CHG_ID, CHG_DTTM 
           FROM TBL_ISSUE
          WHERE BRDDELETEFLAG='N'
            AND BRDNO=#{brdno}
@@ -315,10 +324,27 @@
     </delete> 
 
     <!-- =============================================================================== -->
-    <select id="selectBoardFileList" resultType="gu.common.FileVO" parameterType="String">
+    <select id="selectNoticeFileList" resultType="gu.common.FileVO">
         SELECT *
           FROM TBL_BOARDFILE
          WHERE BRDNO=#{brdno}
+           AND BRDTYPE='N'
+         ORDER BY FILENO DESC 
+    </select>     
+    
+    <select id="selectBoardFileList" resultType="gu.common.FileVO">
+        SELECT *
+          FROM TBL_BOARDFILE
+         WHERE BRDNO=#{brdno}
+           AND BRDTYPE='C'
+         ORDER BY FILENO DESC 
+    </select> 
+
+    <select id="selectIssueFileList" resultType="gu.common.FileVO">
+        SELECT *
+          FROM TBL_BOARDFILE
+         WHERE BRDNO=#{brdno}
+           AND BRDTYPE='I'
          ORDER BY FILENO DESC 
     </select> 
 
@@ -326,6 +352,7 @@
         INSERT INTO TBL_BOARDFILE 
         (
         BRDNO, 
+        BRDTYPE,
         FILENAME, 
         REALNAME, 
         FILESIZE,
@@ -336,7 +363,8 @@
         )
         VALUES 
         (
-        #{parentPK}, 
+        #{parentPK},
+        #{brdtype}, 
         #{filename}, 
         #{realname}, 
         #{filesize},

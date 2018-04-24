@@ -90,11 +90,12 @@ public class BoardService {
             if (fileno != null) {
                 HashMap<String, String[]> fparam = new HashMap<String, String[]>();
                 fparam.put("fileno", fileno);
-                sqlSession.insert("deleteBoardFile", fparam);
+                sqlSession.delete("deleteBoardFile", fparam);
             }
             
             for (FileVO f : filelist) {
                 f.setParentPK(param.getBrdno());
+                f.setBrdtype("N");
                 sqlSession.insert("insertBoardFile", f);
             }
             txManager.commit(status);
@@ -120,11 +121,12 @@ public class BoardService {
             if (fileno != null) {
                 HashMap<String, String[]> fparam = new HashMap<String, String[]>();
                 fparam.put("fileno", fileno);
-                sqlSession.insert("deleteBoardFile", fparam);
+                sqlSession.delete("deleteBoardFile", fparam);
             }
             
             for (FileVO f : filelist) {
                 f.setParentPK(param.getBrdno());
+                f.setBrdtype("C");          
                 sqlSession.insert("insertBoardFile", f);
             }
             txManager.commit(status);
@@ -150,11 +152,12 @@ public class BoardService {
             if (fileno != null) {
                 HashMap<String, String[]> fparam = new HashMap<String, String[]>();
                 fparam.put("fileno", fileno);
-                sqlSession.insert("deleteBoardFile", fparam);
+                sqlSession.delete("deleteBoardFile", fparam);
             }
             
             for (FileVO f : filelist) {
                 f.setParentPK(param.getBrdno());
+                f.setBrdtype("I");             
                 sqlSession.insert("insertBoardFile", f);
             }
             txManager.commit(status);
@@ -205,9 +208,20 @@ public class BoardService {
         sqlSession.delete("deleteIssueOne", param);
     }
     
+    
+    /*공지사항 첨부파일 조회*/
+    public List<?> selectNoticeFileList(String param) {
+        return sqlSession.selectList("selectNoticeFileList", param);
+    }
+    
     /*소비자경험 첨부파일 조회*/
     public List<?> selectBoardFileList(String param) {
         return sqlSession.selectList("selectBoardFileList", param);
+    }
+    
+    /*뉴스 첨부파일 조회*/
+    public List<?> selectIssueFileList(String param) {
+        return sqlSession.selectList("selectIssueFileList", param);
     }
     
     

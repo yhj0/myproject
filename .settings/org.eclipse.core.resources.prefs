@@ -1,7 +1,7 @@
 eclipse.preferences.version=1
 encoding//src/main/java=UTF-8
 encoding//src/main/webapp/WEB-INF/jsp/board/BoardForm.jsp=UTF-8
-encoding//src/main/webapp/WEB-INF/jsp/board/home.jsp=UTF-8
+encoding//src/main/webapp/WEB-INF/jsp/board/home_old.jsp=UTF-8
 encoding//src/main/webapp/index.jsp=UTF-8
 encoding/readme.md=UTF-8
 encoding/src=UTF-8
