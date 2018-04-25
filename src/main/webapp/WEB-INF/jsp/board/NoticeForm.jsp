@@ -213,7 +213,7 @@ function setForm(editor) {
                 <td colspan="5">
                   <div class="fileBox">
 					<c:forEach var="listview" items="${listview}" varStatus="status">
-								<input type="hidden" readonly="readonly" class="fileName" name="fileno" value="<c:out value="${listview.fileno}"/>">	
+								<input type="checkbox" name="fileno" value="<c:out value="${listview.fileno}"/>" checked="checked">	
 							    <a type="text" href="fileDownload?filename=<c:out value="${listview.filename}"/>&downname=<c:out value="${listview.realname }"/>"> 							 
 								<c:out value="${listview.filename}"/></a> <c:out value="${listview.size2String()}"/><br> 	
 					</c:forEach>	   

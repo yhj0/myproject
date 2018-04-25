@@ -39,6 +39,18 @@
  </style>
 <title>개인맞춤형 생활화학제품 사용 플랫폼</title>
 <script>
+//한글파일 인코딩
+function fn_encodeURL(filename,realname){
+	  
+	 var file = filename;
+	 var real = realname	 
+	  alert(file);
+	  alert(real);
+	  
+	  var url= "fileDownload?filename="+encodeURI(encodeURIComponent(file))+"&downname="+real; 
+	  alert(url);
+}
+
 //id값 전송 함수
 function fn_id_sumbit(){
 	var f = document.form_id;
@@ -194,12 +206,19 @@ function fnSubmitForm(page){
 							<c:when test="${listview.brdwriter != null}">
 				              <tr class="noti">
 				                <td><c:out value="${searchVO.totRow-((searchVO.page-1)*searchVO.displayRowCount + status.index)}"/></td>
-				                <td class="title"><a href="${link}"><c:out value="${listview.brdtitle}"/></a></td>
+				                <td class="title"><a href="${link}"><c:out value="${listview.brdtitle}"/></a>&nbsp;
+				                <!-- 인기게시글 표시 -->
+								<c:if test="${listview.brdhit>30}">
+										<span class="hit">인기글</span>
+								</c:if>	
+				                </td>
 				                <td><c:out value="${listview.brdwriter}"/></td>
 				                <td><c:out value="${listview.brddate}"/></td>
-				                <td>
+				                <td>				                
 				                <c:if test="${listview.filecnt > 0}">
-				                	<a href="fileDownload?filename=<c:out value="${listview.filename}"/>&downname=<c:out value="${listview.realname }"/>" class="ico-file">첨부파일</a>
+				                	<input type="text" name="filename" value="<c:out value="${listview.filename}"/>"/>  
+				                	<input type="text" name="realname" value="<c:out value="${listview.realname}"/>"/> 
+				                	<a href="fileDownload?filename=<c:out value="${listview.filename}"/>&downname=<c:out value="${listview.realname }"/>" class="ico-file" onclick="fn_encodeURL(filename,realname );">첨부파일</a>
 				                </c:if>
 				                </td>
 				                <td><c:out value="${listview.brdhit}"/></td>

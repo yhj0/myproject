@@ -207,7 +207,7 @@ function fn_replyUpdateCancel(){
                 <th>첨부파일</th>
                 <td colspan="5">
 				<c:forEach var="listview" items="${listview}" varStatus="status">	
-					<a class="ico-file-link" href="fileDownload?filename=<c:out value="${listview.filename}"/>&downname=<c:out value="${listview.realname }"/>"> 							 <c:out value="${listview.filename}"/></a> <c:out value="${listview.size2String()}"/><br/>
+					<a class="ico-file-link" href="fileDownload?filename=<c:out value="${listview.filename}"/>&downname=<c:out value="${listview.realname }"/>"><c:out value="${listview.filename}"/></a> <c:out value="${listview.size2String()}"/><br/>
 				</c:forEach>	                
                 </td>
               </tr>
@@ -219,17 +219,17 @@ function fn_replyUpdateCancel(){
                 </td>
               </tr>
               <tr>
-                <td colspan="6" class="tb-ctrl"><span class="tb-prev">이전</span><a href="#">이전글 클릭</a></td>
+                <td colspan="6" class="tb-ctrl"><span class="tb-prev">이전</span><a href="noticeRead.do?brdno=<c:out value="${boardInfo.prev_brdno}"/>">이전글 클릭</a></td>
               </tr>
               <tr>
-                <td colspan="6" class="tb-ctrl"><span class="tb-next">다음</span><a href="#">다음글 클릭</a></td>
+                <td colspan="6" class="tb-ctrl"><span class="tb-next">다음</span><a href="noticeRead.do?brdno=<c:out value="${boardInfo.next_brdno}"/>">다음글 클릭</a></td>
               </tr>
             </tbody>
           </table>          
 	          	<div class="board-btm">
 				  <!-- 수정권한 본인id 혹은 관리자-->
 				  <c:choose>
-					 	<c:when test="${sessionScope.id == boardInfo.reg_id || sessionScope.id == 'admin'}">	          	
+					 	<c:when test="${sessionScope.id eq boardInfo.reg_id || sessionScope.id eq 'admin'}">	          	
 				      		<a href="noticeForm.do?brdno=<c:out value="${boardInfo.brdno}"/>" class="btn large blue">수정</a>
 				      		<a href="noticeDelete.do?brdno=<c:out value="${boardInfo.brdno}"/>" class="btn large blue">삭제</a>
 			            </c:when>

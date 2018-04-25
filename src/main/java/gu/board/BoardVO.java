@@ -30,6 +30,8 @@ public class BoardVO {
     private String notice_flag2;
     private String notice_flag3;
     private String notice_flag4;
+    private String prev_brdno;
+    private String next_brdno;
     
     /* 첨부파일 */
     private List<MultipartFile> uploadfile;
@@ -235,6 +237,22 @@ public class BoardVO {
 
 	public void setNotice_flag4(String notice_flag4) {
 		this.notice_flag4 = notice_flag4;
+	}
+
+	public String getPrev_brdno() {
+		return prev_brdno;
+	}
+
+	public void setPrev_brdno(String prev_brdno) {
+		this.prev_brdno = prev_brdno;
+	}
+
+	public String getNext_brdno() {
+		return next_brdno;
+	}
+
+	public void setNext_brdno(String next_brdno) {
+		this.next_brdno = next_brdno;
 	}
 	
 }

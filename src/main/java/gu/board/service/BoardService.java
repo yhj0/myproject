@@ -171,7 +171,7 @@ public class BoardService {
     public BoardVO selectNoticeOne(String param) {
         return sqlSession.selectOne("selectNoticeOne", param);
     }    
-    
+  
     /*소비자경험 개별조회*/
     public BoardVO selectBoardOne(String param) {
         return sqlSession.selectOne("selectBoardOne", param);

@@ -46,9 +46,9 @@ public class BoardController {
     public String home(HttpServletRequest request, ModelMap modelMap)  throws Exception{
 
     	//String boardtype =  StringUtils.defaultString((String)request.getParameter("boardtype"),"");
-    	
+		String brdno = request.getParameter("brdno");
+
     	//소비자경험
-			String brdno = request.getParameter("brdno");
 	        List<?> consumerList  = boardservice.selectConsumerListMain(brdno);
 	        modelMap.addAttribute("consumerList", consumerList);
 	        
@@ -77,8 +77,9 @@ public class BoardController {
     /* 공지사항===================================================================== */
     @RequestMapping(value = "/noticeList.do")
     public String noticeList(SearchVO searchVO, ModelMap modelMap) throws Exception{
-        System.out.println("xxxxxxxxxxxxxxxxxxxxxxxxxxxx:"+searchVO);
+
         searchVO.pageCalculate( boardservice.selectNoticeCount(searchVO) ); // startRow, endRow
+        
         List<?> listview  = boardservice.selectNoticeList(searchVO);
         
         modelMap.addAttribute("listview", listview);
@@ -257,7 +258,7 @@ public class BoardController {
             modelMap.addAttribute("listview", listview);
             modelMap.addAttribute("replylist", replylist);   
             
-            result = "board/NoticeRead";
+            result = "board/BoardRead";
     	}
     	else if("I".equals(brdtype))
     	{

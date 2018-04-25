@@ -7,39 +7,39 @@
     </Appenders>
     <Loggers>
     <logger name="jdbc.connection" additivity="false">
-        <level value="WARN"/>
+        <level value="OFF"/>
         <appender-ref ref="console"/>
     </logger>
  
     <logger name="jdbc.audit" additivity="false">
-        <level value="WARN"/>
+        <level value="OFF"/>
         <appender-ref ref="console"/>
     </logger>
  
     <logger name="jdbc.sqlonly" additivity="false">
-        <level value="WARN"/>
+        <level value="OFF"/>
         <appender-ref ref="console"/>
     </logger>
  
     <logger name="jdbc.sqltiming" additivity="false">
-        <level value="INFO"/>
+        <level value="DEBUG"/>
         <appender-ref ref="console"/>
     </logger>
  
     <logger name="jdbc.resultset" additivity="false">
-        <level value="WARN"/>
+        <level value="OFF"/>
         <appender-ref ref="console"/>
     </logger>
      
     <logger name="jdbc.resultsettable" additivity="false">
-        <level value="INFO"/>
+        <level value="DEBUG"/>
         <appender-ref ref="console"/>
     </logger>
             
         <Logger name="org.springframework" level="INFO" additivity="false">
             <AppenderRef ref="console" />
         </Logger>
-        <Root level="DEBUG">
+        <Root level="INFO">
             <AppenderRef ref="console" />
         </Root>
     </Loggers>
