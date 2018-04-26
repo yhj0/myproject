@@ -21,9 +21,9 @@ public class FileDownload {
      * 파일(첨부파일, 이미지등) 다운로드.
      */
     @RequestMapping(value = "fileDownload")
-    public void fileDownload(HttpServletRequest request,HttpServletResponse response) throws Exception{
+    public void fileDownload(HttpServletRequest request,HttpServletResponse response) {
         String path = "c:\\fileupload\\"; 
-        System.out.println("22342+++++++++++++++++++++++++++++++++++++++: 시작 ");
+        
         String filename = request.getParameter("filename");
         String downname = request.getParameter("downname");
         String realPath = "";
@@ -33,10 +33,7 @@ public class FileDownload {
         }
         
         try {
-            filename = URLEncoder.encode(filename, "UTF-8");
-            System.out.println("22342+++++++++++++++++++++++++++++++++++++++: "+filename);
-            filename = filename.replaceAll("\\+", "%20");
-            System.out.println("22342+++++++++++++++++++++++++++++++++++++++: "+filename);
+            filename = URLEncoder.encode(filename, "UTF-8").replaceAll("\\+", "%20");;
         } catch (UnsupportedEncodingException ex) {
             System.out.println("UnsupportedEncodingException");
         }
@@ -50,12 +47,6 @@ public class FileDownload {
         
         // 파일명 지정
         response.setHeader("Content-Disposition", "attachment; filename=\"" + filename + "\"");
-        response.setHeader("Content-Type", "application/octet-stream; charset=MS949");
-    	response.setContentLength((int)filename.length());
-    	response.setHeader("Content-Transfer-Encoding", "binary;");
-    	response.setHeader("Pragma", "no-cache;");
-    	response.setHeader("Expires", "-1;");  	
-
         try {
             OutputStream os = response.getOutputStream();
             FileInputStream fis = new FileInputStream(realPath);

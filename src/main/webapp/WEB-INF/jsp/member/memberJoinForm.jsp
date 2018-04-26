@@ -114,7 +114,7 @@ $(document).ready(function(){
 	   		$('#joinMember').attr("disabled", true);
 	   	}
 	   	else if(!regex.test(val)){ //불일치
-	   		$('#chkPass1').html("<a> 비밀번호는 4자리 이상 16이하 숫자 혹은 특수문자를 반드시 포함해야합니다.</a>");
+	   		$('#chkPass1').html("<a> 비밀번호는 4자리 이상 16이하 숫자와 영문자를 반드시 포함해야 하며 특수문자도 포함하실 수 있습니다.</a>");
 	   		$('#joinMember').attr("disabled", true);
 	   	}
 	   	else{    //확인

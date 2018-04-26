@@ -1,4 +1,4 @@
-package gu.member;
+package gu.member.vo;
 
 import java.util.List;
 

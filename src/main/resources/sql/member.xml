@@ -3,7 +3,7 @@
 
 <mapper namespace="member">
 <!--회원정보 조회 -->
-    <select id="selectMemberOne" parameterType="String"  resultType="gu.member.MemberVO" >
+    <select id="selectMemberOne" parameterType="String"  resultType="gu.member.vo.MemberVO" >
 		SELECT  A.NAME AS NAME,
 	            A.ID AS ID,
 	            A.EMAIL AS EMAIL,
@@ -23,9 +23,9 @@
     </select> 
 
 <!--회원정보 입력 -->
-    <insert id="insertMember" parameterType="gu.member.MemberVO" >
-        INSERT INTO TBL_MEMBER(ID, PASSWORD, NAME, NICK_NAME, EMAIL, REG_DTTM)
-        VALUES (#{id}, #{password}, #{name}, #{nick_name},#{email},NOW())
+    <insert id="insertMember" parameterType="gu.member.vo.MemberVO" >
+        INSERT INTO TBL_MEMBER(ID, PASSWORD, NAME, NICK_NAME, EMAIL, REG_DTTM, USE_YN)
+        VALUES (#{id}, #{password}, #{name}, #{nick_name},#{email},NOW(),'Y')
     </insert> 
     
 <!--회원정보 수정 -->

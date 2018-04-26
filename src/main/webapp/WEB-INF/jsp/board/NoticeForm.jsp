@@ -130,14 +130,14 @@ function setForm(editor) {
           </li>
           <li><a href="${path}/board/home.do">데이터 분석 시각화</a>
             <ul>
-              <li><a href="#">정형 데이터 분석</a>
-              <li><a href="#">비정형 데이터 분석</a>
+              <li><a href="${path}/board/formalData_User.do">정형 데이터 분석</a>
+              <li><a href="${path}/board/informalData_User.do">비정형 데이터 분석</a>
             </ul>
           </li>
           <li><a href="${path}/board/home.do">플랫폼 소개</a>
             <ul>
-              <li><a href="#">개요</a></li>
-              <li><a href="#">목적</a></li>
+              <li><a href="${path}/board/infoHome.do">개요</a></li>
+              <li><a href="${path}/board/infoSub.do">목적</a></li>
             </ul>
           </li>
         </ul>
@@ -218,7 +218,7 @@ function setForm(editor) {
 								<c:out value="${listview.filename}"/></a> <c:out value="${listview.size2String()}"/><br> 	
 					</c:forEach>	   
 					<input type="text" class="fileName" readonly="readonly">	
-					<label for="uploadBtn" class="btn_file">찾아보기</label>	
+					<label for="uploadBtn" class="btn_file" >찾아보기</label>	
 					<input type="file" id="uploadBtn" class="uploadBtn" name="uploadfile" multiple="" />               
                   </div>                  
                 </td>

@@ -90,7 +90,7 @@ $(window).scroll(function(){ // ① 스크롤 이벤트 최초 발생
                                 +       	"</tr>"                                     
                                 +			"<tr>"
                                 +				"<td>내용</td>"	
-                                +				"<td><textarea rows="+"'10'"+ "cols="+"'90'"+ "readonly"+">" + this.brdmemo + "</textarea>"+"</td>"  
+                                +				"<td>" + this.brdmemo +"</td>"  
                                 +       	"</tr>"                                     
                                 +			"<tr>"
                                 +				"<td>첨부파일</td>"	

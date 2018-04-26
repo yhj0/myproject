@@ -1,4 +1,4 @@
-package gu.board;
+package gu.board.vo;
 
 public class BoardReplyVO {
 

@@ -1,4 +1,4 @@
-package gu.member;
+package gu.member.controller;
 
 import java.io.PrintWriter;
 import java.util.List;
@@ -18,6 +18,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import gu.common.ImageUtil;
 import gu.common.ImageVO;
 import gu.login.LoginVO;
+import gu.member.service.*;
+import gu.member.vo.*;
 
 
 @Controller 
@@ -28,22 +30,35 @@ public class MemberController {
     SqlSession sqlSession; //top 이미지 갱신
     
     /**
-     * 회원가입폼.
-     */
+     * <ul>
+     * <li>제  목 : 회원가입폼 페이지</li>
+     * <li>설  명 : 회원가입을 위한 정보를 입력받는다</li>
+     * <li>작성일 : 2018-04-25</li>
+     * <li>작성자 : 유형준</li>
+     * </ul>
+     *
+     * @author 유형준
+     */    
     @RequestMapping(value = "/memberJoinForm.do")
     public String memberjoinForm(HttpServletRequest request, ModelMap modelMap) throws Exception{
     	return "member/memberJoinForm";
     
     }	
 	
-    /** 
-     * 회원정보 조회
-     */
+    /**
+     * <ul>
+     * <li>제  목 : 마이페이지 조회</li>
+     * <li>설  명 : 회원정보를 조회한다(이메일값 분리)</li>
+     * <li>작성일 : 2018-04-25</li>
+     * <li>작성자 : 유형준</li>
+     * </ul>
+     *
+     * @author 유형준
+     */   
     @RequestMapping(value = "/memberMypage.do")
     public String memberMypage(HttpServletRequest request, ModelMap modelMap,LoginVO vo, HttpSession session) throws Exception{
     	
     	String id = request.getParameter("id");		
-    	System.out.println("xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"+id);
     	
         if (id != null) {
             MemberVO memberInfo = memberService.selectMemberOne(id);
@@ -63,9 +78,16 @@ public class MemberController {
         return "member/memberMypage";
     }  
 
-    /** 
-     * 회원정보 저장
-     */
+    /**
+     * <ul>
+     * <li>제  목 : 마이페이지 저장</li>
+     * <li>설  명 : 회원정보를 저장한다</li>
+     * <li>작성일 : 2018-04-25</li>
+     * <li>작성자 : 유형준</li>
+     * </ul>
+     *
+     * @author 유형준
+     */   
     @RequestMapping(value = "/memberSave.do")
      public String memberJoin(HttpServletRequest request, MemberVO memberInfo, HttpSession session, ModelMap modelMap, HttpServletResponse response)  throws Exception{
 
@@ -78,16 +100,12 @@ public class MemberController {
 	        ImageUtil iu = new ImageUtil();
 	        List<ImageVO> imagelist = iu.saveAllFiles(memberInfo.getUploadfile(), id, request);
 	    	
-	    	System.out.println("+++++++++++++++++++++++id 존재유무 : "+id);
-	    	
 	    	//아이디 존재 갯수파악
 	    	int rowcount = Integer.parseInt(memberService.checkSignup(id));
 
-	    	System.out.println("+++++++++++++++++++++++id 갯수파악 : "+rowcount);
 	    	
 	    	//회원가입일때
 	    	if(rowcount == 0){
-	    		System.out.println("+++++++++++++++++++++++회원가입 ");
 	        	boolean result = memberService.insertMember(memberInfo, imagelist);
 
 	        	if (result == true) { // 회원가입 성공
@@ -98,8 +116,6 @@ public class MemberController {
 	    	}
 	    	//회원수정일때
 	    	else {
-	    		System.out.println("+++++++++++++++++++++++회원수정 ");
-	    		
 	    		boolean result = memberService.updateMember(memberInfo, imagelist);
 
 	        	if (result == true) { // 회원가입 성공
@@ -115,9 +131,16 @@ public class MemberController {
 	    return url;
     }
     
-	/**
-	* ID중복확인
-	*/   
+    /**
+     * <ul>
+     * <li>제  목 : 회원가입 아이디중복 조회</li>
+     * <li>설  명 : 회원가입시 아이디 존재여부를 확인하여 ajax으로 나타낸다.</li>
+     * <li>작성일 : 2018-04-25</li>
+     * <li>작성자 : 유형준</li>
+     * </ul>
+     *
+     * @author 유형준
+     */    
     @ResponseBody
     @RequestMapping(value = "/checkID.do", method = RequestMethod.POST)
     public String checkSignup(HttpServletRequest request)throws Exception {
@@ -126,9 +149,16 @@ public class MemberController {
         return String.valueOf(rowcount);
     }
 
-	/**
-	* 회원가입 완료페이지
-	*/   
+    /**
+     * <ul>
+     * <li>제  목 : 회원가입 성공 안내페이지</li>
+     * <li>설  명 : 회원가입이 성공시에 안내하는 페이지를 나타낸다.</li>
+     * <li>작성일 : 2018-04-25</li>
+     * <li>작성자 : 유형준</li>
+     * </ul>
+     *
+     * @author 유형준
+     */     
     @RequestMapping(value = "/JoinResult.do")
     public String JoinResult(HttpServletRequest request, ModelMap modelMap)throws Exception {
     	String id = request.getParameter("id");
@@ -140,9 +170,16 @@ public class MemberController {
     }      
     
     
-	/**
-	* 회원가입 후 자동로그인
-	*/   
+    /**
+     * <ul>
+     * <li>제  목 : 회원가입 후 자동로그인</li>
+     * <li>설  명 : 자동로그인 버튼을 클릭시 세션값에 사용자정보를 저장시킨다.</li>
+     * <li>작성일 : 2018-04-25</li>
+     * <li>작성자 : 유형준</li>
+     * </ul>
+     *
+     * @author 유형준
+     */     
     @RequestMapping(value = "/JoinLogin.do")
     public String JoinLogin(HttpServletRequest request, HttpSession session, ModelMap modelMap)throws Exception {
     	String id = request.getParameter("id");
@@ -160,9 +197,16 @@ public class MemberController {
         return  "forward:home.do";
     }    
 
-	/**
-	* 회원가입 에러페이지 
-	*/   
+    /**
+     * <ul>
+     * <li>제  목 : 회원가입 실패 페이지</li>
+     * <li>설  명 : 회원가입 실패시 에러값을 화면에 리턴한다.</li>
+     * <li>작성일 : 2018-04-25</li>
+     * <li>작성자 : 유형준</li>
+     * </ul>
+     *
+     * @author 유형준
+     */      
     @RequestMapping(value = "/error.do")
     public void error(HttpServletResponse response)throws Exception {
         

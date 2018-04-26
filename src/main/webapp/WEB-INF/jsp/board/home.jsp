@@ -39,7 +39,7 @@ function fn_board_contents(boardValue)
       <div class="static">
       	<c:choose>
       		<c:when test="${sessionScope.id == null}">
-      		 <div class="log-before"><a href="${path}/board/login.do">로그인</a><a href="#">회원가입</a></div>
+      		 <div class="log-before"><a href="${path}/board/login.do">로그인</a><a href="${path}/board/memberJoinForm.do">회원가입</a></div>
       		</c:when>
       		<c:otherwise>
       		 <form id="form_id" name="form_id"  action="memberMypage.do" method="post">
@@ -66,14 +66,14 @@ function fn_board_contents(boardValue)
           </li>
           <li><a href="${path}/board/home.do">데이터 분석 시각화</a>
             <ul>
-              <li><a href="#">정형 데이터 분석</a>
-              <li><a href="#">비정형 데이터 분석</a>
+              <li><a href="${path}/board/formalData_User.do">정형 데이터 분석</a>
+              <li><a href="${path}/board/informalData_User.do">비정형 데이터 분석</a>
             </ul>
           </li>
           <li><a href="${path}/board/home.do">플랫폼 소개</a>
             <ul>
-              <li><a href="#">개요</a></li>
-              <li><a href="#">목적</a></li>
+              <li><a href="${path}/board/infoHome.do">개요</a></li>
+              <li><a href="${path}/board/infoSub.do">목적</a></li>
             </ul>
           </li>
         </ul>

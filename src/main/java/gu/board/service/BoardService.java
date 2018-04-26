@@ -12,8 +12,7 @@ import org.springframework.transaction.TransactionException;
 import org.springframework.transaction.TransactionStatus;
 import org.springframework.transaction.support.DefaultTransactionDefinition;
 
-import gu.board.BoardReplyVO;
-import gu.board.BoardVO;
+import gu.board.vo.*;
 import gu.common.FileVO;
 import gu.common.SearchVO;
 

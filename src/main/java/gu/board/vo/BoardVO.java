@@ -1,4 +1,4 @@
-package gu.board;
+package gu.board.vo;
 
 import java.util.List;
 import org.springframework.web.multipart.MultipartFile;

@@ -30,14 +30,13 @@
     /* 익스플로러 10 이상, 최신 모던 브라우저에서 지원 */
     @keyframes blink {
       from {color: white;}
-      30% {color: grey;}
-      to {color: black; font-weight: bold;}
+      30% {color: #CED8F6;}
+      to {color: #2E64FE; font-weight: bold;}
       /* 0% {color:white;}
       30% {color: yellow;}
       100% {color:red; font-weight: bold;} */
     }   
  </style>
-<title>개인맞춤형 생활화학제품 사용 플랫폼</title>
 <script>
 //한글파일 인코딩
 function fn_encodeURL(filename,realname){
@@ -109,14 +108,14 @@ function fnSubmitForm(page){
 	          </li>
 	          <li><a href="${path}/board/home.do">데이터 분석 시각화</a>
 	            <ul>
-	              <li><a href="#">정형 데이터 분석</a>
-	              <li><a href="#">비정형 데이터 분석</a>
+	              <li><a href="${path}/board/formalData_User.do">정형 데이터 분석</a>
+	              <li><a href="${path}/board/informalData_User.do">비정형 데이터 분석</a>
 	            </ul>
 	          </li>
 	          <li><a href="${path}/board/home.do">플랫폼 소개</a>
 	            <ul>
-	              <li><a href="#">개요</a></li>
-	              <li><a href="#">목적</a></li>
+	              <li><a href="${path}/board/infoHome.do">개요</a></li>
+	              <li><a href="${path}/board/infoSub.do">목적</a></li>
 	            </ul>
 	          </li>
 	        </ul>
@@ -171,7 +170,7 @@ function fnSubmitForm(page){
 	                  <option value= "brdtitle" <c:if test="${searchVO.searchType eq 'brdtitle'}">checked="checked"</c:if>>제목</option>
 	                  <option value= "brdmemo" <c:if test="${searchVO.searchType eq 'brdmemo'}">checked="checked"</c:if>>내용</option>
 	                </select>               
-	                <input type="text" title="검색어" class="ipt" name="searchKeyword"  value='<c:out value="${searchVO.searchKeyword}"/>' onkeydown="if(event.keyCode == 13) { fn_board_search();}">
+	                <input type="text" title="검색어" class="ipt" name="searchKeyword2"  value='<c:out value="${searchVO.searchKeyword2}"/>' onkeydown="if(event.keyCode == 13) { fn_board_search();}">
 	                <button type="submit" class="btn" name="btn_search" onclick="fn_board_search()" >검색</button>
 	              </fieldset>
 	            </form>
@@ -216,8 +215,8 @@ function fnSubmitForm(page){
 				                <td><c:out value="${listview.brddate}"/></td>
 				                <td>				                
 				                <c:if test="${listview.filecnt > 0}">
-				                	<input type="text" name="filename" value="<c:out value="${listview.filename}"/>"/>  
-				                	<input type="text" name="realname" value="<c:out value="${listview.realname}"/>"/> 
+				                	<input type="hidden" name="filename" value="<c:out value="${listview.filename}"/>"/>  
+				                	<input type="hidden" name="realname" value="<c:out value="${listview.realname}"/>"/> 
 				                	<a href="fileDownload?filename=<c:out value="${listview.filename}"/>&downname=<c:out value="${listview.realname }"/>" class="ico-file" onclick="fn_encodeURL(filename,realname );">첨부파일</a>
 				                </c:if>
 				                </td>

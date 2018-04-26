@@ -18,9 +18,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
-import gu.board.BoardReplyVO;
-import gu.board.BoardVO;
-import gu.board.service.BoardService;
+import gu.board.vo.*;
+import gu.board.service.*;
 import gu.common.FileUtil;
 import gu.common.FileUtil2;
 import gu.common.FileVO;
@@ -439,7 +438,6 @@ public class BoardController {
      */   
     @RequestMapping(value = "/search.do")
     public String mainSearch(HttpServletRequest request, SearchVO searchVO, ModelMap modelMap) throws Exception{
-       System.out.println("+++++++++++++++++++++++++++mainSearch");
     	
         int searchCount = boardservice.searchCount(searchVO);
         List<?> listview  = boardservice.selectSearch(searchVO);
@@ -492,8 +490,6 @@ public class BoardController {
     	//마지막번호 밑으로만 검색
         Integer brdno = Integer.parseInt(board.getBrdno())-1;
         
-        System.out.println("+++++++++++++++++++++++++++++마지막 번호:"+brdno);
-        
         List<?> listview = boardservice.selectBoardOneNew2(brdno);
         
         modelMap.addAttribute("listview", listview);
@@ -537,5 +533,4 @@ public class BoardController {
         return fileInfo;
     }
 
-    
 }

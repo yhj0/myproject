@@ -1,4 +1,4 @@
-package gu.member;
+package gu.member.service;
 
 import java.util.List;
 
@@ -13,7 +13,7 @@ import org.springframework.transaction.support.DefaultTransactionDefinition;
 
 
 import gu.common.ImageVO;
-import gu.member.MemberVO;
+import gu.member.vo.*;
 
 @Service
 public class MemberService {
