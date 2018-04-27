@@ -19,7 +19,7 @@ import gu.common.ImageUtil;
 import gu.common.ImageVO;
 import gu.login.LoginVO;
 import gu.member.service.*;
-import gu.member.vo.*;
+import gu.member.vo.MemberVO;
 
 
 @Controller 
@@ -31,8 +31,24 @@ public class MemberController {
     
     /**
      * <ul>
-     * <li>제  목 : 회원가입폼 페이지</li>
-     * <li>설  명 : 회원가입을 위한 정보를 입력받는다</li>
+     * <li>제  목 : 회원가입 이용약관</li>
+     * <li>설  명 : 회원가입 이용약관을 표시한다</li>
+     * <li>작성일 : 2018-04-25</li>
+     * <li>작성자 : 유형준</li>
+     * </ul>
+     *
+     * @author 유형준
+     */    
+    @RequestMapping(value = "/memberJoinAgree.do")
+    public String memberJoinAgree(HttpServletRequest request, ModelMap modelMap) throws Exception{
+    	return "member/memberJoinAgree";
+    
+    }	 
+    
+    /**
+     * <ul>
+     * <li>제  목 : 회원가입 폼</li>
+     * <li>설  명 : 회원가입을 위한 사용자정보를 입력받는다</li>
      * <li>작성일 : 2018-04-25</li>
      * <li>작성자 : 유형준</li>
      * </ul>
@@ -40,11 +56,79 @@ public class MemberController {
      * @author 유형준
      */    
     @RequestMapping(value = "/memberJoinForm.do")
-    public String memberjoinForm(HttpServletRequest request, ModelMap modelMap) throws Exception{
+    public String memberJoinForm(HttpServletRequest request, ModelMap modelMap) throws Exception{
     	return "member/memberJoinForm";
+    
+    }	       
+
+    /**
+     * <ul>
+     * <li>제  목 : 회원가입 성공 안내페이지</li>
+     * <li>설  명 : 회원가입이 성공시에 안내하는 페이지를 나타낸다.</li>
+     * <li>작성일 : 2018-04-25</li>
+     * <li>작성자 : 유형준</li>
+     * </ul>
+     *
+     * @author 유형준
+     */     
+    @RequestMapping(value = "/memberJoinResult.do")
+    public String memberJoinResult(HttpServletRequest request, ModelMap modelMap)throws Exception {
+    	String id = request.getParameter("id");
+    	MemberVO memberInfo = memberService.selectMemberOne(id);
+        
+        modelMap.addAttribute("memberInfo", memberInfo);
+    	
+        return  "member/memberJoinResult";
+    }  
+    
+    /**
+     * <ul>
+     * <li>제  목 : 아이디패스워드 찾기</li>
+     * <li>설  명 : 아이디패스워드 찾는다</li>
+     * <li>작성일 : 2018-04-25</li>
+     * <li>작성자 : 유형준</li>
+     * </ul>
+     *
+     * @author 유형준
+     */    
+    @RequestMapping(value = "/memberFindID.do")
+    public String memberFindID(HttpServletRequest request, ModelMap modelMap) throws Exception{
+    	return "member/memberFindID";
+    
+    }	     
+ 
+    /**
+     * <ul>
+     * <li>제  목 : 회원가입 이용약관</li>
+     * <li>설  명 : 회원가입 이용약관을 표시한다</li>
+     * <li>작성일 : 2018-04-25</li>
+     * <li>작성자 : 유형준</li>
+     * </ul>
+     *
+     * @author 유형준
+     */    
+    @RequestMapping(value = "/memberAgreeInfo.do")
+    public String memberAgreeInfo(HttpServletRequest request, ModelMap modelMap) throws Exception{
+    	return "member/memberAgreeInfo";
     
     }	
 	
+    /**
+     * <ul>
+     * <li>제  목 : 회원가입 개인정보처리방침</li>
+     * <li>설  명 : 회원가입 개인정보처리방침을 표시한다</li>
+     * <li>작성일 : 2018-04-25</li>
+     * <li>작성자 : 유형준</li>
+     * </ul>
+     *
+     * @author 유형준
+     */    
+    @RequestMapping(value = "/memberPrivacyInfo.do")
+    public String memberPrivacyInfo(HttpServletRequest request, ModelMap modelMap) throws Exception{
+    	return "member/memberPrivacyInfo";
+    
+    }	        
+    
     /**
      * <ul>
      * <li>제  목 : 마이페이지 조회</li>
@@ -89,27 +173,28 @@ public class MemberController {
      * @author 유형준
      */   
     @RequestMapping(value = "/memberSave.do")
-     public String memberJoin(HttpServletRequest request, MemberVO memberInfo, HttpSession session, ModelMap modelMap, HttpServletResponse response)  throws Exception{
-
+     public String memberSave(HttpServletRequest request, MemberVO memberInfo, HttpSession session, ModelMap modelMap, HttpServletResponse response)  throws Exception{
+    	System.out.println("++++++++++++++++++++++++++++++++++++++++++++저장");
     	String url =  "";
 
 	    try {	
 	   
 	    	String id = request.getParameter("id");	
-	    	
+	    	System.out.println("++++++++++++++++++++++++++++++++++++++++++++:"+id);
 	        ImageUtil iu = new ImageUtil();
+	        
 	        List<ImageVO> imagelist = iu.saveAllFiles(memberInfo.getUploadfile(), id, request);
 	    	
 	    	//아이디 존재 갯수파악
 	    	int rowcount = Integer.parseInt(memberService.checkSignup(id));
 
-	    	
+	    	System.out.println("++++++++++++++++++++++++++++++++++++++++++++:"+rowcount);
 	    	//회원가입일때
 	    	if(rowcount == 0){
 	        	boolean result = memberService.insertMember(memberInfo, imagelist);
-
+	        		
 	        	if (result == true) { // 회원가입 성공
-	        		url = "forward:/JoinResult.do";
+	        		url = "forward:/memberJoinResult.do";
 	        	} else {    // 회원가입 실패
 	        		url = "error.do";
 	        	}
@@ -117,10 +202,10 @@ public class MemberController {
 	    	//회원수정일때
 	    	else {
 	    		boolean result = memberService.updateMember(memberInfo, imagelist);
-
-	        	if (result == true) { // 회원가입 성공
+	    		System.out.println("++++++++++++++++++++++++++++++++++++++++++++:"+result);
+	        	if (result == true) { // 수정 성공
 	        		url = "forward:home.do";
-	        	} else {    // 회원가입 실패
+	        	} else {    // 수정 실패
 	        		url = "error.do";
 	        	}	    		
 	    	}
@@ -130,6 +215,40 @@ public class MemberController {
 	        
 	    return url;
     }
+
+    /**
+     * <ul>
+     * <li>제  목 : 마이페이지-나의커뮤니티 페이지 조회</li>
+     * <li>설  명 : 나의커뮤니티 페이지를 조회한다</li>
+     * <li>작성일 : 2018-04-25</li>
+     * <li>작성자 : 유형준</li>
+     * </ul>
+     *
+     * @author 유형준
+     */    
+    @RequestMapping(value = "/memberMyList.do")
+    public String memberMyList(HttpSession session, ModelMap modelMap) throws Exception{
+    	
+    	return "member/memberMyList";
+    
+    }	    
+    
+    /**
+     * <ul>
+     * <li>제  목 : 마이페이지-회원탈퇴 페이지 조회</li>
+     * <li>설  명 : 회원탈퇴 페이지를 조회한다</li>
+     * <li>작성일 : 2018-04-25</li>
+     * <li>작성자 : 유형준</li>
+     * </ul>
+     *
+     * @author 유형준
+     */    
+    @RequestMapping(value = "/memberQuit.do")
+    public String memberQuit(HttpSession session, ModelMap modelMap) throws Exception{
+    	
+    	return "member/memberQuit";
+    
+    }	    
     
     /**
      * <ul>
@@ -147,27 +266,7 @@ public class MemberController {
         String id = request.getParameter("id");
         String rowcount = memberService.checkSignup(id);
         return String.valueOf(rowcount);
-    }
-
-    /**
-     * <ul>
-     * <li>제  목 : 회원가입 성공 안내페이지</li>
-     * <li>설  명 : 회원가입이 성공시에 안내하는 페이지를 나타낸다.</li>
-     * <li>작성일 : 2018-04-25</li>
-     * <li>작성자 : 유형준</li>
-     * </ul>
-     *
-     * @author 유형준
-     */     
-    @RequestMapping(value = "/JoinResult.do")
-    public String JoinResult(HttpServletRequest request, ModelMap modelMap)throws Exception {
-    	String id = request.getParameter("id");
-    	MemberVO memberInfo = memberService.selectMemberOne(id);
-        
-        modelMap.addAttribute("memberInfo", memberInfo);
-    	
-        return  "member/memberJoinResult";
-    }      
+    }    
     
     
     /**

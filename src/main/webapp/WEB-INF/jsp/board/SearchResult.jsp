@@ -17,6 +17,18 @@
 <script src="js/jquery-2.2.3.min.js"></script>
 <script src="js/common.js"></script>
 
+<script type="text/javascript">
+//id값 전송 함수-회원수정 
+function fn_id_sumbit(){
+	var f = document.form_id;
+	f.submit();
+}
+//탑 검색
+function fn_search(){
+	document.searchform.submit();	
+}	    
+</script>
+
 </head>
 
 <body>
@@ -27,7 +39,7 @@
       <div class="static">
 	      	<c:choose>
 	      		<c:when test="${sessionScope.id == null}">
-	      		 <div class="log-before"><a href="${path}/board/login.do">로그인</a><a href="memberJoinForm.do">회원가입</a></div>
+	      		 <div class="log-before"><a href="${path}/board/login.do">로그인</a><a href="memberJoinAgree.do">회원가입</a></div>
 	      		</c:when>
 	      		<c:otherwise>
 	      		 <form id="form_id" name="form_id"  action="memberMypage.do" method="post">

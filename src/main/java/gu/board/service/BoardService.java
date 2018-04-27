@@ -38,6 +38,11 @@ public class BoardService {
     public Integer selectIssueCount(SearchVO param) {
         return sqlSession.selectOne("selectIssueCount", param);
     }
+
+    /*마이페이지-나의커뮤니티 갯수*/
+    public Integer selectMyCount(SearchVO param) {
+        return sqlSession.selectOne("selectMyCount", param);
+    }    
     
     /*공지사항 홈리스트 조회*/
     public List<?> selectNoticeListMain(String param) {
@@ -67,6 +72,11 @@ public class BoardService {
     /*이슈 리스트 조회*/
     public List<?> selectIssueList(SearchVO param) {
         return sqlSession.selectList("selectIssueList", param);
+    }    
+    
+    /*마이페이지-나의커뮤니티 조회*/
+    public List<?> selectMyList(SearchVO param) {
+        return sqlSession.selectList("selectMyList", param);
     }    
     
     

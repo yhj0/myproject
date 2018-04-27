@@ -3,6 +3,7 @@ package gu.common;
 
 public class SearchVO extends  PageVO  {
 
+	private String id;						//사용자아이디
     private String brdno;                       // 게시판 그룹
     private String searchKeyword = "";         // 검색 키워드 (전체_검색용)
     private String searchKeyword2 = "";         // 검색 키워드 (게시판_검색용)
@@ -10,6 +11,14 @@ public class SearchVO extends  PageVO  {
     private String[] searchTypeArr;            // 검색 필드를 배열로 변환
     private int searchCount;            // 검색된 건수
     
+	public String getId() {
+		return id;
+	}
+
+	public void setId(String id) {
+		this.id = id;
+	}
+
 	public String getbrdno() {
         return brdno;
     }

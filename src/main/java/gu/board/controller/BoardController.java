@@ -100,13 +100,12 @@ public class BoardController {
         modelMap.addAttribute("searchVO", searchVO);
         
         return "board/BoardReadScroll";
-    }
-    
+    }  
     
     /* 최근이슈===================================================================== */
     @RequestMapping(value = "/issueList.do")
     public String issueList(SearchVO searchVO, ModelMap modelMap) throws Exception{
-
+    	
         searchVO.pageCalculate( boardservice.selectIssueCount(searchVO) ); // startRow, endRow
 
         List<?> listview  = boardservice.selectIssueList(searchVO);
@@ -116,6 +115,29 @@ public class BoardController {
         
         return "board/IssueList";
     }        
+    
+    /* 마이페이지-나의커뮤니티===================================================================== */
+    @RequestMapping(value = "/myBoardList.do")
+    public String myBoardList(SearchVO searchVO, ModelMap modelMap, HttpServletRequest request) throws Exception{
+    	/***내 게시물만 보이기 ***/
+    	//1.회원정보관리 -> 나의커뮤니티로 넘어올때 id값을 받아옴
+    	String id = request.getParameter("id");	
+    	
+    	//2.검색 SearchVO에 받아온 id값을 셋팅
+    	searchVO.setId(id);
+    	
+    	//3.게시물검색시 where 조건에 해당 id값을 넘겨줌
+        searchVO.pageCalculate(boardservice.selectMyCount(searchVO) ); // startRow, endRow
+
+        List<?> listview  = boardservice.selectMyList(searchVO);
+        
+        modelMap.addAttribute("listview", listview);
+        modelMap.addAttribute("searchVO", searchVO);
+        
+        return "board/MyBoardList";
+    }      
+    
+    
     
     /**
      * <ul>
@@ -144,9 +166,9 @@ public class BoardController {
         return "board/NoticeForm";
     }    
     
-    /* 소비자 경험===================================================================== */
-    @RequestMapping(value = "/boardForm.do")
-    public String boardForm(HttpServletRequest request, ModelMap modelMap) throws Exception{
+    /* 마이페이지-나의커뮤니티===================================================================== */
+    @RequestMapping(value = "/myBoardForm.do")
+    public String myBoardForm(HttpServletRequest request, ModelMap modelMap) throws Exception{
         String brdno = request.getParameter("brdno");
         if (brdno != null) {
             BoardVO boardInfo = boardservice.selectBoardOne(brdno);
@@ -157,7 +179,7 @@ public class BoardController {
             modelMap.addAttribute("listview", listview);
         }
         
-        return "board/BoardForm";
+        return "board/MyBoardForm";
     }
     
     /* 최근이슈===================================================================== */
@@ -175,6 +197,24 @@ public class BoardController {
         
         return "board/IssueForm";
     }    
+    
+    /* 소비자 경험===================================================================== */
+    @RequestMapping(value = "/boardForm.do")
+    public String boardForm(HttpServletRequest request, ModelMap modelMap) throws Exception{
+        String brdno = request.getParameter("brdno");
+        if (brdno != null) {
+            BoardVO boardInfo = boardservice.selectBoardOne(brdno);
+            
+            List<?> listview = boardservice.selectBoardFileList(brdno);
+            
+            modelMap.addAttribute("boardInfo", boardInfo);
+            modelMap.addAttribute("listview", listview);
+        }
+        
+        return "board/BoardForm";
+    }    
+    
+    
     
     /**
      * <ul>
@@ -225,6 +265,19 @@ public class BoardController {
         return "redirect:/issueList.do";
     }    
 
+    /*마이페이지-나의커뮤니티*/
+    @RequestMapping(value = "/myBoardSave.do")
+    public String myBoardSave(HttpServletRequest request, BoardVO boardInfo) throws Exception{
+    	String[] fileno = request.getParameterValues("fileno");
+        
+        FileUtil fs = new FileUtil();
+        List<FileVO> filelist = fs.saveAllFiles(boardInfo.getUploadfile());
+
+        boardservice.insertBoard(boardInfo, filelist, fileno);
+
+        return "redirect:/myBoardList.do";
+    }    
+    
     /**
      * <ul>
      * <li>제  목 : 메인홈에서 게시판 조회</li>
@@ -344,6 +397,24 @@ public class BoardController {
         
         return "board/IssueRead";
     }
+ 
+    /*마이페이지-나의커뮤니티*/    
+    @RequestMapping(value = "/myBoardRead.do")
+    public String myBoardRead(HttpServletRequest request, ModelMap modelMap) throws Exception{
+        
+        String brdno = request.getParameter("brdno");
+        
+        boardservice.updateBoardRead(brdno);
+        BoardVO boardInfo = boardservice.selectBoardOne(brdno);
+        List<?> listview = boardservice.selectBoardFileList(brdno);
+        List<?> replylist = boardservice.selectBoardReplyList(brdno);
+        
+        modelMap.addAttribute("boardInfo", boardInfo);
+        modelMap.addAttribute("listview", listview);
+        modelMap.addAttribute("replylist", replylist);
+        
+        return "board/MyBoardRead";
+    }    
     
     /**
      * <ul>
@@ -388,6 +459,17 @@ public class BoardController {
         return "redirect:/issueList.do";
     }
 
+    /*마이페이지-나의커뮤니티*/
+    @RequestMapping(value = "/myBoardDelete.do")
+    public String myBoardDelete(HttpServletRequest request) throws Exception{
+        
+        String brdno = request.getParameter("brdno");
+        
+        boardservice.deleteBoardOne(brdno);
+        
+        return "redirect:/myBoardList.do";
+    }    
+    
     /* ===================================================================== */
     
     /**

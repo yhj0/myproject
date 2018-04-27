@@ -2,7 +2,7 @@ package gu.common;
 
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
+
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.nio.channels.FileChannel;
@@ -10,7 +10,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
 
 import org.springframework.web.multipart.MultipartFile;
 /**
@@ -24,13 +23,17 @@ public class ImageUtil {
      */
     public List<ImageVO> saveAllFiles(List<MultipartFile> upfiles, String id , HttpServletRequest request) throws IOException {
         //이미지 유무를 확인하는 flag
+    	
     	String fileName = request.getParameter("filename");
     	String fileSize = request.getParameter("filesize");
+    	System.out.println("++++++++++++++++++++++++++++++++++++++++++++파일이름"+fileName);
+    	System.out.println("++++++++++++++++++++++++++++++++++++++++++++파일이름"+fileSize);
     	
     	String filePath = "C:\\web_project\\worksplace\\.metadata\\.plugins\\org.eclipse.wst.server.core\\tmp1\\wtpwebapps\\board\\upload_img\\"; 
         List<ImageVO> Imagelist = new ArrayList<ImageVO>();
-        
+      	System.out.println("++++++++++++++++++++++++++++++++++++++++++++1111"+fileSize);
         for (MultipartFile uploadfile : upfiles ) {
+        	System.out.println("++++++++++++++++++++++++++++++++++++++++++++444444");
         	//신규회원가입일때
             if (uploadfile.getSize() == 0 && fileName == null || fileName == "") {
             	
@@ -73,18 +76,21 @@ public class ImageUtil {
             
             //수정을 하나 이미지를 첨부하지않았을때 
             if (uploadfile.getOriginalFilename() == null||uploadfile.getOriginalFilename()==""){
+            	System.out.println("++++++++++++++++++++++++++++++++++++++++++++수정하나이미지첨부x"+fileName);
                 imagevo.setFilename(fileName);
                 //filedo.setRealname(newName);
                 imagevo.setFilesize(uploadfile.getSize());            	
             }
             else 
             {
+            	System.out.println("++++++++++++++++++++++++++++++++++++++++++++수정하나이미지첨부x"+fileName);
                 imagevo.setFilename(uploadfile.getOriginalFilename());
                 //filedo.setRealname(newName);
                 imagevo.setFilesize(uploadfile.getSize());
             }
             Imagelist.add(imagevo);	
         }
+    	System.out.println("++++++++++++++++++++++++++++++++++++++++++++2222x"+fileName);
         return Imagelist;
     }    
     

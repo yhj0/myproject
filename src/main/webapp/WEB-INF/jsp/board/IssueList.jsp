@@ -48,7 +48,7 @@ function fnSubmitForm(page){
       <div class="static">
 	      	<c:choose>
 	      		<c:when test="${sessionScope.id == null}">
-	      		 <div class="log-before"><a href="${path}/board/login.do">로그인</a><a href="memberJoinForm.do">회원가입</a></div>
+	      		 <div class="log-before"><a href="${path}/board/login.do">로그인</a><a href="memberJoinAgree.do">회원가입</a></div>
 	      		</c:when>
 	      		<c:otherwise>
 	      		 <form id="form_id" name="form_id"  action="memberMypage.do" method="post">

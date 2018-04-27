@@ -103,7 +103,7 @@ function setForm(editor) {
       <div class="static">
 	      	<c:choose>
 	      		<c:when test="${sessionScope.id == null}">
-	      		 <div class="log-before"><a href="${path}/board/login.do">로그인</a><a href="memberJoinForm.do">회원가입</a></div>
+	      		 <div class="log-before"><a href="${path}/board/login.do">로그인</a><a href="memberJoinAgree.do">회원가입</a></div>
 	      		</c:when>
 	      		<c:otherwise>
 	      		 <form id="form_id" name="form_id"  action="memberMypage.do" method="post">
@@ -235,9 +235,9 @@ function setForm(editor) {
           <input type="hidden" name="reg_id" value ="<c:out value="${sessionScope.id}"/>">
 		  <input type="hidden" name="brdno" value="<c:out value="${boardInfo.brdno}"/>"> 
           <div class="board-btm">
+            <a href="noticeList.do" class="btn large" >목록</a>          
             <a href="#" id="save_button" class="btn large blue">확인</a>
             <a href="noticeList.do" class="btn large">취소</a>
-            <a href="noticeList.do" class="btn large" >목록</a>
           </div>
           </form>			
         </div>

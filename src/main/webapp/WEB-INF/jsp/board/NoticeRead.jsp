@@ -99,7 +99,7 @@ function fn_replyUpdateCancel(){
       <div class="static">
 	      	<c:choose>
 	      		<c:when test="${sessionScope.id == null}">
-	      		 <div class="log-before"><a href="${path}/board/login.do">로그인</a><a href="memberJoinForm.do">회원가입</a></div>
+	      		 <div class="log-before"><a href="${path}/board/login.do">로그인</a><a href="memberJoinAgree.do">회원가입</a></div>
 	      		</c:when>
 	      		<c:otherwise>
 	      		 <form id="form_id" name="form_id"  action="memberMypage.do" method="post">
@@ -227,17 +227,17 @@ function fn_replyUpdateCancel(){
             </tbody>
           </table>          
 	          	<div class="board-btm">
+	          			    <a href="noticeList.do" class="btn large">목록</a>
 				  <!-- 수정권한 본인id 혹은 관리자-->
 				  <c:choose>
 					 	<c:when test="${sessionScope.id eq boardInfo.reg_id || sessionScope.id eq 'admin'}">	          	
 				      		<a href="noticeForm.do?brdno=<c:out value="${boardInfo.brdno}"/>" class="btn large blue">수정</a>
-				      		<a href="noticeDelete.do?brdno=<c:out value="${boardInfo.brdno}"/>" class="btn large blue">삭제</a>
+				      		<a href="noticeDelete.do?brdno=<c:out value="${boardInfo.brdno}"/>" class="btn large">삭제</a>
 			            </c:when>
 			            <c:otherwise>
 							<br>
 						</c:otherwise>
 				  </c:choose>			            
-		           	 <a href="noticeList.do" class="btn large">목록</a>
 	          	</div>				
         </div>
         <!-- //contents -->

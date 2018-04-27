@@ -19,12 +19,6 @@
 			</otherwise>
         </choose>           
     </sql>
-
-    <select id="selectNoticeCount2" resultType="Integer" parameterType="gu.common.SearchVO">
-        SELECT COUNT(*)
-          FROM TBL_NOTICE
-         <include refid="includeBoard"/>
-    </select> 
     
     <select id="selectNoticeCount" resultType="Integer" parameterType="gu.common.SearchVO">
         SELECT COUNT(*)
@@ -42,6 +36,13 @@
         SELECT COUNT(*)
           FROM TBL_ISSUE
          <include refid="includeBoard"/>
+    </select> 
+
+    <select id="selectMyCount" resultType="Integer" parameterType="gu.common.SearchVO">
+        SELECT COUNT(*)
+          FROM TBL_BOARD
+         <include refid="includeBoard"/>
+         AND REG_ID =#{id}
     </select> 
 
     <select id="selectNoticeListMain" resultType="gu.board.vo.BoardVO" parameterType="gu.common.SearchVO">
@@ -124,6 +125,21 @@
              , REG_ID , REG_DTTM, CHG_ID, CHG_DTTM
           FROM TBL_ISSUE TB
          <include refid="includeBoard"/>
+         ORDER BY BRDNO DESC 
+         LIMIT ${rowStart-1}, 10
+    </select> 
+
+    <select id="selectMyList" resultType="gu.board.vo.BoardVO" parameterType="gu.common.SearchVO">
+        SELECT BRDNO, BRDTYPE, BRDTITLE, BRDWRITER, DATE_FORMAT(BRDDATE,'%Y-%m-%d') BRDDATE, BRDHIT
+             , (SELECT COUNT(*) FROM TBL_BOARDFILE WHERE BRDNO=TB.BRDNO AND BRDTYPE='I') FILECNT
+             , (SELECT FILENAME FROM TBL_BOARDFILE WHERE BRDNO=TB.BRDNO AND BRDTYPE='I') FILENAME   
+             , (SELECT REALNAME FROM TBL_BOARDFILE WHERE BRDNO=TB.BRDNO AND BRDTYPE='I') REALNAME                            
+             , (SELECT COUNT(*) FROM TBL_BOARDREPLY WHERE BRDNO=TB.BRDNO AND REDELETEFLAG='N') REPLYCNT
+           	 , (SELECT COUNT(*) FROM TBL_LIKES WHERE BRDNO = TB.BRDNO)BRDLIKE            
+             , REG_ID , REG_DTTM, CHG_ID, CHG_DTTM
+          FROM TBL_BOARD TB
+         <include refid="includeBoard"/>
+         AND REG_ID =#{id}
          ORDER BY BRDNO DESC 
          LIMIT ${rowStart-1}, 10
     </select> 
