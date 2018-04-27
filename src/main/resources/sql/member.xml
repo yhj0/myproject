@@ -20,6 +20,7 @@
 			  	 			  WHERE 1=1 
 			  	 			    AND REG_ID = #{id} )
 	       AND A.ID = #{id} 
+	       AND A.USE_YN = 'Y'
     </select> 
 
 <!--회원정보 입력 -->
@@ -38,7 +39,15 @@
            	   , CHG_DTTM = NOW()
          WHERE ID = #{id} 
     </update>     
-    
+
+<!--회원탈퇴 -->
+    <update id="quitMember" parameterType="String"> 
+        UPDATE TBL_MEMBER
+           SET   USE_YN = 'N'
+           	   , CHG_DTTM = NOW()
+           	   , QUIT_DTTM = NOW()
+         WHERE ID = #{id} 
+    </update>      
     
 <!--아이디 갯수 체크 -->    
     <select id="checkID" resultType="String">
@@ -46,6 +55,7 @@
           FROM TBL_MEMBER
          WHERE 1=1
            AND ID=#{id}
+           AND USE_YN = 'Y'
     </select> 
 
 <!--회원사진 업로드 입력 -->  

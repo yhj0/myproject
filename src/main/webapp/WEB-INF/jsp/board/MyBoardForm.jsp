@@ -47,7 +47,7 @@ $(function(){
 //Editor.save() 호출 한 다음에 validation 검증을 위한 함수
 //validation 체크해줄 입력폼들을 이 함수에 추가 지정해줍니다.
 function validForm(editor) {
-	var form1 = document.form1;
+ var form1 = document.form1;
  var validator = new Trex.Validator();
  var content = editor.getContent();
  
@@ -250,10 +250,10 @@ function fn_search(){
             </tbody>
           </table>
           
-          <input type="hidden" name="reg_id" value ="<c:out value="${sessionScope.id}"/>">
+          <input type="hidden" name="id" value ="<c:out value="${sessionScope.id}"/>">
 		  <input type="hidden" name="brdno" value="<c:out value="${boardInfo.brdno}"/>"> 
 	          	<div class="board-btm">	          	          	      
-		             <a href="myBoardList.do" class="btn large" >목록</a>          
+		             <a href="#" onclick="fn_id_sumbit2();" class="btn large">목록</a>	            
 		             <a href="#" id="save_button" class="btn large blue">확인</a>
 		             <a href="myBoardList.do" class="btn large">취소</a>				     
 	          	</div>	

@@ -5,7 +5,8 @@
 
     <select id="loginCheck" resultType="String">
         SELECT NAME FROM TBL_MEMBER
-        WHERE id = #{id} AND password = #{password}
+        WHERE ID = #{id} AND PASSWORD = #{password}
+          AND USE_YN ='Y'
     </select> 
     
 	<select id="viewLogin" resultType="gu.login.LoginVO">
@@ -23,7 +24,8 @@
 			  	 						 FROM TBL_IMAGE
 			  	 						 WHERE 1=1 
 			  	 						 AND REG_ID = #{id} )
-	        	 AND A.ID = #{id} AND A.PASSWORD = #{password}    
+	        	 AND A.ID = #{id} AND A.PASSWORD = #{password}   
+	        	 AND A.USE_YN='Y' 
 	</select>
 	
 </mapper>      

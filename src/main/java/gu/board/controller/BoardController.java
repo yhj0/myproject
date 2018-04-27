@@ -63,6 +63,7 @@ public class BoardController {
       	return "board/home";  
     }	 
     
+    /* ===================================================================== */
     /**
      * <ul>
      * <li>제  목 : 게시판 조회</li>
@@ -137,8 +138,7 @@ public class BoardController {
         return "board/MyBoardList";
     }      
     
-    
-    
+    /* ===================================================================== */
     /**
      * <ul>
      * <li>제  목 : 게시판 읽기</li>
@@ -214,8 +214,7 @@ public class BoardController {
         return "board/BoardForm";
     }    
     
-    
-    
+    /* ===================================================================== */
     /**
      * <ul>
      * <li>제  목 : 게시판 저장</li>
@@ -277,7 +276,7 @@ public class BoardController {
 
         return "redirect:/myBoardList.do";
     }    
-    
+    /* ===================================================================== */
     /**
      * <ul>
      * <li>제  목 : 메인홈에서 게시판 조회</li>
@@ -415,7 +414,7 @@ public class BoardController {
         
         return "board/MyBoardRead";
     }    
-    
+    /* ===================================================================== */   
     /**
      * <ul>
      * <li>제  목 : 게시물 삭제</li>

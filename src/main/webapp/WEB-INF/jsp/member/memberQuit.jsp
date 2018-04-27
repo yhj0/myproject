@@ -36,9 +36,11 @@ function fn_quit(){
 
 	if(chkVal != 1){	
 		alert('회원탈퇴를 하시려면 탈퇴여부를 동의해주세요.');
+		return false;
 	}
 	else {
 		alert("회원탈퇴 처리가 완료되었습니다.");
+		document.form_quit.submit();
 	}
 
 }
@@ -149,7 +151,10 @@ function fn_quit(){
             </div>
             <p><input type="checkbox" id="chk" name="chk"><label for="chk">안내 사항을 모두 확인하였으며, 탈퇴 시 아이디(<span class="hColor3"><c:out value="${sessionScope.id}"/></span>)의 재사용 및 데이터 복구가 불가함에 동의합니다.</label></p>
             <div class="board-btm-agc">
-              <a href="#" class="btn large blue" id="quit" onclick="fn_quit();">회원탈퇴하기</a>
+            <form name="form_quit" action="memberQuitProc.do" method="post" enctype="multipart/form-data">     
+              <input type="hidden" id="id" name="id"  value ="<c:out value="${sessionScope.id}"/>">     
+              <button type="button" class="btn large blue" id="quit" onclick="fn_quit()">회원탈퇴하기</button>
+            </form>
             </div>
           </div>
 

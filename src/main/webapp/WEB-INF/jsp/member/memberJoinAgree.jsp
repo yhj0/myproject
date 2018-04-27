@@ -14,10 +14,28 @@
   <script src="js/common.js"></script>
 
 <script type="text/javascript">
-function fn_submit(){
-	document.form.submit();
+//체크여부
+function fn_valid(){
+	var chk1 = $('input:checkbox[id="chk-agree1"]').is(":checked");
+	var chk2 = $('input:checkbox[id="chk-agree2"]').is(":checked");
+	
+	if(chk1 != 1){	
+		alert('이용약관에 동의해주세요.');
+		return false;
+	}
+	if(chk2 != 1) {
+		alert("개인정보 취급방침에 동의해주세요.");
+		return false;
+	}
+	return true;
 }
 
+//전송
+function fn_submit(){
+	if(fn_valid() == true){
+		document.form.submit();
+	}
+}
 </script>
 </head>
 
@@ -133,7 +151,7 @@ function fn_submit(){
             </div>
         	<form name="form" action="memberJoinForm.do" method="post" enctype="multipart/form-data">              
 	            <div class="board-btm-agc">
-	              <button type="submit" class="btn large blue" onclick="fn_submit()" >확인</button>
+	              <button type="button" class="btn large blue" onclick="fn_submit()" >확인</button>
 	              <button type="reset" class="btn large" onclick="javascript:history.go(-1)">취소</button>
 	            </div>
 			</form>              

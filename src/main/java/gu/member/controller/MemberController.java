@@ -174,13 +174,13 @@ public class MemberController {
      */   
     @RequestMapping(value = "/memberSave.do")
      public String memberSave(HttpServletRequest request, MemberVO memberInfo, HttpSession session, ModelMap modelMap, HttpServletResponse response)  throws Exception{
-    	System.out.println("++++++++++++++++++++++++++++++++++++++++++++저장");
+    	System.out.println("++++++++++++++++++++++++++++++++++++++++++++1");
     	String url =  "";
 
 	    try {	
 	   
 	    	String id = request.getParameter("id");	
-	    	System.out.println("++++++++++++++++++++++++++++++++++++++++++++:"+id);
+	    	System.out.println("++++++++++++++++++++++++++++++++++++++++++++:2"+id);
 	        ImageUtil iu = new ImageUtil();
 	        
 	        List<ImageVO> imagelist = iu.saveAllFiles(memberInfo.getUploadfile(), id, request);
@@ -188,7 +188,7 @@ public class MemberController {
 	    	//아이디 존재 갯수파악
 	    	int rowcount = Integer.parseInt(memberService.checkSignup(id));
 
-	    	System.out.println("++++++++++++++++++++++++++++++++++++++++++++:"+rowcount);
+	    	System.out.println("++++++++++++++++++++++++++++++++++++++++++++:3"+rowcount);
 	    	//회원가입일때
 	    	if(rowcount == 0){
 	        	boolean result = memberService.insertMember(memberInfo, imagelist);
@@ -202,7 +202,7 @@ public class MemberController {
 	    	//회원수정일때
 	    	else {
 	    		boolean result = memberService.updateMember(memberInfo, imagelist);
-	    		System.out.println("++++++++++++++++++++++++++++++++++++++++++++:"+result);
+	    		System.out.println("++++++++++++++++++++++++++++++++++++++++++++:4"+result);
 	        	if (result == true) { // 수정 성공
 	        		url = "forward:home.do";
 	        	} else {    // 수정 실패
@@ -249,6 +249,35 @@ public class MemberController {
     	return "member/memberQuit";
     
     }	    
+ 
+    /**
+     * <ul>
+     * <li>제  목 : 마이페이지-회원탈퇴 처리</li>
+     * <li>설  명 : 회원을 탈퇴시킨다</li>
+     * <li>작성일 : 2018-04-25</li>
+     * <li>작성자 : 유형준</li>
+     * </ul>
+     *
+     * @author 유형준
+     */    
+    @RequestMapping(value = "/memberQuitProc.do")
+    public String memberQuitProc(HttpServletRequest request, MemberVO memberInfo, ModelMap modelMap,HttpSession session) throws Exception{
+    	String url =  "";
+    	String id = request.getParameter("id");
+    	System.out.println(id);
+    	
+    	boolean result = memberService.quitMember(memberInfo);
+
+    	if (result == true) { 
+    		session.invalidate(); //로그아웃시킴
+    		url = "forward:home.do";
+    	} else {   
+    		url = "error.do";
+    	}    	
+    	
+    	return url; 
+    
+    }	
     
     /**
      * <ul>

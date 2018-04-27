@@ -245,7 +245,7 @@ function fn_replyUpdateCancel(){
             </tbody>
           </table>          
 	          	<div class="board-btm">	          	
-		           	 <a href="myBoardList.do" class="btn large">목록</a>	          	
+		           	 <a href="#" onclick="fn_id_sumbit2();" class="btn large">목록</a>	          	
 				     <a href="myBoardForm.do?brdno=<c:out value="${boardInfo.brdno}"/>" class="btn large blue">수정</a>
 				     <a href="myBoardDelete.do?brdno=<c:out value="${boardInfo.brdno}"/>" class="btn large">삭제</a>      
 	          	</div>				

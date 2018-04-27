@@ -103,5 +103,28 @@ public class MemberService {
             System.out.println("+++++++++++++++++++++++++++서비스   "+count);
             return  count;    
     }	
+
+    /**
+     * 회원탈퇴
+     */
+    public boolean quitMember(MemberVO param) {
+        DefaultTransactionDefinition def = new DefaultTransactionDefinition();
+        def.setPropagationBehavior(TransactionDefinition.PROPAGATION_REQUIRED);
+        TransactionStatus status = txManager.getTransaction(def);
+        
+        boolean result = true;
+        
+        try {
+        	//회원정보수정
+            sqlSession.update("quitMember", param); 
+            txManager.commit(status);
+            
+            
+        } catch (TransactionException ex) {
+            txManager.rollback(status);
+            System.out.println("데이터 저장 오류: " + ex.toString());
+        }
+		return result;            
+    }	    
     
 }
