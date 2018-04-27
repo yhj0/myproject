@@ -4,12 +4,7 @@
 <mapper namespace="member">
 <!--회원정보 조회 -->
     <select id="selectMemberOne" parameterType="String"  resultType="gu.member.vo.MemberVO" >
-		SELECT  A.NAME AS NAME,
-	            A.ID AS ID,
-	            A.EMAIL AS EMAIL,
-	            A.REG_DTTM AS REG_DTTM,
-	            A.PASSWORD,
-	            A.NICK_NAME,
+		SELECT  A.*,
 	            B.FILENAME AS FILENAME,
 	            B.REG_DTTM AS FILE_DTTM
 		  FROM TBL_MEMBER A, TBL_IMAGE B 
@@ -36,6 +31,12 @@
            	   , name =	#{name}
            	   , nick_name = #{nick_name}#
            	   , email = #{email}
+           	   , mobile1 = #{mobile1}#
+           	   , mobile2 = #{mobile2}#
+           	   , mobile3 = #{mobile3}#
+           	   , hom_phone1 = #{hom_phone1}#
+           	   , hom_phone2 = #{hom_phone2}#
+           	   , hom_phone3 = #{hom_phone3}#
            	   , CHG_DTTM = NOW()
          WHERE ID = #{id} 
     </update>     

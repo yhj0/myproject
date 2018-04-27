@@ -15,6 +15,13 @@ public class MemberVO {
     private	String email_2;
     private String reg_dttm;
     private String filename;
+    private String mobile1;
+    private String mobile2;
+    private String mobile3;
+    private String hom_phone1;
+    private String hom_phone2;
+    private String hom_phone3;
+
    
     /* 프로필이미지 */
     private List<MultipartFile> uploadfile;
@@ -81,6 +88,42 @@ public class MemberVO {
 	}
 	public void setEmail_2(String email_2) {
 		this.email_2 = email_2;
+	}
+	public String getMobile1() {
+		return mobile1;
+	}
+	public void setMobile1(String mobile1) {
+		this.mobile1 = mobile1;
+	}
+	public String getMobile2() {
+		return mobile2;
+	}
+	public void setMobile2(String mobile2) {
+		this.mobile2 = mobile2;
+	}
+	public String getMobile3() {
+		return mobile3;
+	}
+	public void setMobile3(String mobile3) {
+		this.mobile3 = mobile3;
+	}
+	public String getHom_phone1() {
+		return hom_phone1;
+	}
+	public void setHom_phone1(String hom_phone1) {
+		this.hom_phone1 = hom_phone1;
+	}
+	public String getHom_phone2() {
+		return hom_phone2;
+	}
+	public void setHom_phone2(String hom_phone2) {
+		this.hom_phone2 = hom_phone2;
+	}
+	public String getHom_phone3() {
+		return hom_phone3;
+	}
+	public void setHom_phone3(String hom_phone3) {
+		this.hom_phone3 = hom_phone3;
 	}
 	
 }
