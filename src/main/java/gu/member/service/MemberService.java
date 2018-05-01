@@ -100,7 +100,6 @@ public class MemberService {
     public String checkSignup(String id) {
 
     		String count = sqlSession.selectOne("checkID", id); 
-            System.out.println("+++++++++++++++++++++++++++서비스   "+count);
             return  count;    
     }	
 

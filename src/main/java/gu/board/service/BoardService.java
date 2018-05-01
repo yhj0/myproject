@@ -2,6 +2,7 @@ package gu.board.service;
 
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -182,8 +183,14 @@ public class BoardService {
     }    
   
     /*소비자경험 개별조회*/
-    public BoardVO selectBoardOne(String param) {
-        return sqlSession.selectOne("selectBoardOne", param);
+    /*sql쿼리에서 가져할 변수가 2개(게시번호,아이디)여서 map을 사용하였음 */
+    public BoardVO selectBoardOne(String param, String param2  ) {
+    	
+    	Map<String, String> map = new HashMap<String, String>();
+    	map.put("brdno", param);
+    	map.put("user_id", param2);
+    		
+        return sqlSession.selectOne("selectBoardOne", map);
     }
 
     /*이슈 개별조회*/
@@ -254,6 +261,87 @@ public class BoardService {
     }
 
     /**
+     * 좋아요 추가
+     */    
+    public void insertLikes(BoardLikesVO param) {
+        DefaultTransactionDefinition def = new DefaultTransactionDefinition();
+        def.setPropagationBehavior(TransactionDefinition.PROPAGATION_REQUIRED);
+        TransactionStatus status = txManager.getTransaction(def);
+        
+        try {
+            sqlSession.insert("insertLikes", param);
+
+            txManager.commit(status);
+        } catch (TransactionException ex) {
+            txManager.rollback(status);
+            System.out.println("데이터 저장 오류: " + ex.toString());
+        }            
+    }    
+
+    /**
+     * 해당게시물에 좋아요 눌렀는지 여부판단
+     * 
+     */    
+    public int selectYnLikes(BoardLikesVO param) {
+        DefaultTransactionDefinition def = new DefaultTransactionDefinition();
+        def.setPropagationBehavior(TransactionDefinition.PROPAGATION_REQUIRED);
+        TransactionStatus status = txManager.getTransaction(def);
+        
+        int rowcount =0;
+        
+        try {
+        	rowcount = sqlSession.selectOne("selectYnLikes", param);
+
+            txManager.commit(status);
+        } catch (TransactionException ex) {
+            txManager.rollback(status);
+            System.out.println("데이터 저장 오류: " + ex.toString());
+        }
+		return rowcount;            
+    }        
+    
+    /**
+     * 좋아요 조회(추가/삭제후 재카운트)
+     * 
+     */    
+    public int selectLikes(String param) {
+        DefaultTransactionDefinition def = new DefaultTransactionDefinition();
+        def.setPropagationBehavior(TransactionDefinition.PROPAGATION_REQUIRED);
+        TransactionStatus status = txManager.getTransaction(def);
+        
+        int rowcount =0;
+        
+        try {
+            
+        	rowcount = sqlSession.selectOne("selectLikes", param);
+
+            txManager.commit(status);
+        } catch (TransactionException ex) {
+            txManager.rollback(status);
+            System.out.println("데이터 저장 오류: " + ex.toString());
+        }
+		return rowcount;            
+    }        
+    
+    /**
+     * 좋아요 삭제
+     */    
+    public void deleteLikes(BoardLikesVO param) {
+        DefaultTransactionDefinition def = new DefaultTransactionDefinition();
+        def.setPropagationBehavior(TransactionDefinition.PROPAGATION_REQUIRED);
+        TransactionStatus status = txManager.getTransaction(def);
+        
+        try {
+            sqlSession.delete("deleteLikes", param);
+
+            txManager.commit(status);
+        } catch (TransactionException ex) {
+            txManager.rollback(status);
+            System.out.println("데이터 저장 오류: " + ex.toString());
+        }            
+    }      
+    
+    /**
      * 검색. 
      */
     /*검색된 갯수*/
@@ -275,5 +363,5 @@ public class BoardService {
     
     public List<BoardVO> selectBoardOneNew2(Integer param) {
         return sqlSession.selectList("test2", param);
-    }    
+    }
 }

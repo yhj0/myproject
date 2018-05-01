@@ -12,6 +12,7 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.web.multipart.MultipartFile;
+
 /**
  * 프로필 사진을 처리하는 로직
  */
@@ -21,29 +22,27 @@ public class ImageUtil {
      * 이미지 업로드.
      * @throws IOException 
      */
+	
+    /**
+     * 회원가입일때 사진로직
+     */
     public List<ImageVO> saveAllFiles(List<MultipartFile> upfiles, String id , HttpServletRequest request) throws IOException {
         //이미지 유무를 확인하는 flag
-    	
     	String fileName = request.getParameter("filename");
     	String fileSize = request.getParameter("filesize");
-    	System.out.println("++++++++++++++++++++++++++++++++++++++++++++파일이름"+fileName);
-    	System.out.println("++++++++++++++++++++++++++++++++++++++++++++파일이름"+fileSize);
-    	
+
     	String filePath = "C:\\web_project\\worksplace\\.metadata\\.plugins\\org.eclipse.wst.server.core\\tmp1\\wtpwebapps\\board\\upload_img\\"; 
         List<ImageVO> Imagelist = new ArrayList<ImageVO>();
-      	System.out.println("++++++++++++++++++++++++++++++++++++++++++++1111"+fileSize);
         for (MultipartFile uploadfile : upfiles ) {
-        	System.out.println("++++++++++++++++++++++++++++++++++++++++++++444444");
-        	//신규회원가입일때
-            if (uploadfile.getSize() == 0 && fileName == null || fileName == "") {
-            	
+        	
+            if (uploadfile.getOriginalFilename() == null || uploadfile.getOriginalFilename()=="") {
             	//디렉토리 생성
                 makeBasePath(filePath + "/"+ id + "/");
-                String serverFullPath = filePath + "/"+ id + "/" + "basic.jpg";
+                String serverFullPath = filePath + "/"+ id + "/" + "no_photo.jpg";
                 
                 long fsize = 0; 
                 //원본위치
-                FileInputStream  org_file = new FileInputStream("C:\\web_project\\worksplace\\.metadata\\.plugins\\org.eclipse.wst.server.core\\tmp1\\wtpwebapps\\board\\upload_img\\basic.jpg");
+                FileInputStream  org_file = new FileInputStream("C:\\web_project\\worksplace\\.metadata\\.plugins\\org.eclipse.wst.server.core\\tmp1\\wtpwebapps\\board\\upload_img\\no_photo.jpg");
                 //복사될 곳
                 FileOutputStream  new_file = new FileOutputStream(serverFullPath);
                 
@@ -61,36 +60,58 @@ public class ImageUtil {
                 fcin.close(); 
                 org_file.close(); 
                 new_file.close();                
+                
                 //수동 기본 이미지 파일DB입력
                 ImageVO imagevo = new ImageVO();
-                imagevo.setFilename("basic.jpg");
-                imagevo.setFilesize(37132);
+                imagevo.setFilename("no_photo.jpg");
+                imagevo.setFilesize(1783);
                 Imagelist.add(imagevo);
             	
                 continue;
-            }
+                
+            }else{
             
+	            saveFile(uploadfile, filePath + "/"+ id + "/", uploadfile.getOriginalFilename());
+	            
+	            ImageVO imagevo = new ImageVO();
+	            imagevo.setFilename(uploadfile.getOriginalFilename());
+	            //filedo.setRealname(newName);
+	            imagevo.setFilesize(uploadfile.getSize());
+	            Imagelist.add(imagevo);	
+            }
+        }
+        return Imagelist;
+    }    
+    
+    /**
+     * 회원수정일때 사진로직
+     */
+    public List<ImageVO> saveAllFiles2(List<MultipartFile> upfiles, String id , HttpServletRequest request) throws IOException {
+        //이미지 유무를 확인하는 flag
+    	String fileName = request.getParameter("filename");
+    	String fileSize = request.getParameter("filesize");
+    	
+    	String filePath = "C:\\web_project\\worksplace\\.metadata\\.plugins\\org.eclipse.wst.server.core\\tmp1\\wtpwebapps\\board\\upload_img\\"; 
+        List<ImageVO> Imagelist = new ArrayList<ImageVO>();
+        for (MultipartFile uploadfile : upfiles ) {
+        	  
             saveFile(uploadfile, filePath + "/"+ id + "/", uploadfile.getOriginalFilename());
             
             ImageVO imagevo = new ImageVO();
             
             //수정을 하나 이미지를 첨부하지않았을때 
             if (uploadfile.getOriginalFilename() == null||uploadfile.getOriginalFilename()==""){
-            	System.out.println("++++++++++++++++++++++++++++++++++++++++++++수정하나이미지첨부x"+fileName);
-                imagevo.setFilename(fileName);
-                //filedo.setRealname(newName);
-                imagevo.setFilesize(uploadfile.getSize());            	
+            
             }
             else 
             {
-            	System.out.println("++++++++++++++++++++++++++++++++++++++++++++수정하나이미지첨부x"+fileName);
                 imagevo.setFilename(uploadfile.getOriginalFilename());
                 //filedo.setRealname(newName);
                 imagevo.setFilesize(uploadfile.getSize());
+                Imagelist.add(imagevo);	
             }
-            Imagelist.add(imagevo);	
+
         }
-    	System.out.println("++++++++++++++++++++++++++++++++++++++++++++2222x"+fileName);
         return Imagelist;
     }    
     

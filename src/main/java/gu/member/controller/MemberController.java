@@ -174,24 +174,23 @@ public class MemberController {
      */   
     @RequestMapping(value = "/memberSave.do")
      public String memberSave(HttpServletRequest request, MemberVO memberInfo, HttpSession session, ModelMap modelMap, HttpServletResponse response)  throws Exception{
-    	System.out.println("++++++++++++++++++++++++++++++++++++++++++++1");
     	String url =  "";
 
 	    try {	
 	   
 	    	String id = request.getParameter("id");	
-	    	System.out.println("++++++++++++++++++++++++++++++++++++++++++++:2"+id);
 	        ImageUtil iu = new ImageUtil();
-	        
-	        List<ImageVO> imagelist = iu.saveAllFiles(memberInfo.getUploadfile(), id, request);
+	        System.out.println("zzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzz:"+id);
 	    	
 	    	//아이디 존재 갯수파악
 	    	int rowcount = Integer.parseInt(memberService.checkSignup(id));
 
-	    	System.out.println("++++++++++++++++++++++++++++++++++++++++++++:3"+rowcount);
 	    	//회원가입일때
 	    	if(rowcount == 0){
-	        	boolean result = memberService.insertMember(memberInfo, imagelist);
+	        	
+	    		List<ImageVO> imagelist = iu.saveAllFiles(memberInfo.getUploadfile(), id, request);
+	    		
+	    		boolean result = memberService.insertMember(memberInfo, imagelist);
 	        		
 	        	if (result == true) { // 회원가입 성공
 	        		url = "forward:/memberJoinResult.do";
@@ -201,8 +200,11 @@ public class MemberController {
 	    	}
 	    	//회원수정일때
 	    	else {
-	    		boolean result = memberService.updateMember(memberInfo, imagelist);
-	    		System.out.println("++++++++++++++++++++++++++++++++++++++++++++:4"+result);
+	    		
+	    		List<ImageVO> imagelist2 = iu.saveAllFiles2(memberInfo.getUploadfile(), id, request);
+	    		
+	    		boolean result = memberService.updateMember(memberInfo, imagelist2);
+	    		
 	        	if (result == true) { // 수정 성공
 	        		url = "forward:home.do";
 	        	} else {    // 수정 실패

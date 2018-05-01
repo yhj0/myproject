@@ -32,19 +32,14 @@ function fn_search(){
 }	   
 
 function fn_formSubmit(){
-	var form1 = document.form1;
+	var form_Reply = document.form_Reply;
 	
-	if (form1.rewriter.value=="") {
-		alert("작성자를 입력해주세요.");
-		form1.rewriter.focus();
-		return;
-	}
-	if (form1.rememo.value=="") {
+	if (form_Reply.rememo.value=="") {
 		alert("글 내용을 입력해주세요.");
-		form1.rememo.focus();
+		form_Reply.rememo.focus();
 		return;
 	}
-	form1.submit();	
+	form_Reply.submit();	
 }
 
 function fn_replyDelete(reno){
@@ -102,6 +97,77 @@ function fn_replyUpdateCancel(){
 	oldReno.innerText = updateRememo;
 	updateReno = updateRememo = null;
 } 
+
+//댓글 글자수세기300자제한
+function fn_counting(){
+	document.getElementById("sp01").innerHTML = document.getElementById("rememo").value.length;
+}
+
+$(document).ready(function() {
+	
+	//좋아요 클릭(증가+) ajax구현
+	$('#like').click(function(){
+		
+	  var id = $(this).val(); 
+	  var brdno = $(this).val(); 
+	  
+	  $.ajax({
+		  type: "POST",
+	      url: "myLikeUp.do", // 통신할 url을 지정한다.
+	      data: { "user_id" : $('#reg_id').val(),
+	    	  	  "brdno" : $('#brdno').val(),						 
+	    	  	}, // 서버로 데이터를 전송할 때 이 옵션을 사용한다.
+	      dataType: "json", // 서버측에서 전송한 데이터를 어떤 형식의 데이터로서 해석할 것인가를 지정한다. 없으면 알아서 판단한다.
+	      success: function(data){
+	        // 요청이 성공했을 경우 좋아요/싫어요 개수 레이블 업데이트
+	        
+	        if($.trim(data) == -1){
+	        	alert("해당 게시물에 이미 좋아요를 누르셨습니다.");
+	        	return false;
+	        }
+	        else {
+		        alert("좋아요를 눌렀습니다.")
+		        $('#like_count').html(data);	
+		        $('#like_cancle').show();
+	        }
+	      },
+	      error:function(error){
+	        // 요청이 실패했을 경우
+	        alert("서비스 요청에 실패했습니다.")
+	      }
+	  });
+	})
+
+	//좋아요 취소(감소-) ajax구현
+	$('#like_cancle').click(function(){
+		
+	  var id = $(this).val(); 
+	  var brdno = $(this).val(); 
+	  
+	  $.ajax({
+		  type: "POST",
+	      url: "myLikeDown.do", // 통신할 url을 지정한다.
+	      data: { "user_id" : $('#reg_id').val(),
+	    	  	  "brdno" : $('#brdno').val(),						 
+	    	  	}, // 서버로 데이터를 전송할 때 이 옵션을 사용한다.
+	      dataType: "json", // 서버측에서 전송한 데이터를 어떤 형식의 데이터로서 해석할 것인가를 지정한다. 없으면 알아서 판단한다.
+	      success: function(data){
+
+		        alert("좋아요를 취소하였습니다.")
+		        $('#like_count').html(data);
+		        $('#like_cancle').hide();
+    
+	      },
+	      error:function(error){
+	        // 요청이 실패했을 경우
+	        alert("서비스 요청에 실패했습니다.")
+	      }
+	  });
+	})	
+	
+});	
+
+
 
 </script>
 
@@ -248,7 +314,36 @@ function fn_replyUpdateCancel(){
 		           	 <a href="#" onclick="fn_id_sumbit2();" class="btn large">목록</a>	          	
 				     <a href="myBoardForm.do?brdno=<c:out value="${boardInfo.brdno}"/>" class="btn large blue">수정</a>
 				     <a href="myBoardDelete.do?brdno=<c:out value="${boardInfo.brdno}"/>" class="btn large">삭제</a>      
-	          	</div>				
+	          	</div>		
+          <div class="reply-tit">
+            <span class="re-tex">댓글 <c:out value="${boardInfo.replycnt}"/></span>
+            <span class="btn-good"><button type="button" id="like" ><span class="ico-heart on">좋아요</span></button><span id="like_count" class="count"><c:out value="${boardInfo.brdlike}"/></span></span>
+            <c:if test="${boardInfo.brdlike_yn == 'Y'}">
+           		<button type="button" class="btn-good" id="like_cancle">좋아요 취소</button>
+            </c:if>
+          </div>     
+          <div class="reply-form">
+          	<form name="form_Reply" action="myReplySave.do" method="post">
+	            <div class="reply-log"><span class="u-id"><c:out value="${sessionScope.id}"/></span><span class="u-date"><c:out value="${boardInfo.sysdate}"/></span></div>
+	            <textarea id="rememo" name="rememo" rows="3" cols="80" maxlength="300"   onkeyup="fn_counting()"></textarea>
+	            <div align="right">
+	            <span id="sp01">0</span>/300&nbsp;&nbsp;&nbsp;
+	            </div>
+	            <div class="btns"><button type="button" class="btn large blue" onclick="fn_formSubmit()">등록</button></div>
+	            <input type="hidden" name="brdno" id="brdno" value="<c:out value="${boardInfo.brdno}"/>">
+	            <input type="hidden" name="reg_id" id="reg_id" value ="<c:out value="${sessionScope.id}"/>">
+	            <input type="hidden" name="rewriter" id="rewriter" value="<c:out value="${sessionScope.name}"/>">
+            </form>
+          </div>           
+          <c:forEach var="replylist" items="${replylist}" varStatus="status">    
+          <div class="reply-list">																		
+            <div class="reply-log"><span class="u-id"><c:out value="${replylist.reg_id}"/></span><span class="u-date"><c:out value="${replylist.reg_dttm}"/></span></div>
+            <div class="reply-cont">
+              <c:out value="${replylist.rememo}"/>
+            </div>
+            <button type="button" class="reply-count">답글달기</button>
+          </div>
+          </c:forEach>	          			
         </div>
         <!-- //contents -->
       </div>

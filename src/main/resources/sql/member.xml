@@ -20,8 +20,8 @@
 
 <!--회원정보 입력 -->
     <insert id="insertMember" parameterType="gu.member.vo.MemberVO" >
-        INSERT INTO TBL_MEMBER(ID, PASSWORD, NAME, NICK_NAME, EMAIL, REG_DTTM, USE_YN)
-        VALUES (#{id}, #{password}, #{name}, #{nick_name},#{email},NOW(),'Y')
+        INSERT INTO TBL_MEMBER(ID, PASSWORD, NAME, NICK_NAME, EMAIL, MOBILE1, MOBILE2, MOBILE3, HOM_PHONE1, HOM_PHONE2, HOM_PHONE3, REG_DTTM, USE_YN)
+        VALUES (#{id}, #{password}, #{name}, #{nick_name},#{email}, #{mobile1}, #{mobile2}, #{mobile3}, #{hom_phone1}, #{hom_phone2}, #{hom_phone3}, NOW(),'Y')
     </insert> 
     
 <!--회원정보 수정 -->

@@ -299,11 +299,14 @@
 		]]>         	
     </select> 
         
-    <select id="selectBoardOne" parameterType="String" resultType="gu.board.vo.BoardVO">
+    <select id="selectBoardOne" parameterType="Map" resultType="gu.board.vo.BoardVO">
     	<![CDATA[    
-        SELECT BRDNO, BRDTYPE, BRDTITLE, BRDWRITER, BRDMEMO, BRDHIT, DATE_FORMAT(BRDDATE,'%Y-%m-%d') BRDDATE ,REG_ID, REG_DTTM, CHG_ID, CHG_DTTM 
-          , IFNULL((SELECT BRDNO FROM TBL_BOARD WHERE BRDDELETEFLAG='N' AND BRDNO < #{brdno}  ORDER BY BRDNO DESC LIMIT 1),(SELECT MIN(BRDNO)FROM TBL_BOARD WHERE BRDDELETEFLAG='N') )PREV_BRDNO
-          , IFNULL((SELECT BRDNO FROM TBL_BOARD WHERE BRDDELETEFLAG='N' AND BRDNO > #{brdno} ORDER BY BRDNO LIMIT 1),(SELECT MAX(BRDNO)FROM TBL_BOARD WHERE BRDDELETEFLAG='N') )NEXT_BRDNO        
+        SELECT BRDNO, BRDTYPE, BRDTITLE, BRDWRITER, BRDMEMO, BRDHIT, DATE_FORMAT(BRDDATE,'%Y-%m-%d') BRDDATE ,REG_ID, REG_DTTM, CHG_ID, CHG_DTTM, NOW() SYSDATE
+          , IFNULL((SELECT BRDNO FROM TBL_BOARD WHERE BRDDELETEFLAG='N' AND BRDNO < #{brdno}  ORDER BY BRDNO DESC LIMIT 1),(SELECT MIN(BRDNO)FROM TBL_BOARD WHERE BRDDELETEFLAG='N') ) PREV_BRDNO
+          , IFNULL((SELECT BRDNO FROM TBL_BOARD WHERE BRDDELETEFLAG='N' AND BRDNO > #{brdno} ORDER BY BRDNO LIMIT 1),(SELECT MAX(BRDNO)FROM TBL_BOARD WHERE BRDDELETEFLAG='N') ) NEXT_BRDNO   
+          , (SELECT COUNT(*) FROM TBL_BOARDREPLY TB WHERE BRDNO=TB.BRDNO AND TB.BRDNO = #{brdno} AND REDELETEFLAG='N') REPLYCNT 
+          , (SELECT COUNT(*) FROM TBL_LIKES TB WHERE BRDNO = TB.BRDNO AND TB.BRDNO = #{brdno})BRDLIKE 
+          , (SELECT IF(0,'N','Y') FROM TBL_LIKES TB WHERE BRDNO = TB.BRDNO AND TB.BRDNO = #{brdno} AND USER_ID = #{user_id})BRDLIKE_YN                   
           FROM TBL_BOARD
          WHERE BRDDELETEFLAG='N'
            AND BRDNO=#{brdno}
@@ -365,7 +368,7 @@
 
     <!-- =============================================================================== -->
     <select id="selectNoticeFileList" resultType="gu.common.FileVO">
-        SELECT *
+        SELECT  *
           FROM TBL_BOARDFILE
          WHERE BRDNO=#{brdno}
            AND BRDTYPE='N'
@@ -427,7 +430,16 @@
 
     <!-- =============================================================================== -->
     <select id="selectBoardReplyList" resultType="gu.board.vo.BoardReplyVO">
-        SELECT *
+        SELECT  BRDNO
+        	   ,BRDTYPE
+        	   ,RENO
+        	   ,REWRITER
+        	   ,REMEMO
+        	   ,REDATE
+        	   ,REDELETEFLAG
+        	   ,CONCAT(SUBSTRING(REG_ID,1,4),'***')REG_ID
+        	   ,NOW() AS SYSDATE
+        	   ,REG_DTTM
           FROM TBL_BOARDREPLY
          WHERE BRDNO=#{brdno} AND REDELETEFLAG='N'
          ORDER BY RENO
@@ -479,6 +491,44 @@
                CHG_DTTM =  NOW()
          WHERE RENO=#{reno}
     </update> 
+
+    <select id="selectYnLikes" resultType="Integer">
+        SELECT COUNT(*) 
+          FROM TBL_LIKES 
+         WHERE BRDNO = #{brdno}
+           AND USER_ID = #{user_id}
+    </select>
+
+    <select id="selectLikes" resultType="Integer">
+        SELECT COUNT(*) 
+          FROM TBL_LIKES 
+         WHERE BRDNO = #{brdno}
+    </select>
+
+    <insert id="insertLikes" parameterType="gu.board.vo.BoardLikesVO" >
+        <selectKey resultType="Integer" keyProperty="seq" order="BEFORE">
+            SELECT IFNULL(MAX(SEQ),0)+1 FROM TBL_LIKES
+        </selectKey>
+            
+        INSERT INTO TBL_LIKES(
+        SEQ, 
+        USER_ID,
+        BRDNO, 
+        REG_DTTM
+        )
+        VALUES (
+        #{seq}, 
+        #{user_id}, 
+        #{brdno},
+  		NOW()
+        )
+    </insert>
+
+    <delete id="deleteLikes" parameterType="gu.board.vo.BoardLikesVO"> 
+        DELETE FROM TBL_LIKES
+         WHERE USER_ID= #{user_id}    
+           AND BRDNO = #{brdno}   
+    </delete> 
 
     <select id="searchCount" resultType="Integer" parameterType="gu.common.SearchVO">
      	SELECT N.CNT+C.CNT+I.CNT FROM  ( 

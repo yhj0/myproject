@@ -170,8 +170,10 @@ public class BoardController {
     @RequestMapping(value = "/myBoardForm.do")
     public String myBoardForm(HttpServletRequest request, ModelMap modelMap) throws Exception{
         String brdno = request.getParameter("brdno");
+        String id = request.getParameter("id");	
+        
         if (brdno != null) {
-            BoardVO boardInfo = boardservice.selectBoardOne(brdno);
+            BoardVO boardInfo = boardservice.selectBoardOne(brdno,id);
             
             List<?> listview = boardservice.selectBoardFileList(brdno);
             
@@ -202,8 +204,10 @@ public class BoardController {
     @RequestMapping(value = "/boardForm.do")
     public String boardForm(HttpServletRequest request, ModelMap modelMap) throws Exception{
         String brdno = request.getParameter("brdno");
+        String id = request.getParameter("id");	
+        
         if (brdno != null) {
-            BoardVO boardInfo = boardservice.selectBoardOne(brdno);
+            BoardVO boardInfo = boardservice.selectBoardOne(brdno,id);
             
             List<?> listview = boardservice.selectBoardFileList(brdno);
             
@@ -267,15 +271,82 @@ public class BoardController {
     /*마이페이지-나의커뮤니티*/
     @RequestMapping(value = "/myBoardSave.do")
     public String myBoardSave(HttpServletRequest request, BoardVO boardInfo) throws Exception{
+    	String id = request.getParameter("id");
     	String[] fileno = request.getParameterValues("fileno");
-        
+        String brdno = request.getParameter("brdno");
+    	
         FileUtil fs = new FileUtil();
         List<FileVO> filelist = fs.saveAllFiles(boardInfo.getUploadfile());
 
         boardservice.insertBoard(boardInfo, filelist, fileno);
 
-        return "redirect:/myBoardList.do";
+        return "redirect:/myBoardRead.do?brdno="+ brdno + "&id=" + id;
     }    
+
+    /* ===================================================================== */
+    /**
+     * <ul>
+     * <li>제  목 : 좋아요 저장</li>
+     * <li>설  명 : 해당게시물에 좋아요 +1을 한다</li>
+     * <li>작성일 : 2018-05-01</li>
+     * <li>작성자 : 유형준</li>
+     * </ul>
+     *
+     * @author 유형준
+     */  
+     
+    /*나의커뮤니티*/
+    @ResponseBody
+    @RequestMapping(value = "/myLikeUp.do")
+    public String myLike(HttpServletRequest request, BoardLikesVO likesInfo ) throws Exception{
+    	String brdno = request.getParameter("brdno");
+    	int flag = 0;
+    	int rowcount = 0;
+    	//게시물 좋아요를 눌렀는지 여부
+    	flag = boardservice.selectYnLikes(likesInfo);
+    	
+    	if(flag!=0)
+    	{ 
+    		//이미 좋아요를 눌러 rowcount값에 -1 값을 할당한다. view에서 리턴시킬것! 
+    		rowcount = -1;	
+    	}
+    	else
+    	{	
+    		//좋아요 추가
+            boardservice.insertLikes(likesInfo);
+            //좋아요 재카운트
+            rowcount = boardservice.selectLikes(brdno);	
+    	}
+  
+        return String.valueOf(rowcount);
+    }        
+
+    /* ===================================================================== */
+    /**
+     * <ul>
+     * <li>제  목 : 좋아요 삭제</li>
+     * <li>설  명 : 해당게시물에 좋아요를 취소한다</li>
+     * <li>작성일 : 2018-05-01</li>
+     * <li>작성자 : 유형준</li>
+     * </ul>
+     *
+     * @author 유형준
+     */  
+    
+    /*나의커뮤니티*/
+    @ResponseBody
+    @RequestMapping(value = "/myLikeDown.do")
+    public String myLikeDown(HttpServletRequest request, BoardLikesVO likesInfo) throws Exception{
+    	String brdno = request.getParameter("brdno");
+    	
+    	//좋아요 삭제
+        boardservice.deleteLikes(likesInfo);
+        //좋아요 재카운트
+        int rowcount = boardservice.selectLikes(brdno);
+        
+        return String.valueOf(rowcount);
+    }          
+    
     /* ===================================================================== */
     /**
      * <ul>
@@ -296,12 +367,13 @@ public class BoardController {
     	//게시판구분 
     	String brdtype = request.getParameter("brdtype");
         String brdno = request.getParameter("brdno");
-    	
+        String id = request.getParameter("id");	
+        
     	//구분에 따라 분기
     	if ("C".equals(brdtype))
     	{
             boardservice.updateBoardRead(brdno);
-            BoardVO boardInfo = boardservice.selectBoardOne(brdno);
+            BoardVO boardInfo = boardservice.selectBoardOne(brdno,id);
             List<?> listview = boardservice.selectBoardFileList(brdno);
             List<?> replylist = boardservice.selectBoardReplyList(brdno);
             
@@ -364,11 +436,11 @@ public class BoardController {
     /*소비자경험*/    
     @RequestMapping(value = "/boardRead.do")
     public String boardRead(HttpServletRequest request, ModelMap modelMap) throws Exception{
-        
+        String id = request.getParameter("id");	
         String brdno = request.getParameter("brdno");
         
         boardservice.updateBoardRead(brdno);
-        BoardVO boardInfo = boardservice.selectBoardOne(brdno);
+        BoardVO boardInfo = boardservice.selectBoardOne(brdno,id);
         List<?> listview = boardservice.selectBoardFileList(brdno);
         List<?> replylist = boardservice.selectBoardReplyList(brdno);
         
@@ -402,9 +474,10 @@ public class BoardController {
     public String myBoardRead(HttpServletRequest request, ModelMap modelMap) throws Exception{
         
         String brdno = request.getParameter("brdno");
-        
+        String id = request.getParameter("id");	
         boardservice.updateBoardRead(brdno);
-        BoardVO boardInfo = boardservice.selectBoardOne(brdno);
+        
+        BoardVO boardInfo = boardservice.selectBoardOne(brdno,id);
         List<?> listview = boardservice.selectBoardFileList(brdno);
         List<?> replylist = boardservice.selectBoardReplyList(brdno);
         
@@ -473,7 +546,7 @@ public class BoardController {
     
     /**
      * <ul>
-     * <li>제  목 : 게시판 댓글 저장</li>
+     * <li>제  목 : 소비자게시판 댓글 저장</li>
      * <li>설  명 : 게시물 댓글 저장한다</li>
      * <li>작성일 : 2018-04-19</li>
      * <li>작성자 : 유형준</li>
@@ -483,15 +556,15 @@ public class BoardController {
      */  
     @RequestMapping(value = "/boardReplySave.do")
     public String boardReplySave(HttpServletRequest request, BoardReplyVO boardReplyInfo) throws Exception{
-        
+        String id = request.getParameter("reg_id");
     	boardservice.insertBoardReply(boardReplyInfo);
 
-        return "redirect:/boardRead.do?brdno=" + boardReplyInfo.getBrdno();
+        return "redirect:/boardRead.do?brdno=" + boardReplyInfo.getBrdno() + "&id=" + id;
     }
     
     /**
      * <ul>
-     * <li>제  목 : 게시판 댓글 삭제</li>
+     * <li>제  목 : 소비자게시판 댓글 삭제</li>
      * <li>설  명 : 게시물 댓글 삭제한다</li>
      * <li>작성일 : 2018-04-19</li>
      * <li>작성자 : 유형준</li>
@@ -505,6 +578,44 @@ public class BoardController {
     	boardservice.deleteBoardReply(boardReplyInfo.getReno());
 
         return "redirect:/boardRead.do?brdno=" + boardReplyInfo.getBrdno();
+    }      
+
+    /* ===================================================================== */
+    
+    /**
+     * <ul>
+     * <li>제  목 : 나의커뮤니티 댓글 저장</li>
+     * <li>설  명 : 나의커뮤니티 댓글 저장한다</li>
+     * <li>작성일 : 2018-05-01</li>
+     * <li>작성자 : 유형준</li>
+     * </ul>
+     *
+     * @author 유형준
+     */  
+    @RequestMapping(value = "/myReplySave.do")
+    public String myReplySave(HttpServletRequest request, BoardReplyVO boardReplyInfo) throws Exception{
+        String id = request.getParameter("reg_id");
+        boardservice.insertBoardReply(boardReplyInfo);
+
+        return "redirect:/myBoardRead.do?brdno=" + boardReplyInfo.getBrdno() + "&id=" + id;
+    }
+    
+    /**
+     * <ul>
+     * <li>제  목 : 나의커뮤니티 댓글 삭제</li>
+     * <li>설  명 : 나의커뮤니티 댓글 삭제한다</li>
+     * <li>작성일 : 2018-05-01</li>
+     * <li>작성자 : 유형준</li>
+     * </ul>
+     *
+     * @author 유형준
+     */  
+    @RequestMapping(value = "/myReplyDelete.do")
+    public String myReplyDelete(HttpServletRequest request, BoardReplyVO boardReplyInfo) throws Exception{
+        String id = request.getParameter("reg_id");        
+    	boardservice.deleteBoardReply(boardReplyInfo.getReno());
+
+        return "redirect:/myBoardRead.do?brdno=" + boardReplyInfo.getBrdno() + "&id=" + id;
     }      
     
     /**

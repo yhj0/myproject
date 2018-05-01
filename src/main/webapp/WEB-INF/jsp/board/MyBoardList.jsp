@@ -207,12 +207,13 @@ function fnSubmitForm(page){
 					<c:forEach var="listview" items="${listview}" varStatus="status">	
 						<c:url var="link" value="myBoardRead.do">
 							<c:param name="brdno" value="${listview.brdno}" />
+							<c:param name="id" value="${sessionScope.id}" />
 						</c:url>
 					  	<c:choose>
 							<c:when test="${listview.brdwriter != null}">
 				              <tr class="noti">
 				                <td><c:out value="${searchVO.totRow-((searchVO.page-1)*searchVO.displayRowCount + status.index)}"/></td>
-				                <td class="title"><a href="${link}"><c:out value="${listview.brdtitle}"/></a>&nbsp;
+				                <td class="title"><a href="${link}"><c:out value="${listview.brdtitle}"/><em class="hColor2">[<c:out value="${listview.replycnt}"/>]</em></a>&nbsp;
 				                <!-- 인기게시글 표시 -->
 								<c:if test="${listview.brdhit>30}">
 										<span class="hit">인기글</span>

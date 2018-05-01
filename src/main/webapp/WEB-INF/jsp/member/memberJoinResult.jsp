@@ -43,7 +43,7 @@ function fn_submit(){
     <!-- //header-top -->
     <div class="header-gnb">
       <div class="static clearfix">
-        <h1 class="logo"><a href="#">개인맞춤형 생활화학제품 사용 플랫폼</a></h1>
+        <h1 class="logo"><a href="${path}/board/home.do">개인맞춤형 생활화학제품 사용 플랫폼</a></h1>
         <h2 class="skip">메인메뉴</h2>
         <ul class="gnb">
           <li><a href="${path}/board/home.do">소비자 경험 커뮤니티</a>

@@ -1,125 +1,98 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c"  uri="http://java.sun.com/jsp/jstl/core"%>
-<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
-<html>
+<html lang="ko">
 <head>
-<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<link rel="stylesheet" href="css/bootstrap.css">
-<!-- 배경이미지css -->
-<link rel="stylesheet" href="css/custom.css" />
-<script src="js/jquery-2.2.3.min.js"></script>
-<script src="js/bootstrap.js"></script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>개인맞춤형 생활화학제품 사용 플랫폼</title>
+  <link rel="stylesheet" href="css/fonts.css">
+  <link rel="stylesheet" href="css/common.css">
+  <link rel="stylesheet" href="css/style.css">
+  <script src="js/jquery-2.2.3.min.js"></script>  
+  <script src="js/common.js"></script>
+  
+<script type="text/javascript">
+//id값 전송 함수-회원수정 
+function fn_id_sumbit(){
+	var f = document.form_id;
+	f.submit();
+}
+//id값 전송 함수2-나의커뮤니티
+function fn_id_sumbit2(){
+	var f = document.form_id2;
+	f.submit();
+}
+//탑 검색
+function fn_search(){
+	document.searchform.submit();	
+}	    
+</script>
 
 <script>
-//직접입력박스
-function fn_emailbox(){
+$(document).ready(function() {
+	 //이메일선택 자동숨김
 	 if (formMember.email_2.value == 'etc') {
 		 $('#email_3').show();
-		 $('#email_3').attr("readonly",false);
 		 $('#email_3').focus();
 		 formMember.email_3.value ='';
 	 }
 	 else {
-		 $('#email_3').hide();
+		 $('#email_3').attr("readonly",true);
 	 }
-}
+	 
+	 //프로필사진 input type
+	 var fileTarget = $('.upload'); 
+	 fileTarget.on('change', function(){ // 값이 변경되면 
+		 if(window.FileReader){ // modern browser 
+			 var filename = $(this)[0].files[0].name; } 
+		 else { // old IE 
+			 var filename = $(this).val().split('/').pop().split('\\').pop(); // 파일명만 추출 
+			 } 
+	 
+	 // 추출한 파일명 삽입 
+	 	$(this).siblings('.upload-name').val(filename); 
+	 });
 
-// 기본값 체크
-function fn_validation() { 
-
-	var formMember = document.formMember;
-	
-	if (formMember.id.value=="") {
-		alert("ID를 입력해주세요.");
-		formMember.id.focus();
-		return;
-	}
-	if (formMember.password.value=="") {
-		alert("비밀번호를 입력해주세요.");
-		formMember.password.focus();
-		return;
-	}
-	if (formMember.name.value=="") {
-		alert("이름을 입력해주세요.");
-		formMember.name.focus();
-		return;
-	}
-	if (formMember.nick_name.value=="") {
-		alert("닉네임을 입력해주세요.");
-		formMember.nick_name.focus();
-		return;
-	}	
-	if (formMember.email_1.value=="") {
-		alert("이메일을 입력해주세요.");
-		formMember.email_1.focus();
-		return;
-	}		
-	//이메일 직접입력 or 선택유무
-	if(formMember.email_2.value != 'etc')
-	{	
-		var e = formMember.email_1.value +"@"+formMember.email_2.value 
-		document.formMember.email.value = e;
-		document.formMember.submit();	
-	}
-	else
-	{
-		var e = formMember.email_1.value +"@"+formMember.email_3.value 
-		document.formMember.email.value = e;
-		document.formMember.submit();		
-	}
-}
-
-$(document).ready(function(){
-//이메일 박스
-		 if (formMember.email_2.value == 'etc') {
-			 $('#email_3').show();
-			 $('#email_3').focus();
-			 formMember.email_3.value ='';
-		 }
-		 else {
-			 $('#email_3').hide();
-			 $('#email_3').attr("readonly",true);
-			 
-		 }	  
-	  
-//중복ID 체크
-	  	$('#id').keyup(function(){
-		        	var id = $(this).val();
-		            $.ajax({
-		                type: "POST",
-		                url: "checkID.do",
-		                data: {
-		                    "id" : $('#id').val()
-		                },
-		                success: function(data){
-		                    if($.trim(data) == 0){
-		                    	$('#chkMsg').html("");   
-		                    	$('#joinMember').attr("disabled", false); //회원가입버튼 활성화유무
-		                    }
-		                    else{
-		                    	$('#chkMsg').html("<a> 이미 사용중이거나 탈퇴한 아이디입니다.</a>");
-		                    	$('#joinMember').attr("disabled", true);
-		                    }
-		                }
-		            }); //비동식 ajax DB접근
-  		});
-	  	
+	//중복ID 체크
+		$('#id').keyup(function(){
+	        	var id = $(this).val();
+	            $.ajax({
+	                type: "POST",
+	                url: "checkID.do",
+	                data: {
+	                    "id" : $('#id').val()
+	                },
+	                success: function(data){
+	                    if($.trim(data) == 0){
+	                    	$('#chkMsg').html("<font color='blue'> 사용가능한 아이디입니다.</font>"); 
+	                    	$('#joinMember').attr("disabled", false); //회원가입버튼 활성화유무
+	                    }
+	                    
+	                    else{
+	                    	$('#chkMsg').html("<font color='red'> 이미 사용중이거나 탈퇴한 아이디입니다.</font>");
+	                    	$('#joinMember').attr("disabled", true);
+	                    }
+	                }
+	            }); //비동식 ajax DB접근
+		});	 
+	 
 //비밀번호
 	    $('#password').focusout(function(){
-	   		var val = $(this).val(); regex = /^(?=.*[a-zA-Z])((?=.*\d)|(?=.*\W)).{4,16}$/;
+	   	var val = $(this).val(); regex = /^(?=.*[a-zA-Z])((?=.*\d)|(?=.*\W)).{8,16}$/;
 	   
 	   	
 	   	if(val=="" | val == null){ 	//필수입력
 	   		$('#joinMember').attr("disabled", true);
 	   	}
 	   	else if(!regex.test(val)){ //불일치
-	   		$('#chkPass1').html("<a> 비밀번호는 4자리 이상 16이하 숫자와 영문자를 반드시 포함해야 하며 특수문자도 포함하실 수 있습니다.</a>");
+	   		$('#chkPass1').html("<font color='red'>비밀번호는 8자리 이상 16이하 영문/숫자를 포함해야합니다. </font>");
 	   		$('#joinMember').attr("disabled", true);
 	   	}
 	   	else{    //확인
 	   		$('#chkPass1').html("");
-        	$('#joinMember').attr("disabled", false); //회원가입버튼 활성화
+     	$('#joinMember').attr("disabled", false); //회원가입버튼 활성화
 	   	}
 	    });		  	
 
@@ -133,22 +106,19 @@ $(document).ready(function(){
 		   		$('#joinMember').attr("disabled", true);
 	    	}
 	    	else if(val != orgin){  //불일치
-	    		$('#chkPass2').html("<a> 비밀번호가 불일치합니다.</a>");	
+	    		$('#chkPass2').html("<font color='red'> 비밀번호가 불일치합니다.</font>");	
 	    		$('#joinMember').attr("disabled", true);
 	    	}
 	    	else{    //확인
 	    		$('#chkPass2').html("");
-            	$('#joinMember').attr("disabled", false); //회원가입버튼 활성화
+         		$('#joinMember').attr("disabled", false); //회원가입버튼 활성화
 	    	} 
 	  });	
-	  	  
-});	  
-</script>
+	  	  	
+});
 
-<script>  
 //이미지 불러오기 
 function loadname(img, previewName){  
-
 var isIE = (navigator.appName=="Microsoft Internet Explorer");  
 var path = img.value;  
 var ext = path.substring(path.lastIndexOf('.') + 1).toLowerCase();  
@@ -167,112 +137,321 @@ var ext = path.substring(path.lastIndexOf('.') + 1).toLowerCase();
             reader.readAsDataURL(img.files[0]);  
         }  
     }  
-
- }else{  
-  "incorrect file type"  
+ }
+ else
+ {  
+	alert('jpg, gif, png, bmp 확장자만 업로드 가능합니다.');
+   	return false;
  }   
 }  
+
+//직접입력박스
+function fn_emailbox(){
+	 if (formMember.email_2.value == 'etc') {
+		 $('#email_3').show();
+		 $('#email_3').attr("readonly",false);
+		 $('#email_3').focus();
+		 formMember.email_3.value ='';
+	 }
+	 else {
+		 $('#email_3').hide();
+	 }
+}
+
+// 기본값 체크
+function fn_formSubmit(){
+	var formMember = document.formMember;
+	
+	if (formMember.id.value=="") {
+		alert("ID를 입력해주세요.");
+		formMember.id.focus();
+		return;
+	}
+	
+	if (formMember.id.value.length <4) {
+		alert("ID는 4자 이상입니다.");
+		formMember.id.focus();
+		return;
+	}	
+	
+	if (formMember.password.value=="") {
+		alert("비밀번호를 입력해주세요.");
+		formMember.password.focus();
+		return;
+	}
+	if (formMember.name.value=="") {
+		alert("이름을 입력해주세요.");
+		formMember.name.focus();
+		return;
+	}
+	/*
+	if (formMember.nick_name.value=="") {
+		alert("닉네임을 입력해주세요.");
+		formMember.nick_name.focus();
+		return;
+	}	
+	*/
+	if (formMember.email_1.value=="") {
+		alert("이메일을 입력해주세요.");
+		formMember.email_1.focus();
+		return;
+	}
+	
+	//이메일 직접입력 or 선택유무
+	if(formMember.email_2.value != 'etc')
+	{
+		
+		var e = formMember.email_1.value +"@"+formMember.email_2.value 
+		document.formMember.email.value = e;
+		document.formMember.submit();	
+	}
+	else
+	{
+		var e = formMember.email_1.value +"@"+formMember.email_3.value 
+		document.formMember.email.value = e;
+		document.formMember.submit();		
+	}
+}  	
+
 </script>
-<title>회원가입</title>
 </head>
 
 <body>
-	<div class="col-lg-2 col-lg-offset-2">
-	<table class="table-bordered">
-		<tr>
-			<td align="right"><jsp:include page="include/top.jsp" /></td>
-		</tr>
-		<tr>
-			<td align="right"><jsp:include page="include/menu.jsp" /></td>
-		</tr>
-		<tr>
-			<td  height="522">
-			<div class="container">
-				<div class="col-md-8 col-md-offset-2">
-				<div class="well">
-						<form name ="formMember" class="form-horizontal" action="memberSave.do" method="post" enctype="multipart/form-data" >
-								 <div class="form-group">
-									<label class="col-sm-2 control-label">프로필사진</label>
-									<div class="col-sm-5">
-											<c:forEach var="imagelist" items="${imagelist}" varStatus="status">
-												<input type="checkbox" name="imgno" value="<c:out value="${imagelist.imgno}"/>">	
-					            				<a href="fileDownload?filename=<c:out value="${imagelist.name}"/>&downname=<c:out value="${imagelist.realname }"/>"> 							 
-												<c:out value="${imagelist.name}"/></a> <c:out value="${imagelist.size2String()}"/><br/>
-											</c:forEach>
-											<img class="photo1" src="./upload_img/basic.jpg" width="200" height="150" name="previewimg" id="previewimg" alt="">
-											<input type="file" class="form-control" id ="uploadfile" name="uploadfile" onchange="loadname(this,'previewimg')" >											
-									</div>
-								 </div>								
-								 <div class="form-group">
-									<label class="col-sm-2 control-label">아이디</label>
-									<div class="col-sm-5">
-										<input type="text" class="form-control" id ="id" name="id" placeholder="필수입력" value="<c:out value="${memberInfo.id}"/>" > 
-										<span id="chkMsg"></span>
-									</div>
-								 </div>
-								 <div class="form-group" >
-									<label class="col-sm-2 control-label" >비밀번호</label>
-									<div class="col-sm-5">
-										<input type="password" class="form-control" id ="password" name="password" placeholder="필수입력"  value="<c:out value="${memberInfo.password}"/>">
-										<span id="chkPass1"></span>
-									</div>
-								</div>	
-		 						 <div class="form-group">
-									<label class="col-sm-2 control-label">비밀번호확인</label>
-									<div class="col-sm-5">
-										<input type="password" class="form-control" id ="re_password" name="re_password" placeholder="필수입력" value="<c:out value="${memberInfo.password}"/>">
-										<span id="chkPass2"></span>
-									</div>
-								 </div>
-								 <div class="form-group">
-									<label class="col-sm-2 control-label">이름</label>
-									<div class="col-sm-5">
-										<input type="text" class="form-control" name="name" placeholder="필수입력" value="<c:out value="${memberInfo.name}"/>">
-										<br>
-									</div>
-								</div>	
-								 <div class="form-group">
-									<label class="col-sm-2 control-label">별명</label>
-									<div class="col-sm-5">
-										<input type="text" class="form-control" name="nick_name"   value="<c:out value="${memberInfo.nick_name}"/>">
-									</div>
-								 </div>
-								 <div class="form-group">
-										<label class="col-sm-2 control-label">이메일</label>
-										<div class="col-sm-5">
-											<input type="hidden" name = "email" value="">
-											<input type="text" class="form-control" id="email_1" name="email_1" placeholder="필수입력"  value="${email_1}"/>
-										</div>
-										<div class="col-sm-1">
-										@
-										</div>
-										<div class="col-sm-3">
-											<select class ="form-control" name="email_2" id="email_2" onChange="fn_emailbox()">
-												<option value="" >선택하세요</option>
-												<option value="gmail.com" >gmail.com</option>
-												<option value="nate.com"  >nate.com</option>
-												<option value="naver.com" >naver.com</option>
-												<option value="hanmail.com" >hanmail.com</option>
-												<option value="etc">직접입력</option>
-											</select>
-											<input type="text" class="form-control" id="email_3" name="email_3" placeholder="필수입력" value="${email_2}" >
-										</div>
-								</div>
-								<div class="form-group" >
-									<div align="center">
-										<button type="button" class="btn btn-lg btn-success" id="joinMember" onclick="fn_validation()" >회원가입</button>
-									</div>
-								</div>
-						</form>	
-						</div>	
-						</div>
-					</div>
-			</td>
-		</tr>
-		<tr>
-			<td align="center"><jsp:include page="include/bottom.jsp" /></td>
-		</tr>
-	</table>
-	</div>
+<p id="accessibility"><a href="#container">본문바로가기</a></p>
+<div id="wrap">
+  <div id="header">
+    <div class="header-top">
+      <div class="static">
+	      	<c:choose>
+	      		<c:when test="${sessionScope.id == null}">
+	      		 <div class="log-before"><a href="${path}/board/login.do">로그인</a><a href="memberJoinAgree.do">회원가입</a></div>
+	      		</c:when>
+	      		<c:otherwise>
+	      		 <form id="form_id" name="form_id"  action="memberMypage.do" method="post">
+		         <div class="log-after"><span class="my"><strong>${sessionScope.name}(${sessionScope.id})</strong>님 환영합니다.</span>
+		         <input type="hidden" name="id" value="${sessionScope.id}">
+		         <a href="#" onclick="fn_id_sumbit();">마이페이지</a><a href="${path}/board/logout.do">로그아웃</a></div>
+		         </form>
+		        </c:otherwise>
+	        </c:choose>
+      </div>
+    </div>
+    <!-- //header-top -->
+    <div class="header-gnb">
+      <div class="static clearfix">
+        <h1 class="logo"><a href="${path}/board/home.do">개인맞춤형 생활화학제품 사용 플랫폼</a></h1>
+        <h2 class="skip">메인메뉴</h2>
+        <ul class="gnb">
+          <li><a href="${path}/board/home.do">소비자 경험 커뮤니티</a>
+            <ul>
+              <li><a href="${path}/board/noticeList.do">공지사항</a></li>
+              <li><a href="${path}/board/consumerList.do">사용자 커뮤니티</a></li>
+              <li><a href="${path}/board/issueList.do">뉴스/보도자료</a></li>
+            </ul>
+          </li>
+          <li><a href="${path}/board/home.do">데이터 분석 시각화</a>
+            <ul>
+              <li><a href="${path}/board/formalData_User.do">정형 데이터 분석</a>
+              <li><a href="${path}/board/informalData_User.do">비정형 데이터 분석</a>
+            </ul>
+          </li>
+          <li><a href="${path}/board/home.do">플랫폼 소개</a>
+            <ul>
+              <li><a href="${path}/board/infoHome.do">개요</a></li>
+              <li><a href="${path}/board/infoSub.do">목적</a></li>
+            </ul>
+          </li>
+        </ul>
+        <div class="search-form">
+	          <form id='searchform' name="searchform" action="search.do" method="post" enctype="multipart/form-data" >
+	            <fieldset>
+	              <legend>검색</legend>
+	                <input type="text" name='searchKeyword' title="검색어" placeholder='검색어를 입력하세요' value='<c:out value="${searchVO.searchKeyword}"/>' onkeydown="if(event.keyCode == 13) { fn_formSubmit();}">
+	                <button type="button" class="btn-search" name='go' onclick="fn_search()">검색</button>
+	            </fieldset>
+	          </form>
+        </div>
+      </div>
+    </div>
+    <!-- //header-gnb -->
+    <div class="header-sub"></div>
+  </div>
+  <!-- //header -->
+  <div id="container">
+    <div class="sub-visual">
+      <div class="static">
+        <div class="sub-visual-txt">
+          <p class="tx1">안전한 생활화학제품 사용을 위해<br>개인맞춤형 생활화학제품 사용 플랫폼으로 사용한 경험을 나누어 보세요.</p>
+        </div>
+        <!-- //sub-visual-txt -->
+      </div>
+      <!-- //static -->
+    </div>
+    <!-- //sub-visual-txt -->
+    <div class="sub-section">
+      <div class="static clearfix">
+        <div class="lnb">
+          <h2>회원정보</h2>
+          <ul class="lnb-menu">
+            <li class="active"><a href="${path}/board/memberJoinAgree.do">회원가입</a></li>
+            <li><a href="${path}/board/memberFindID.do">아이디/비밀번호 찾기</a></li>
+            <li><a href="${path}/board/memberPrivacyInfo.do">개인정보 처리방침</a></li>
+            <li><a href="${path}/board/memberAgreeInfo.do">이용약관</a></li>  
+          </ul>
+        </div>
+        <!-- //lnb -->
+        <div class="contents">
+          <div class="sub-title">
+            <h3>회원가입</h3>
+            <div class="path"><span class="loc">HOME</span><span class="loc">회원정보</span><em class="loc">회원가입</em></div>
+          </div>
+          <!-- //sub-title -->
+		  <form name ="formMember" class="form-horizontal" action="memberSave.do" method="post" enctype="multipart/form-data" >
+          <table class="edit-tb mbr-tb">
+            <caption>회원가입폼</caption>
+            <colgroup>
+              <col style="width:16%">
+              <col style="width:84%">
+            </colgroup>
+            <tbody>
+              <tr>
+                <th><span>프로필 사진</span></th>
+                <td>
+                  <span class="photo"><img src="./upload_img/no_photo.jpg" width="200" height="150" name="previewimg" id="previewimg" alt="사진"></span>
+                  <span class="photo-find"></span>
+                  <br>                                      
+                    <input type="text" id="filename" name="filename" class="upload-name" readonly="readonly" size="13" >
+                    <label class="btn medium" for="uploadfile" style="cursor:pointer">이미지 찾기</label>
+                    <input type="file" style='display: none;'   class="upload"  id="uploadfile" name="uploadfile" onchange="loadname(this,'previewimg')" >
+                </td>
+              </tr>
+              <tr>
+                <th><span><em class="ess">필수</em>아이디</span></th>
+                <td>
+                  <input type="text" class="ipt-nor" title="아이디" id ="id" name="id" value="${memberInfo.id}" style="ime-mode:inactive"  > 
+                  <!-- <button type="button" class="btn medium">중복확인</button>-->
+                  <span id="chkMsg"></span>
+                </td>
+              </tr>
+              <tr>
+                <th><span><em class="ess">필수</em>비밀번호</span></th>
+                <td><input type="password" class="ipt-nor" title="비밀번호" id ="password" name="password" value="${memberInfo.password}">
+                  <span class="noti">영문/숫자 혼용 8~12자리, 대소문자 구별</span>
+                  <br><span id="chkPass1"></span>
+                </td>
+              </tr>
+              <tr>
+                <th><span><em class="ess">필수</em>비밀번호 확인</span></th>
+                <td><input type="password" class="ipt-nor" title="비밀번호 확인"  id ="re_password" name="re_password" value="${memberInfo.password}">
+                <br><span id="chkPass2" ></span></td> 
+              </tr>
+              <tr>
+                <th><span><em class="ess">필수</em>성명(한글)</span></th>
+                <td><input type="text" class="ipt-nor" title="성명" name="name" value="${memberInfo.name}"></td>
+              </tr>
+              <tr>
+                <th><span><em class="ess">필수</em>이메일</span></th>
+                <td>
+                  <input type="hidden" name = "email" value="">
+                  <input type="text" class="ipt-nor" title="이메일 아이디" id="email_1" name="email_1" value="<c:out value="${email_1}"/>" style="ime-mode:inactive" > @
+                  <input type="text" class="ipt-nor" title="이메일 주소" id="email_3" name="email_3" value="${email_2}" style="ime-mode:inactive" >
+                  <select class="select" title="이메일 회사" name="email_2" onChange="fn_emailbox()">
+						<option value="" >선택하세요</option>
+						<option value="gmail.com" 	<c:if test="${email_2 eq 'gmail.com'}">selected</c:if> >gmail.com</option>
+						<option value="nate.com"  	<c:if test="${email_2 eq 'nate.com'}">selected</c:if> >nate.com</option>
+						<option value="naver.com" 	<c:if test="${email_2 eq 'naver.com' }">selected</c:if> >naver.com</option>
+						<option value="hanmail.com" <c:if test="${email_2 eq 'hanmail.com' }">selected</c:if> >hanmail.com</option>
+						<option value="etc">직접입력</option>
+					</select>
+                </td>
+              </tr>
+              <tr>
+                <th><span><em class="ess">필수</em>일반전화</span></th>
+                <td>
+                  <div class="f-phone">
+                    <select class="select" name = "hom_phone1" title="전화번호 지역">
+					     <option value="0002" <c:if test="${memberInfo.hom_phone1 eq '0002'}">selected</c:if>>02</option> 
+					     <option value="0031" <c:if test="${memberInfo.hom_phone1 eq '0031'}">selected</c:if>>031</option> 
+					     <option value="0032" <c:if test="${memberInfo.hom_phone1 eq '0032'}">selected</c:if>>032</option> 
+					     <option value="0033" <c:if test="${memberInfo.hom_phone1 eq '0033'}">selected</c:if>>033</option> 
+					     <option value="0041" <c:if test="${memberInfo.hom_phone1 eq '0041'}">selected</c:if>>041</option> 
+					     <option value="0042" <c:if test="${memberInfo.hom_phone1 eq '0042'}">selected</c:if>>042</option> 
+					     <option value="0043" <c:if test="${memberInfo.hom_phone1 eq '0043'}">selected</c:if>>043</option> 
+					     <option value="0051" <c:if test="${memberInfo.hom_phone1 eq '0051'}">selected</c:if>>051</option> 
+					     <option value="0052" <c:if test="${memberInfo.hom_phone1 eq '0052'}">selected</c:if>>052</option> 
+					     <option value="0053" <c:if test="${memberInfo.hom_phone1 eq '0053'}">selected</c:if>>053</option> 
+					     <option value="0054" <c:if test="${memberInfo.hom_phone1 eq '0054'}">selected</c:if>>054</option> 
+					     <option value="0055" <c:if test="${memberInfo.hom_phone1 eq '0055'}">selected</c:if>>055</option> 
+					     <option value="0061" <c:if test="${memberInfo.hom_phone1 eq '0061'}">selected</c:if>>061</option> 
+					     <option value="0062" <c:if test="${memberInfo.hom_phone1 eq '0062'}">selected</c:if>>062</option> 
+					     <option value="0063" <c:if test="${memberInfo.hom_phone1 eq '0063'}">selected</c:if>>063</option> 
+					     <option value="0064" <c:if test="${memberInfo.hom_phone1 eq '0064'}">selected</c:if>>064</option> 
+					     <option value="0502" <c:if test="${memberInfo.hom_phone1 eq '0502'}">selected</c:if>>0502</option> 
+                    </select> -
+                    <input type="text" class="ipt" maxlength="4" title="전화번호 가운데" name = "hom_phone2" value="<c:out value="${memberInfo.hom_phone2}"/>"> -
+                    <input type="text" class="ipt" maxlength="4" title="전화번호 끝자리" name = "hom_phone3"value="<c:out value="${memberInfo.hom_phone3}"/>">
+                  </div>
+                </td>
+              </tr>
+              <tr>
+                <th><span><em class="ess">필수</em>휴대전화</span></th>
+                <td>
+                  <div class="f-phone">
+                    <select class="select" name = "mobile1" title="핸드폰 통신사">
+					     <option value="0010" <c:if test="${memberInfo.mobile1 eq '0010'}">selected</c:if>>010</option> 
+					     <option value="0011" <c:if test="${memberInfo.mobile1 eq '0011'}">selected</c:if>>011</option> 
+					     <option value="0016" <c:if test="${memberInfo.mobile1 eq '0016'}">selected</c:if>>016</option> 
+					     <option value="0017" <c:if test="${memberInfo.mobile1 eq '0017'}">selected</c:if>>017</option> 
+					     <option value="0018" <c:if test="${memberInfo.mobile1 eq '0018'}">selected</c:if>>018</option> 
+					     <option value="0019" <c:if test="${memberInfo.mobile1 eq '0019'}">selected</c:if>>019</option> 
+                    </select> -
+                    <input type="text" class="ipt" maxlength="4" title="핸드폰 가운데" name = "mobile2" value="<c:out value="${memberInfo.mobile2}"/>"> -
+                    <input type="text" class="ipt" maxlength="4" title="핸드폰 끝자리" name = "mobile3" value="<c:out value="${memberInfo.mobile3}"/>">
+                  </div>
+                </td>
+              </tr>
+              <tr>
+                <th rowspan="2"><span><em class="ess">필수</em>주소</span></th>
+                <td>
+                  <div class="f-address">
+                    <input type="text" class="ipt-zipc" title="우편번호">
+                    <button type="button" class="btn medium">우편번호 검색</button>
+                  </div>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <div class="f-address">
+                    <input type="text" class="full" title="주소">
+                    <input type="text" class="full" title="상세주소">
+                  </div>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+ 		  </form>            
+          
+          <p class="btm-noti"><em class="ess">필수</em> 표시는 필수 사항 입니다.</p>
+          <div class="board-btm">
+            <button type="submit" class="btn large blue" id="joinMember" name ='joinMember' onclick="fn_formSubmit()">확인</button>
+            <button type="reset" class="btn large">취소</button>
+          </div>
+        </div>
+        <!-- //contents -->
+      </div>
+    </div>
+    <!-- //sub-section  -->
+  </div>
+  <!-- //container -->
+  <div id="footer">
+    <div class="static">
+      <div class="copyright">
+        <address>서울특별시 광진구 능동로 209 세종대학교 학술정보원 7층 ·  TEL 02-3408-4468  ·  EMAIL bjshin@sejong.ac.kr </address>
+        <p class="copy">COPYRIGHT &copy; 인공지능-빅데이터연구센터 ABRC. ALL RIGHTS RESERVED</p>
+      </div>
+    </div>
+  </div>
+  <!-- //footer -->
+</div>
 </body>
 </html>

@@ -13,27 +13,43 @@
   <link rel="stylesheet" href="css/style.css">
   <script src="js/jquery-2.2.3.min.js"></script>  
   <script src="js/common.js"></script>
+  <script src="js/jquery.cookie.js"></script>
+  
 <script type="text/javascript">
 //*로그인 스크립트*
     $(document).ready(function(){
+    	
+        //최초 쿠키에 login_id라는 쿠키값이 존재하면
+        var login_id = $.cookie('login_id');
+        if(login_id != undefined) {
+            //아이디에 쿠키값을 담는다
+            $("#id").val(login_id);
+            //아이디저장 체크박스 체크를 해놓는다
+            $("#id-save").prop("checked",true);
+        }
+    	
         $("#btnLogin").click(function(){
-            // 태크.val() : 태그에 입력된 값
-            // 태크.val("값") : 태그의 값을 변경 
             var id = $("#id").val();
             var password = $("#password").val();
             if(id == ""){
                 alert("아이디를 입력하세요.");
-                $("#id").focus(); // 입력포커스 이동
-                return; // 함수 종료
+                $("#id").focus(); 
+                return; 
             }
             if(password == ""){
-                alert("아이디를 입력하세요.");
+                alert("비밀번호를 입력하세요.");
                 $("#password").focus();
                 return;
             }
-            // 폼 내부의 데이터를 전송할 주소
-            //document.formLogin.action="${path}/login/loginCheck"
-            // 제출
+            
+            //아이디저장 체크되어있으면 쿠키저장
+	        if($("#id-save").prop("checked")) {
+	            $.cookie('login_id', $("#id").val());
+	        //아이디저장 미체크면 쿠키에 정보가 있던간에 삭제
+	        } else {
+	            $.removeCookie("login_id");
+	        }
+	        
             document.formLogin.submit();
         });
     });
@@ -47,10 +63,19 @@
             return; // 함수 종료
         }
         if(password == ""){
-            alert("아이디를 입력하세요.");
+            alert("비밀번호를 입력하세요.");
             $("#password").focus();
             return;
         }
+        
+        //아이디저장 체크되어있으면 쿠키저장
+        if($("#id-save").prop("checked")) {
+            $.cookie('login_id', $("#id").val());
+        //아이디저장 미체크면 쿠키에 정보가 있던간에 삭제
+        } else {
+            $.removeCookie("login_id");
+        }
+        
         document.formLogin.submit();	
     }
 </script> 
@@ -79,7 +104,7 @@
     <!-- //header-top -->
     <div class="header-gnb">
       <div class="static clearfix">
-        <h1 class="logo"><a href="#">개인맞춤형 생활화학제품 사용 플랫폼</a></h1>
+        <h1 class="logo"><a href="${path}/board/home.do">개인맞춤형 생활화학제품 사용 플랫폼</a></h1>
         <h2 class="skip">메인메뉴</h2>
         <ul class="gnb">
           <li><a href="${path}/board/home.do">소비자 경험 커뮤니티</a>

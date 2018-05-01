@@ -40,6 +40,8 @@ $(function(){
 //3.저장 버튼 클릭시 이벤트
  $("#save_button").click(function(){
      //다음에디터가 포함된 form submit
+    var f = document.form_id2;
+	f.submit();
  	Editor.save(); 
  })
 })
@@ -128,6 +130,7 @@ function fn_search(){
 		         </form>
 		         <form id="form_id2" name="form_id2"  action="myBoardList.do" method="post">
                  <input type="hidden" name="id" value="${sessionScope.id}">
+                 <input type="hidden" name="brdno" value="${boardInfo.brdno}">
             	 </form>		         
 		        </c:otherwise>
 	        </c:choose>

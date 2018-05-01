@@ -12,7 +12,7 @@ public class BoardReplyVO {
     private String reg_dttm;
     private String chg_id;
     private String chg_dttm;
-    
+    private String sysdate;
     
     public String getBrdno() {
         return brdno;
@@ -92,6 +92,14 @@ public class BoardReplyVO {
 
 	public void setChg_dttm(String chg_dttm) {
 		this.chg_dttm = chg_dttm;
+	}
+
+	public String getSysdate() {
+		return sysdate;
+	}
+
+	public void setSysdate(String sysdate) {
+		this.sysdate = sysdate;
 	}
     
 }

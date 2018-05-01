@@ -32,6 +32,9 @@ public class BoardVO {
     private String notice_flag4;
     private String prev_brdno;
     private String next_brdno;
+    private String sysdate;
+    private String brdlike_yn;
+    
     
     /* 첨부파일 */
     private List<MultipartFile> uploadfile;
@@ -253,6 +256,24 @@ public class BoardVO {
 
 	public void setNext_brdno(String next_brdno) {
 		this.next_brdno = next_brdno;
+	}
+
+	public String getSysdate() {
+		return sysdate;
+	}
+
+	public void setSysdate(String sysdate) {
+		this.sysdate = sysdate;
+	}
+
+
+	public String getBrdlike_yn() {
+		return brdlike_yn;
+	}
+
+
+	public void setBrdlike_yn(String brdlike_yn) {
+		this.brdlike_yn = brdlike_yn;
 	}
 	
 }
