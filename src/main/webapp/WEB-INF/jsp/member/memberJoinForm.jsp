@@ -12,6 +12,7 @@
   <link rel="stylesheet" href="css/style.css">
   <script src="js/jquery-2.2.3.min.js"></script>  
   <script src="js/common.js"></script>
+  <script src="http://dmaps.daum.net/map_js_init/postcode.v2.js"></script>  
   
 <script type="text/javascript">
 //id값 전송 함수-회원수정 
@@ -117,6 +118,59 @@ $(document).ready(function() {
 	  	  	
 });
 
+//다음우편번호검색
+//load함수를 이용하여 core스크립트의 로딩이 완료된 후, 우편번호 서비스를 실행합니다.
+function fn_postSearch() {
+	        new daum.Postcode({
+	            oncomplete: function(data) {
+	                // 팝업에서 검색결과 항목을 클릭했을때 실행할 코드를 작성하는 부분.
+
+	                // 도로명 주소의 노출 규칙에 따라 주소를 조합한다.
+	                // 내려오는 변수가 값이 없는 경우엔 공백('')값을 가지므로, 이를 참고하여 분기 한다.
+	                var fullRoadAddr = data.roadAddress; // 도로명 주소 변수
+	                var extraRoadAddr = ''; // 도로명 조합형 주소 변수
+
+	                // 법정동명이 있을 경우 추가한다. (법정리는 제외)
+	                // 법정동의 경우 마지막 문자가 "동/로/가"로 끝난다.
+	                if(data.bname !== '' && /[동|로|가]$/g.test(data.bname)){
+	                    extraRoadAddr += data.bname;
+	                }
+	                // 건물명이 있고, 공동주택일 경우 추가한다.
+	                if(data.buildingName !== '' && data.apartment === 'Y'){
+	                   extraRoadAddr += (extraRoadAddr !== '' ? ', ' + data.buildingName : data.buildingName);
+	                }
+	                // 도로명, 지번 조합형 주소가 있을 경우, 괄호까지 추가한 최종 문자열을 만든다.
+	                if(extraRoadAddr !== ''){
+	                    extraRoadAddr = ' (' + extraRoadAddr + ')';
+	                }
+	                // 도로명, 지번 주소의 유무에 따라 해당 조합형 주소를 추가한다.
+	                if(fullRoadAddr !== ''){
+	                    fullRoadAddr += extraRoadAddr;
+	                }
+
+	                // 우편번호와 주소 정보를 해당 필드에 넣는다.
+	                document.getElementById('post_no').value = data.zonecode; //5자리 새우편번호 사용
+	                document.getElementById('road_address').value = fullRoadAddr;
+	                document.getElementById('jibun_address').value = data.jibunAddress;
+						
+	                // 사용자가 '선택 안함'을 클릭한 경우, 예상 주소라는 표시를 해준다.
+	                if(data.autoRoadAddress) {
+	                    //예상되는 도로명 주소에 조합형 주소를 추가한다.
+	                    var expRoadAddr = data.autoRoadAddress + extraRoadAddr;
+	                    document.getElementById('guide').innerHTML = '(예상 도로명 주소 : ' + expRoadAddr + ')';
+
+	                } else if(data.autoJibunAddress) {
+	                    var expJibunAddr = data.autoJibunAddress;
+	                    document.getElementById('guide').innerHTML = '(예상 지번 주소 : ' + expJibunAddr + ')';
+
+	                } else {
+	                    document.getElementById('guide').innerHTML = '';
+	                }
+	            }
+	        }).open();
+	        // iframe을 넣은 element의 위치를 화면의 가운데로 이동시킨다.
+	}
+
 //이미지 불러오기 
 function loadname(img, previewName){  
 var isIE = (navigator.appName=="Microsoft Internet Explorer");  
@@ -184,18 +238,30 @@ function fn_formSubmit(){
 		formMember.name.focus();
 		return;
 	}
-	/*
-	if (formMember.nick_name.value=="") {
-		alert("닉네임을 입력해주세요.");
-		formMember.nick_name.focus();
-		return;
-	}	
-	*/
+
 	if (formMember.email_1.value=="") {
 		alert("이메일을 입력해주세요.");
 		formMember.email_1.focus();
 		return;
 	}
+	
+	if (formMember.hom_phone3.value=="") {
+		alert("일반전화를 입력해주세요");
+		formMember.hom_phone3.focus();
+		return;
+	}		
+
+	if (formMember.mobile3.value=="") {
+		alert("휴대전화를 입력해주세요");
+		formMember.mobile3.focus();
+		return;
+	}			
+
+	if (formMember.road_address.value=="") {
+		alert("주소를 입력해주세요");
+		formMember.post_no.focus();
+		return;
+	}		
 	
 	//이메일 직접입력 or 선택유무
 	if(formMember.email_2.value != 'etc')
@@ -414,16 +480,17 @@ function fn_formSubmit(){
                 <th rowspan="2"><span><em class="ess">필수</em>주소</span></th>
                 <td>
                   <div class="f-address">
-                    <input type="text" class="ipt-zipc" title="우편번호">
-                    <button type="button" class="btn medium">우편번호 검색</button>
+                    <input type="text" class="ipt-zipc" title="우편번호" id="post_no" name="post_no" placeholder="우편번호" maxlength="5" value="<c:out value="${memberInfo.post_no}"/>">
+                    <button type="button" class="btn medium" id="post_Search"  onclick="fn_postSearch()" >우편번호 검색</button>
                   </div>
                 </td>
               </tr>
               <tr>
                 <td>
                   <div class="f-address">
-                    <input type="text" class="full" title="주소">
-                    <input type="text" class="full" title="상세주소">
+                    <input type="text" class="full" title="도로명주소" placeholder="도로명주소" id="road_address" name="road_address" readonly value="<c:out value="${memberInfo.road_address}"/>"> 
+                    <input type="text" class="full" title="지번주소" placeholder="지번주소" id="jibun_address" name="jibun_address" maxlength="200" value="<c:out value="${memberInfo.jibun_address}"/>">
+                    <span id="guide" style="color:#999"></span>
                   </div>
                 </td>
               </tr>

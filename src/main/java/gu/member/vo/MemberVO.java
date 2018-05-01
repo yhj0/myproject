@@ -21,7 +21,9 @@ public class MemberVO {
     private String hom_phone1;
     private String hom_phone2;
     private String hom_phone3;
-
+    private String post_no;
+    private String road_address;
+    private String jibun_address;    
    
     /* 프로필이미지 */
     private List<MultipartFile> uploadfile;
@@ -124,6 +126,24 @@ public class MemberVO {
 	}
 	public void setHom_phone3(String hom_phone3) {
 		this.hom_phone3 = hom_phone3;
+	}
+	public String getPost_no() {
+		return post_no;
+	}
+	public void setPost_no(String post_no) {
+		this.post_no = post_no;
+	}
+	public String getRoad_address() {
+		return road_address;
+	}
+	public void setRoad_address(String road_address) {
+		this.road_address = road_address;
+	}
+	public String getJibun_address() {
+		return jibun_address;
+	}
+	public void setJibun_address(String jibun_address) {
+		this.jibun_address = jibun_address;
 	}
 	
 }

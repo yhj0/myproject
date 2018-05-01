@@ -574,10 +574,11 @@ public class BoardController {
      */  
     @RequestMapping(value = "/boardReplyDelete.do")
     public String boardReplyDelete(HttpServletRequest request, BoardReplyVO boardReplyInfo) throws Exception{
-        
+    	String id = request.getParameter("reg_id");
+    	
     	boardservice.deleteBoardReply(boardReplyInfo.getReno());
 
-        return "redirect:/boardRead.do?brdno=" + boardReplyInfo.getBrdno();
+        return "redirect:/boardRead.do?brdno=" + boardReplyInfo.getBrdno() + "&id=" + id;
     }      
 
     /* ===================================================================== */

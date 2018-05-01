@@ -180,7 +180,6 @@ public class MemberController {
 	   
 	    	String id = request.getParameter("id");	
 	        ImageUtil iu = new ImageUtil();
-	        System.out.println("zzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzz:"+id);
 	    	
 	    	//아이디 존재 갯수파악
 	    	int rowcount = Integer.parseInt(memberService.checkSignup(id));
