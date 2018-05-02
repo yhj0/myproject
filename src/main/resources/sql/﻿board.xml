@@ -428,7 +428,7 @@
         )             
     </delete> 
 
-    <!-- =============================================================================== -->
+    <!-- 댓글=============================================================================== -->
     <select id="selectBoardReplyList" resultType="gu.board.vo.BoardReplyVO">
         SELECT  BRDNO
         	   ,BRDTYPE
@@ -491,6 +491,75 @@
                CHG_DTTM =  NOW()
          WHERE RENO=#{reno}
     </update> 
+
+    <!-- 답글=============================================================================== -->
+    <select id="selectBoardReplyDetailList" resultType="gu.board.vo.BoardReplyDetailVO">
+        SELECT  DENO
+        	   ,BRDNO
+        	   ,RENO
+        	   ,BRDTYPE
+        	   ,DE_WRITER
+        	   ,DE_MEMO
+        	   ,DE_DATE
+        	   ,DE_DELETEFLAG
+        	   ,CONCAT(SUBSTRING(REG_ID,1,4),'***')REG_ID
+        	   ,NOW() AS SYSDATE
+        	   ,REG_DTTM
+          FROM TBL_BOARDREPLY_DETAIL
+         WHERE BRDNO=#{brdno} 
+           AND DE_DELETEFLAG='N'
+         ORDER BY DENO
+    </select>
+        
+    <insert id="insertBoardReplyDetail" parameterType="gu.board.vo.BoardReplyDetailVO" >
+        <selectKey resultType="String" keyProperty="deno" order="BEFORE">
+            SELECT IFNULL(MAX(DENO),0)+1 FROM TBL_BOARDREPLY_DETAIL
+        </selectKey>
+            
+        INSERT INTO TBL_BOARDREPLY_DETAIL(
+        DENO, 
+        BRDNO,
+        RENO, 
+        BRDTYPE,
+        DE_WRITER, 
+        DE_DELETEFLAG, 
+        DE_MEMO, 
+        REG_ID,
+        REG_DTTM,
+        CHG_ID,
+        CHG_DTTM
+        )
+        VALUES (
+        #{deno},
+        #{brdno},
+        #{reno},  
+        'C',
+        #{de_writer}, 
+        'N', 
+        #{de_memo}, 
+        #{reg_id},
+  		NOW(),
+  		NULL,
+  		NULL
+        )
+    </insert>
+
+    <update id="deleteBoardReplyDetail" parameterType="String"> 
+        UPDATE TBL_BOARDREPLY_DETAIL
+           SET DE_DELETEFLAG='Y', 
+               CHG_ID = #{reg_id},
+               CHG_DTTM = NOW()
+         WHERE DENO=#{deno}       
+    </update> 
+
+    <delete id="updateBoardReplyDetail" parameterType="gu.board.vo.BoardReplyDetailVO">
+        UPDATE TBL_BOARDREPLY_DETAIL
+           SET DE_MEMO = #{de_memo}, 
+           	   CHG_ID = #{reg_id},
+               CHG_DTTM =  NOW()
+         WHERE DENO=#{deno}
+    </delete> 
+    <!-- =============================================================================== -->
 
     <select id="selectYnLikes" resultType="Integer">
         SELECT COUNT(*) 

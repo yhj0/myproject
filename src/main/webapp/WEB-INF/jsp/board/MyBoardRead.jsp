@@ -30,7 +30,7 @@ function fn_id_sumbit2(){
 function fn_search(){
 	document.searchform.submit();	
 }	   
-
+//댓글
 function fn_formSubmit(){
 	var form_Reply = document.form_Reply;
 	
@@ -40,6 +40,17 @@ function fn_formSubmit(){
 		return;
 	}
 	form_Reply.submit();	
+}
+//답글
+function fn_formSubmit_re(){
+	var form_Reply_Re = document.form_Reply_Re;
+	
+	if (form_Reply_Re.de_memo.value=="") {
+		alert("글 내용을 입력해주세요.");
+		form_Reply_Re.de_memo.focus();
+		return;
+	}
+	form_Reply_Re.submit();	
 }
 
 function fn_replyDelete(reno){
@@ -103,14 +114,19 @@ function fn_counting(){
 	document.getElementById("sp01").innerHTML = document.getElementById("rememo").value.length;
 }
 
+//답글 글자수세기300자제한
+function fn_counting_re(){
+	document.getElementById("sp02").innerHTML = document.getElementById("de_memo").value.length;
+}
+
 $(document).ready(function() {
-	
+	$('#like_cancle').hide();
 	//좋아요 클릭(증가+) ajax구현
 	$('#like').click(function(){
 		
 	  var id = $(this).val(); 
-	  var brdno = $(this).val(); 
-	  
+	  var brdno = $(this).val();
+
 	  $.ajax({
 		  type: "POST",
 	      url: "myLikeUp.do", // 통신할 url을 지정한다.
@@ -142,8 +158,7 @@ $(document).ready(function() {
 	$('#like_cancle').click(function(){
 		
 	  var id = $(this).val(); 
-	  var brdno = $(this).val(); 
-	  
+	  var brdno = $(this).val();   
 	  $.ajax({
 		  type: "POST",
 	      url: "myLikeDown.do", // 통신할 url을 지정한다.
@@ -152,11 +167,9 @@ $(document).ready(function() {
 	    	  	}, // 서버로 데이터를 전송할 때 이 옵션을 사용한다.
 	      dataType: "json", // 서버측에서 전송한 데이터를 어떤 형식의 데이터로서 해석할 것인가를 지정한다. 없으면 알아서 판단한다.
 	      success: function(data){
-
 		        alert("좋아요를 취소하였습니다.")
 		        $('#like_count').html(data);
 		        $('#like_cancle').hide();
-    
 	      },
 	      error:function(error){
 	        // 요청이 실패했을 경우
@@ -165,10 +178,31 @@ $(document).ready(function() {
 	  });
 	})	
 	
+	//좋아요 취소2 -이미 좋아요가 눌러졌을때 위한버튼
+	$('#like_cancle2').click(function(){
+		
+	  var id = $(this).val(); 
+	  var brdno = $(this).val(); 
+	  $.ajax({
+		  type: "POST",
+	      url: "myLikeDown.do", // 통신할 url을 지정한다.
+	      data: { "user_id" : $('#reg_id').val(),
+	    	  	  "brdno" : $('#brdno').val(),						 
+	    	  	}, // 서버로 데이터를 전송할 때 이 옵션을 사용한다.
+	      dataType: "json", // 서버측에서 전송한 데이터를 어떤 형식의 데이터로서 해석할 것인가를 지정한다. 없으면 알아서 판단한다.
+	      success: function(data){
+		        alert("좋아요를 취소하였습니다.")
+		        $('#like_count').html(data);
+		        $('#like_cancle2').hide();
+	      },
+	      error:function(error){
+	        // 요청이 실패했을 경우
+	        alert("서비스 요청에 실패했습니다.")
+	      }
+	  });
+	})		
+	
 });	
-
-
-
 </script>
 
 </head>
@@ -319,8 +353,9 @@ $(document).ready(function() {
             <span class="re-tex">댓글 <c:out value="${boardInfo.replycnt}"/></span>
             <span class="btn-good"><button type="button" id="like" ><span class="ico-heart on">좋아요</span></button><span id="like_count" class="count"><c:out value="${boardInfo.brdlike}"/></span></span>
             <c:if test="${boardInfo.brdlike_yn == 'Y'}">
-           		<button type="button" class="btn-good" id="like_cancle">좋아요 취소</button>
+           		<button type="button" class="btn-good" id="like_cancle2">좋아요 취소</button>
             </c:if>
+            	<button type="button" class="btn-good" id="like_cancle">좋아요 취소</button>
           </div>     
           <div class="reply-form">
           	<form name="form_Reply" action="myReplySave.do" method="post">
@@ -335,16 +370,41 @@ $(document).ready(function() {
 	            <input type="hidden" name="rewriter" id="rewriter" value="<c:out value="${sessionScope.name}"/>">
             </form>
           </div>           
-          <c:forEach var="replylist" items="${replylist}" varStatus="status">    
+          <c:forEach var="replylist" items="${replylist}" varStatus="status">  
           <div class="reply-list">																		
-            <div class="reply-log"><span class="u-id"><c:out value="${replylist.reg_id}"/></span><span class="u-date"><c:out value="${replylist.reg_dttm}"/></span></div>
+            <div class="reply-log"><c:out value="${replylist.reno}"/><span class="u-id"><c:out value="${replylist.reg_id}"/></span><span class="u-date"><c:out value="${replylist.reg_dttm}"/></span></div>
             <div class="reply-cont">
               <c:out value="${replylist.rememo}"/>
             </div>
-            <button type="button" class="reply-count">답글달기</button>
+            <button type="button" class="reply-count" id="reply-re" >답글달기</button>
           </div>
-          </c:forEach>	          			
-        </div>
+	          <c:forEach var="replydeatil" items="${replydeatil}" varStatus="status"> 
+		          <c:if test="${replylist.reno == replydeatil.reno}">
+					  <div class="replay-list-re">
+					  	<div class="reply-log"><span class="u-id"><c:out value="${replydeatil.reg_id}"/></span><span class="u-date"><c:out value="${replydeatil.reg_dttm}"/></span></div>
+					    <div class="reply-cont">
+					  		<c:out value="${replydeatil.de_memo}"/>
+					    </div>
+					  </div>  	
+				  </c:if>	          		                    	
+	           </c:forEach>            
+ 			          <div class="replay-list-re">
+			            <div class="reply-form">
+			            	<form name="form_Reply_Re" action="myReplyDetailSave.do" method="post">
+				              <div class="reply-log"><span class="u-id"><c:out value="${sessionScope.id}"/></span><span class="u-date"><c:out value="${boardInfo.sysdate}"/></span></div>
+				              <textarea id="de_memo" name="de_memo" rows="3" cols="80" maxlength="300"   onkeyup="fn_counting_re()"></textarea>
+					            <div align="right">
+					            	<span id="sp02">0</span>/300&nbsp;&nbsp;&nbsp;
+					            </div>
+					            <div class="btns"><button type="button" class="btn large blue" onclick="fn_formSubmit_re()">등록</button></div>
+					            <input type="hidden" name="brdno" id="brdno" value="<c:out value="${boardInfo.brdno}"/>">
+					            <input type="hidden" name="reg_id" id="reg_id" value ="<c:out value="${sessionScope.id}"/>">
+					            <input type="hidden" name="de_writer" id="de_writer" value="<c:out value="${sessionScope.name}"/>">
+			                </form>
+			            </div>
+			          </div>            
+         </c:forEach>              	  
+        </div>  
         <!-- //contents -->
       </div>
     </div>

@@ -480,10 +480,12 @@ public class BoardController {
         BoardVO boardInfo = boardservice.selectBoardOne(brdno,id);
         List<?> listview = boardservice.selectBoardFileList(brdno);
         List<?> replylist = boardservice.selectBoardReplyList(brdno);
+        List<?> replydeatil = boardservice.selectBoardReplyDetailList(brdno);
         
         modelMap.addAttribute("boardInfo", boardInfo);
         modelMap.addAttribute("listview", listview);
         modelMap.addAttribute("replylist", replylist);
+        modelMap.addAttribute("replydeatil", replydeatil);
         
         return "board/MyBoardRead";
     }    
@@ -618,6 +620,52 @@ public class BoardController {
 
         return "redirect:/myBoardRead.do?brdno=" + boardReplyInfo.getBrdno() + "&id=" + id;
     }      
+
+    /* ===================================================================== */     
+    /**
+     * <ul>
+     * <li>제  목 : 나의커뮤니티 답글 저장</li>
+     * <li>설  명 : 나의커뮤니티 답글 저장한다</li>
+     * <li>작성일 : 2018-05-01</li>
+     * <li>작성자 : 유형준</li>
+     * </ul>
+     *
+     * @author 유형준
+     */  
+    @RequestMapping(value = "/myReplyDetailSave.do")
+    public String myReplyDetailSave(HttpServletRequest request, BoardReplyDetailVO replyDetailInfo) throws Exception{
+    	
+        String brdno = request.getParameter("brdno"); //게시물번호
+        String reno = request.getParameter("reno");	  //댓글번호
+    	String id = request.getParameter("reg_id"); //사용자아이디
+
+        boardservice.insertBoardReplyDetail(replyDetailInfo);
+
+        return "redirect:/myBoardRead.do?brdno=" + brdno + "&id=" + id;
+    }
+    
+    /**
+     * <ul>
+     * <li>제  목 : 나의커뮤니티 답글 삭제</li>
+     * <li>설  명 : 나의커뮤니티 답글 삭제한다</li>
+     * <li>작성일 : 2018-05-01</li>
+     * <li>작성자 : 유형준</li>
+     * </ul>
+     *
+     * @author 유형준
+     */  
+    @RequestMapping(value = "/myReplyDetailDelete.do")
+    public String myReplyDetailDelete(HttpServletRequest request, BoardReplyDetailVO replyDetailInfo) throws Exception{
+    	
+        String brdno = request.getParameter("brdno"); //게시물번호
+        String id = request.getParameter("id");	//사용자아이디
+    
+    	boardservice.deleteBoardReplyDetail(replyDetailInfo.getDeno());
+
+        return "redirect:/myBoardRead.do?brdno=" + brdno + "&id=" + id;
+    }        
+
+    /* ===================================================================== */    
     
     /**
      * <ul>

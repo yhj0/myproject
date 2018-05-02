@@ -14,6 +14,18 @@
   <link rel="stylesheet" href="css/style.css">
   <script src="js/jquery-2.2.3.min.js"></script>  
   <script src="js/common.js"></script>
+<script type="text/javascript">
+//id값 전송 함수
+function fn_id_sumbit(){
+	var f = document.form_id;
+	f.submit();
+}
+//탑 검색
+function fn_search(){
+	document.searchform.submit();	
+}
+
+</script>     
 </head>  
 <body>
 <p id="accessibility"><a href="#container">본문바로가기</a></p>

@@ -261,6 +261,25 @@ public class BoardService {
     }
 
     /**
+     * 답글. 
+     */
+    public List<?> selectBoardReplyDetailList(String param) {
+        return sqlSession.selectList("selectBoardReplyDetailList", param);
+    }
+    
+    public void insertBoardReplyDetail(BoardReplyDetailVO param) {
+        if (param.getDeno()==null || "".equals(param.getDeno())) {
+            sqlSession.insert("insertBoardReplyDetail", param);
+        } else {
+            sqlSession.insert("updateBoardReplyDetail", param);
+        }
+    }   
+    
+    public void deleteBoardReplyDetail(String param) {
+        sqlSession.delete("deleteBoardReplyDetail", param);
+    }    
+    
+    /**
      * 좋아요 추가
      */    
     public void insertLikes(BoardLikesVO param) {
