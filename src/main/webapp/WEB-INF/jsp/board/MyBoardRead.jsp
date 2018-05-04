@@ -30,7 +30,7 @@ function fn_id_sumbit2(){
 function fn_search(){
 	document.searchform.submit();	
 }	   
-//댓글
+//댓글저장
 function fn_formSubmit(){
 	var form_Reply = document.form_Reply;
 	
@@ -41,16 +41,16 @@ function fn_formSubmit(){
 	}
 	form_Reply.submit();	
 }
-//답글
-function fn_formSubmit_re(){
-	var form_Reply_Re = document.form_Reply_Re;
-	
-	if (form_Reply_Re.de_memo.value=="") {
+//답글저장
+function fn_formSubmit2(reno){
+	//폼명이 댓글번호(reno)에따라 변경되로독 eval함수 사용
+	var f = eval("frm"+reno);
+	if (f.de_memo.value=="") {
 		alert("글 내용을 입력해주세요.");
-		form_Reply_Re.de_memo.focus();
+		f.de_memo.focus();
 		return;
 	}
-	form_Reply_Re.submit();	
+	f.submit();	
 }
 
 function fn_replyDelete(reno){
@@ -64,59 +64,20 @@ function fn_replyDelete(reno){
 	form.submit();	
 } 
 
-var updateReno = updateRememo = null;
-function fn_replyUpdate(reno){
-	var form = document.form2;
-	var reply = document.getElementById("reply"+reno);
-	var replyDiv = document.getElementById("replyDiv");
-	replyDiv.style.display = "";
-	
-	if (updateReno) {
-		document.body.appendChild(replyDiv);
-		var oldReno = document.getElementById("reply"+updateReno);
-		oldReno.innerText = updateRememo;
-	} 
-	
-	form.reno.value=reno;
-	form.rememo.value = reply.innerText;
-	reply.innerText ="";
-	reply.appendChild(replyDiv);
-	updateReno   = reno;
-	updateRememo = form.rememo.value;
-	form.rememo.focus();
-} 
-
-function fn_replyUpdateSave(){
-	var form = document.form2;
-	if (form.rememo.value=="") {
-		alert("글 내용을 입력해주세요.");
-		form.rememo.focus();
-		return;
-	}
-	
-	form.action="boardReplySave.do";
-	form.submit();	
-} 
-
-function fn_replyUpdateCancel(){
-	var form = document.form2;
-	var replyDiv = document.getElementById("replyDiv");
-	document.body.appendChild(replyDiv);
-	replyDiv.style.display = "none";
-	
-	var oldReno = document.getElementById("reply"+updateReno);
-	oldReno.innerText = updateRememo;
-	updateReno = updateRememo = null;
-} 
 
 //댓글 글자수세기300자제한
 function fn_counting(){
 	document.getElementById("sp01").innerHTML = document.getElementById("rememo").value.length;
 }
-
 //답글 글자수세기300자제한
-function fn_counting_re(){
-	document.getElementById("sp02").innerHTML = document.getElementById("de_memo").value.length;
+function fn_counting_re(reno){
+	document.getElementById("sp"+reno).innerHTML = document.getElementById("de_memo"+reno).value.length;
+}
+
+//답글 보이기버튼 
+function fn_replyShow(obj){
+      if (obj.style.display=='none') obj.style.display = 'block';
+      else if (obj.style.display=='block') obj.style.display = 'none';
 }
 
 $(document).ready(function() {
@@ -372,15 +333,15 @@ $(document).ready(function() {
           </div>           
           <c:forEach var="replylist" items="${replylist}" varStatus="status">  
           <div class="reply-list">																		
-            <div class="reply-log"><c:out value="${replylist.reno}"/><span class="u-id"><c:out value="${replylist.reg_id}"/></span><span class="u-date"><c:out value="${replylist.reg_dttm}"/></span></div>
+            <div class="reply-log"><span class="u-id"><c:out value="${replylist.reg_id}"/></span><span class="u-date"><c:out value="${replylist.reg_dttm}"/></span></div>
             <div class="reply-cont">
               <c:out value="${replylist.rememo}"/>
             </div>
-            <button type="button" class="reply-count" id="reply-re" >답글달기</button>
+            <button type="button" class="reply-count" id="reply-re" onclick="fn_replyShow(document.getElementById('reply<c:out value="${replylist.reno}"/>'))" >답글</button>
           </div>
 	          <c:forEach var="replydeatil" items="${replydeatil}" varStatus="status"> 
 		          <c:if test="${replylist.reno == replydeatil.reno}">
-					  <div class="replay-list-re">
+					  <div class="replay-list-re" id="reply<c:out value="${replydeatil.reno}"/>" style="display: block">
 					  	<div class="reply-log"><span class="u-id"><c:out value="${replydeatil.reg_id}"/></span><span class="u-date"><c:out value="${replydeatil.reg_dttm}"/></span></div>
 					    <div class="reply-cont">
 					  		<c:out value="${replydeatil.de_memo}"/>
@@ -388,22 +349,23 @@ $(document).ready(function() {
 					  </div>  	
 				  </c:if>	          		                    	
 	           </c:forEach>            
- 			          <div class="replay-list-re">
+ 			          <div class="replay-list-re" id="reply<c:out value="${replylist.reno}"/>" style="display: block">
 			            <div class="reply-form">
-			            	<form name="form_Reply_Re" action="myReplyDetailSave.do" method="post">
+			            	<form name="frm<c:out value="${replylist.reno}"/>" action="myReplyDetailSave.do" method="post">
 				              <div class="reply-log"><span class="u-id"><c:out value="${sessionScope.id}"/></span><span class="u-date"><c:out value="${boardInfo.sysdate}"/></span></div>
-				              <textarea id="de_memo" name="de_memo" rows="3" cols="80" maxlength="300"   onkeyup="fn_counting_re()"></textarea>
+				              <textarea id="de_memo<c:out value="${replylist.reno}"/>" name="de_memo" rows="3" cols="80" maxlength="300" onkeyup="fn_counting_re(<c:out value="${replylist.reno}"/>)"></textarea>
 					            <div align="right">
-					            	<span id="sp02">0</span>/300&nbsp;&nbsp;&nbsp;
+					            	<span id="sp<c:out value="${replylist.reno}"/>">0</span>/300&nbsp;&nbsp;&nbsp;
 					            </div>
-					            <div class="btns"><button type="button" class="btn large blue" onclick="fn_formSubmit_re()">등록</button></div>
+					            <div class="btns"><button type="button" class="btn large blue" onclick="fn_formSubmit2(<c:out value="${replylist.reno}"/>)">등록</button></div>
 					            <input type="hidden" name="brdno" id="brdno" value="<c:out value="${boardInfo.brdno}"/>">
+					            <input type="hidden" name="reno" id="reno" value="<c:out value="${replylist.reno}"/>">					            
 					            <input type="hidden" name="reg_id" id="reg_id" value ="<c:out value="${sessionScope.id}"/>">
 					            <input type="hidden" name="de_writer" id="de_writer" value="<c:out value="${sessionScope.name}"/>">
 			                </form>
 			            </div>
 			          </div>            
-         </c:forEach>              	  
+          </c:forEach>              	  
         </div>  
         <!-- //contents -->
       </div>
