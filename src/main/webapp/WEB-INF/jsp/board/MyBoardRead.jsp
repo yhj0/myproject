@@ -337,7 +337,13 @@ $(document).ready(function() {
             <div class="reply-cont">
               <c:out value="${replylist.rememo}"/>
             </div>
-            <button type="button" class="reply-count" id="reply-re" onclick="fn_replyShow(document.getElementById('reply<c:out value="${replylist.reno}"/>'))" >답글</button>
+            <button type="button" class="reply-count" id="reply-re" onclick="fn_replyShow(document.getElementById('reply<c:out value="${replylist.reno}"/>'))" >답글
+            <c:forEach var="replycnt" items="${replycnt}" varStatus="status">  
+              <c:if test="${replylist.reno == replycnt.reno}">
+              	<c:out value="${replycnt.cnt}"/>개
+              </c:if>
+            </c:forEach>  
+            </button>
           </div>
 	          <c:forEach var="replydeatil" items="${replydeatil}" varStatus="status"> 
 		          <c:if test="${replylist.reno == replydeatil.reno}">

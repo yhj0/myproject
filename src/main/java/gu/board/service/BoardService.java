@@ -263,6 +263,10 @@ public class BoardService {
     /**
      * 답글. 
      */
+    public List<?> selectBoardReplyCnt(String param) {
+        return sqlSession.selectList("selectBoardReplyCnt", param);
+    }   
+    
     public List<?> selectBoardReplyDetailList(String param) {
         return sqlSession.selectList("selectBoardReplyDetailList", param);
     }

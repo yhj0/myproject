@@ -481,11 +481,13 @@ public class BoardController {
         List<?> listview = boardservice.selectBoardFileList(brdno);
         List<?> replylist = boardservice.selectBoardReplyList(brdno);
         List<?> replydeatil = boardservice.selectBoardReplyDetailList(brdno);
+        List<?> replycnt = boardservice.selectBoardReplyCnt(brdno);
         
         modelMap.addAttribute("boardInfo", boardInfo);
         modelMap.addAttribute("listview", listview);
         modelMap.addAttribute("replylist", replylist);
         modelMap.addAttribute("replydeatil", replydeatil);
+        modelMap.addAttribute("replycnt", replycnt);
         
         return "board/MyBoardRead";
     }    

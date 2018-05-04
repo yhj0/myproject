@@ -16,6 +16,8 @@ public class BoardReplyDetailVO {
     private String chg_dttm;
     private String sysdate;
     
+    private String cnt;
+    
 	public String getDeno() {
 		return deno;
 	}
@@ -93,6 +95,12 @@ public class BoardReplyDetailVO {
 	}
 	public void setSysdate(String sysdate) {
 		this.sysdate = sysdate;
+	}
+	public String getCnt() {
+		return cnt;
+	}
+	public void setCnt(String cnt) {
+		this.cnt = cnt;
 	}
     
 }

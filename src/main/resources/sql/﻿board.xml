@@ -493,6 +493,16 @@
     </update> 
 
     <!-- 답글=============================================================================== -->
+    <select id="selectBoardReplyCnt" resultType="gu.board.vo.BoardReplyDetailVO">
+        SELECT  RENO
+        	   ,COUNT(*)CNT
+          FROM TBL_BOARDREPLY_DETAIL
+         WHERE BRDNO=#{brdno} 
+           AND DE_DELETEFLAG='N'
+         GROUP BY RENO
+    </select>
+    
+    
     <select id="selectBoardReplyDetailList" resultType="gu.board.vo.BoardReplyDetailVO">
         SELECT  DENO
         	   ,BRDNO
