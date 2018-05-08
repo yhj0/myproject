@@ -330,48 +330,54 @@ $(document).ready(function() {
 	            <input type="hidden" name="reg_id" id="reg_id" value ="<c:out value="${sessionScope.id}"/>">
 	            <input type="hidden" name="rewriter" id="rewriter" value="<c:out value="${sessionScope.name}"/>">
             </form>
-          </div>           
+          </div>  
+          <!-- 댓글 start-->         
           <c:forEach var="replylist" items="${replylist}" varStatus="status">  
-          <div class="reply-list">																		
-            <div class="reply-log"><span class="u-id"><c:out value="${replylist.reg_id}"/></span><span class="u-date"><c:out value="${replylist.reg_dttm}"/></span></div>
-            <div class="reply-cont">
-              <c:out value="${replylist.rememo}"/>
-            </div>
-            <button type="button" class="reply-count" id="reply-re" onclick="fn_replyShow(document.getElementById('reply<c:out value="${replylist.reno}"/>'))" >답글
-            <c:forEach var="replycnt" items="${replycnt}" varStatus="status">  
-              <c:if test="${replylist.reno == replycnt.reno}">
-              	<c:out value="${replycnt.cnt}"/>개
-              </c:if>
-            </c:forEach>  
-            </button>
-          </div>
-	          <c:forEach var="replydeatil" items="${replydeatil}" varStatus="status"> 
-		          <c:if test="${replylist.reno == replydeatil.reno}">
-					  <div class="replay-list-re" id="reply<c:out value="${replydeatil.reno}"/>" style="display: block">
-					  	<div class="reply-log"><span class="u-id"><c:out value="${replydeatil.reg_id}"/></span><span class="u-date"><c:out value="${replydeatil.reg_dttm}"/></span></div>
-					    <div class="reply-cont">
-					  		<c:out value="${replydeatil.de_memo}"/>
-					    </div>
-					  </div>  	
-				  </c:if>	          		                    	
-	           </c:forEach>            
- 			          <div class="replay-list-re" id="reply<c:out value="${replylist.reno}"/>" style="display: block">
-			            <div class="reply-form">
-			            	<form name="frm<c:out value="${replylist.reno}"/>" action="myReplyDetailSave.do" method="post">
-				              <div class="reply-log"><span class="u-id"><c:out value="${sessionScope.id}"/></span><span class="u-date"><c:out value="${boardInfo.sysdate}"/></span></div>
-				              <textarea id="de_memo<c:out value="${replylist.reno}"/>" name="de_memo" rows="3" cols="80" maxlength="300" onkeyup="fn_counting_re(<c:out value="${replylist.reno}"/>)"></textarea>
-					            <div align="right">
-					            	<span id="sp<c:out value="${replylist.reno}"/>">0</span>/300&nbsp;&nbsp;&nbsp;
-					            </div>
-					            <div class="btns"><button type="button" class="btn large blue" onclick="fn_formSubmit2(<c:out value="${replylist.reno}"/>)">등록</button></div>
-					            <input type="hidden" name="brdno" id="brdno" value="<c:out value="${boardInfo.brdno}"/>">
-					            <input type="hidden" name="reno" id="reno" value="<c:out value="${replylist.reno}"/>">					            
-					            <input type="hidden" name="reg_id" id="reg_id" value ="<c:out value="${sessionScope.id}"/>">
-					            <input type="hidden" name="de_writer" id="de_writer" value="<c:out value="${sessionScope.name}"/>">
-			                </form>
-			            </div>
-			          </div>            
-          </c:forEach>              	  
+	          <div class="reply-list">																		
+	            <div class="reply-log"><span class="u-id"><c:out value="${replylist.reg_id}"/></span><span class="u-date"><c:out value="${replylist.reg_dttm}"/></span></div>
+	            <div class="reply-cont">
+	              <c:out value="${replylist.rememo}"/>
+	            </div>
+	            <button type="button" class="reply-count" id="reply-re" onclick="fn_replyShow(document.getElementById('reply<c:out value="${replylist.reno}"/>'))" >답글
+	            <c:forEach var="replycnt" items="${replycnt}" varStatus="status">  
+	              <c:if test="${replylist.reno == replycnt.reno}">
+	              	<c:out value="${replycnt.cnt}"/>
+	              </c:if>
+	            </c:forEach>
+	            </button>
+	          </div>
+		          <!-- 답글 start-->
+		          	   <div id="reply<c:out value="${replylist.reno}"/>" style="display: none">
+				          <c:forEach var="replydeatil" items="${replydeatil}" varStatus="status"> 
+					          <c:if test="${replylist.reno == replydeatil.reno}">
+								  <div class="replay-list-re" >
+								  	<div class="reply-log"><span class="u-id"><c:out value="${replydeatil.reg_id}"/></span><span class="u-date"><c:out value="${replydeatil.reg_dttm}"/></span></div>
+								    <div class="reply-cont">
+								  		<c:out value="${replydeatil.de_memo}"/>
+								    </div>
+								  </div>  	
+							  </c:if>	          		                    	
+				           </c:forEach>            
+			 			      <div class="replay-list-re">
+						            <div class="reply-form">
+						            	<form name="frm<c:out value="${replylist.reno}"/>" action="myReplyDetailSave.do" method="post">
+							                <div class="reply-log"><span class="u-id"><c:out value="${sessionScope.id}"/></span><span class="u-date"><c:out value="${boardInfo.sysdate}"/></span></div>
+							                <textarea id="de_memo<c:out value="${replylist.reno}"/>" name="de_memo" rows="3" cols="80" maxlength="300" onkeyup="fn_counting_re(<c:out value="${replylist.reno}"/>)"></textarea>
+								            <div align="right">
+								            	<span id="sp<c:out value="${replylist.reno}"/>">0</span>/300&nbsp;&nbsp;&nbsp;
+								            </div>
+								            <div class="btns"><button type="button" class="btn large blue" onclick="fn_formSubmit2(<c:out value="${replylist.reno}"/>)">등록</button></div>
+								            <input type="hidden" name="brdno" id="brdno" value="<c:out value="${boardInfo.brdno}"/>">
+								            <input type="hidden" name="reno" id="reno" value="<c:out value="${replylist.reno}"/>">					            
+								            <input type="hidden" name="reg_id" id="reg_id" value ="<c:out value="${sessionScope.id}"/>">
+								            <input type="hidden" name="de_writer" id="de_writer" value="<c:out value="${sessionScope.name}"/>">
+						                </form>
+						            </div>
+						      </div>  
+				  	   </div> 
+				  <!-- 답글 end -->            
+          </c:forEach>   
+        <!-- 댓글 end-->               	  
         </div>  
         <!-- //contents -->
       </div>
