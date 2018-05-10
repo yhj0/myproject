@@ -276,19 +276,18 @@ function fn_formSubmit(){
 	}		
 	
 	//이메일 직접입력 or 선택유무
-	if(formMember.email_2.value != 'etc')
+	if(formMember.email_2.value == 'etc' || formMember.email_2.value == '' || formMember.email_2.value == null)
 	{
-		
-		var e = formMember.email_1.value +"@"+formMember.email_2.value 
-		document.formMember.email.value = e;
-		document.formMember.submit();	
+		var e = formMember.email_1.value +"@"+formMember.email_3.value 
+		document.formMember.email.value = e;	
 	}
 	else
 	{
-		var e = formMember.email_1.value +"@"+formMember.email_3.value 
-		document.formMember.email.value = e;
-		document.formMember.submit();		
+		var e = formMember.email_1.value +"@"+formMember.email_2.value 
+		document.formMember.email.value = e;	
 	}
+	
+		document.formMember.submit();		
 }  	
 
 </script>
