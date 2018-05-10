@@ -10,9 +10,11 @@
   <link rel="stylesheet" href="css/fonts.css">
   <link rel="stylesheet" href="css/common.css">
   <link rel="stylesheet" href="css/style.css">
-  <script src="js/jquery-2.2.3.min.js"></script>  
+  <link rel="stylesheet" href="css/jquery-ui.min.css">
+  <script src="js/jquery-2.2.3.min.js"></script> 
+  <script src="js/jquery-ui.min.js"></script>   
   <script src="js/common.js"></script>
-  <script src="http://dmaps.daum.net/map_js_init/postcode.v2.js"></script>  
+  <script src="http://dmaps.daum.net/map_js_init/postcode.v2.js"></script>
   
 <script type="text/javascript">
 //id값 전송 함수-회원수정 
@@ -79,7 +81,7 @@ $(document).ready(function() {
 	            }); //비동식 ajax DB접근
 		});	 
 	 
-//비밀번호
+		//비밀번호
 	    $('#password').focusout(function(){
 	   	var val = $(this).val(); regex = /^(?=.*[a-zA-Z])((?=.*\d)|(?=.*\W)).{8,16}$/;
 	   
@@ -97,7 +99,7 @@ $(document).ready(function() {
 	   	}
 	    });		  	
 
-//비밀번호 확인
+		//비밀번호 확인
 	    $('#re_password').focusout(function(){
 	    	var orgin = $('#password').val();
 	    	
@@ -115,7 +117,32 @@ $(document).ready(function() {
          		$('#joinMember').attr("disabled", false); //회원가입버튼 활성화
 	    	} 
 	  });	
-	  	  	
+
+		  //생년월일 달력
+		  $(function() {
+		    $("#birth").datepicker({
+		    	  showOn: "both", // 버튼과 텍스트 필드 모두 캘린더를 보여준다.
+		    	  buttonImage: "./images/calendar.png", // 버튼 이미지
+		    	  buttonImageOnly: true, // 버튼에 있는 이미지만 표시한다.
+		    	  changeMonth: true, // 월을 바꿀수 있는 셀렉트 박스를 표시한다.
+		    	  changeYear: true, // 년을 바꿀 수 있는 셀렉트 박스를 표시한다.
+		    	  minDate: '-100y', // 현재날짜로부터 100년이전까지 년을 표시한다.
+		    	  nextText: '다음 달', // next 아이콘의 툴팁.
+		    	  prevText: '이전 달', // prev 아이콘의 툴팁.
+		    	  numberOfMonths: [1,1], // 한번에 얼마나 많은 월을 표시할것인가. [2,3] 일 경우, 2(행) x 3(열) = 6개의 월을 표시한다.
+		    	  stepMonths: 3, // next, prev 버튼을 클릭했을때 얼마나 많은 월을 이동하여 표시하는가. 
+		    	  yearRange: 'c-100:c+10', // 년도 선택 셀렉트박스를 현재 년도에서 이전, 이후로 얼마의 범위를 표시할것인가.
+		    	  showButtonPanel: true, // 캘린더 하단에 버튼 패널을 표시한다. 
+		    	  currentText: '오늘 날짜' , // 오늘 날짜로 이동하는 버튼 패널
+		    	  closeText: '닫기',  // 닫기 버튼 패널
+		    	  dateFormat: "yy-mm-dd", // 텍스트 필드에 입력되는 날짜 형식.
+		    	  showAnim: "slide", //애니메이션을 적용한다.
+		    	  showMonthAfterYear: true , // 월, 년순의 셀렉트 박스를 년,월 순으로 바꿔준다. 
+		    	  dayNamesMin: ['월', '화', '수', '목', '금', '토', '일'], // 요일의 한글 형식.
+		    	  monthNamesShort: ['1월','2월','3월','4월','5월','6월','7월','8월','9월','10월','11월','12월'] // 월의 한글 형식.
+		    	 });	
+		  });
+
 });
 
 //다음우편번호검색
@@ -419,6 +446,20 @@ function fn_formSubmit(){
                 <td><input type="text" class="ipt-nor" title="성명" name="name" value="${memberInfo.name}"></td>
               </tr>
               <tr>
+                <th><span><em class="ess">필수</em>성별</span></th>
+                <td>
+	                <select class="select" title="성별" name="sex">
+						<option value="M" <c:if test="${memberInfo.sex eq 'M'}">selected</c:if> >남</option>	  
+						<option value="F" <c:if test="${memberInfo.sex eq 'F'}">selected</c:if> >여</option>	              
+	                </select>
+                </td>
+              </tr>         
+              <tr>
+                <th><span><em class="ess">필수</em>생년월일</span></th>
+                <td><input type="text" class="ipt-nor" title="생년월일" id="birth" name="birth" readonly="readonly" value="<c:out value="${memberInfo.birth}"/>">
+                </td>
+              </tr>               
+              <tr>
                 <th><span><em class="ess">필수</em>이메일</span></th>
                 <td>
                   <input type="hidden" name = "email" value="">
@@ -458,7 +499,7 @@ function fn_formSubmit(){
 					     <option value="0502" <c:if test="${memberInfo.hom_phone1 eq '0502'}">selected</c:if>>0502</option> 
                     </select> -
                     <input type="text" class="ipt" maxlength="4" title="전화번호 가운데" name = "hom_phone2" value="<c:out value="${memberInfo.hom_phone2}"/>"> -
-                    <input type="text" class="ipt" maxlength="4" title="전화번호 끝자리" name = "hom_phone3"value="<c:out value="${memberInfo.hom_phone3}"/>">
+                    <input type="text" class="ipt" maxlength="4" title="전화번호 끝자리" name = "hom_phone3" value="<c:out value="${memberInfo.hom_phone3}"/>">
                   </div>
                 </td>
               </tr>

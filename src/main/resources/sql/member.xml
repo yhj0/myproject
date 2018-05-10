@@ -25,6 +25,8 @@
         , PASSWORD
         , NAME
         , NICK_NAME
+        , BIRTH
+        , SEX
         , EMAIL
         , MOBILE1
         , MOBILE2
@@ -43,6 +45,8 @@
         , #{password}
         , #{name}
         , #{nick_name}
+        , #{birth}
+        , #{sex}
         , #{email}
         , #{mobile1}
         , #{mobile2}
@@ -64,6 +68,8 @@
            SET   password = #{password}
            	   , name =	#{name}
            	   , nick_name = #{nick_name}#
+           	   , birth = #{birth}#
+           	   , sex = #{sex}#
            	   , email = #{email}
            	   , mobile1 = #{mobile1}#
            	   , mobile2 = #{mobile2}#

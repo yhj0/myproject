@@ -9,7 +9,9 @@ public class MemberVO {
     private String id;
     private String password; 
     private String name; 
-    private String nick_name; 
+    private String nick_name;
+    private String birth;
+    private String sex;
     private String email;
     private String email_1;
     private	String email_2;
@@ -52,13 +54,24 @@ public class MemberVO {
 	public void setNick_name(String nick_name) {
 		this.nick_name = nick_name;
 	}
+	public String getBirth() {
+		return birth;
+	}
+	public void setBirth(String birth) {
+		this.birth = birth;
+	}
+	public String getSex() {
+		return sex;
+	}
+	public void setSex(String sex) {
+		this.sex = sex;
+	}
 	public String getEmail() {
 		return email;
 	}
 	public void setEmail(String email) {
 		this.email = email;
 	}
-
 	public String getReg_dttm() {
 		return reg_dttm;
 	}
