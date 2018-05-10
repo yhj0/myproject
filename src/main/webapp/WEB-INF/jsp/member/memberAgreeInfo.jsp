@@ -14,6 +14,18 @@
   <script src="js/common.js"></script>
 </head>
 
+<script type="text/javascript">
+//id값 전송 함수
+function fn_id_sumbit(){
+	var f = document.form_id;
+	f.submit();
+}
+//탑 검색
+function fn_search(){
+	document.searchform.submit();	
+}
+</script>  
+
 <body>
 <p id="accessibility"><a href="#container">본문바로가기</a></p>
 <div id="wrap">
@@ -30,6 +42,9 @@
 		         <input type="hidden" name="id" value="${sessionScope.id}">
 		         <a href="#" onclick="fn_id_sumbit();">마이페이지</a><a href="${path}/board/logout.do">로그아웃</a></div>
 		         </form>
+		         <form id="form_id2" name="form_id2"  action="myBoardList.do" method="post">
+                 <input type="hidden" name="id" value="${sessionScope.id}">
+            	 </form>		         
 		        </c:otherwise>
 	        </c:choose>
       </div>

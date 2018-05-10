@@ -14,6 +14,16 @@
   <script src="js/common.js"></script>
 
 <script type="text/javascript">
+//id값 전송 함수
+function fn_id_sumbit(){
+	var f = document.form_id;
+	f.submit();
+}
+//탑 검색
+function fn_search(){
+	document.searchform.submit();	
+}
+
 //체크여부
 function fn_valid(){
 	var chk1 = $('input:checkbox[id="chk-agree1"]').is(":checked");
@@ -55,6 +65,9 @@ function fn_submit(){
 		         <input type="hidden" name="id" value="${sessionScope.id}">
 		         <a href="#" onclick="fn_id_sumbit();">마이페이지</a><a href="${path}/board/logout.do">로그아웃</a></div>
 		         </form>
+		         <form id="form_id2" name="form_id2"  action="myBoardList.do" method="post">
+                 <input type="hidden" name="id" value="${sessionScope.id}">
+            	 </form>		         
 		        </c:otherwise>
 	        </c:choose>
       </div>

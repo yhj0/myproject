@@ -129,4 +129,24 @@
        AND REG_ID = #{parentPK}	
 	</update>	
 
+<!--아이디 찾기 -->    
+    <select id="selectFindID" parameterType="Map" resultType="gu.member.vo.MemberVO">
+        SELECT ID,PASSWORD 
+          FROM TBL_MEMBER
+         WHERE 1=1
+           AND NAME = #{user_name}	
+           AND EMAIL = #{email}	
+           AND USE_YN = 'Y'
+    </select> 
+    
+<!--비밀번호 찾기 -->    
+    <select id="selectFindPW" parameterType="Map" resultType="gu.member.vo.MemberVO">
+        SELECT ID,PASSWORD 
+          FROM TBL_MEMBER
+         WHERE 1=1
+           AND ID = #{user_id}	
+           AND EMAIL = #{email}	
+           AND USE_YN = 'Y'
+    </select>     
+
 </mapper>    

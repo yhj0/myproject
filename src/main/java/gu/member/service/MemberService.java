@@ -1,6 +1,8 @@
 package gu.member.service;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -91,10 +93,10 @@ public class MemberService {
             System.out.println("데이터 저장 오류: " + ex.toString());
         }
 		return result;            
-    }	    
+    }	      
     
     /**
-     * ID조회
+     * ID중복조회
      *
      */
     public String checkSignup(String id) {
@@ -102,7 +104,27 @@ public class MemberService {
     		String count = sqlSession.selectOne("checkID", id); 
             return  count;    
     }	
-
+    
+    /*아이디 찾기*/    
+    public MemberVO selectFindID(String param, String param2) {
+    	
+    	Map<String, String> map = new HashMap<String, String>();
+    	map.put("user_name", param);
+    	map.put("email", param2);
+    		
+        return sqlSession.selectOne("selectFindID", map);
+    }     
+    
+    /*비밀번호 찾기*/    
+    public MemberVO selectFindPW(String param, String param2) {
+    	
+    	Map<String, String> map = new HashMap<String, String>();
+    	map.put("user_id", param);
+    	map.put("email", param2);
+    		
+        return sqlSession.selectOne("selectFindPW", map);
+    }  
+    
     /**
      * 회원탈퇴
      */

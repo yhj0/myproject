@@ -45,6 +45,9 @@ function fn_search(){
 		         <input type="hidden" name="id" value="${sessionScope.id}">
 		         <a href="#" onclick="fn_id_sumbit();">마이페이지</a><a href="${path}/board/logout.do">로그아웃</a></div>
 		         </form>
+		         <form id="form_id2" name="form_id2"  action="myBoardList.do" method="post">
+                 <input type="hidden" name="id" value="${sessionScope.id}">
+            	 </form>		         
 		        </c:otherwise>
 	        </c:choose>
       </div>

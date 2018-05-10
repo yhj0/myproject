@@ -19,6 +19,16 @@
 <link rel=stylesheet type=text/css href="daumeditor/css/editor.css" charset=utf-8 />
 <script type=text/javascript charset=utf-8 src="daumeditor/js/editor_loader.js"></script>
 <script>
+//id값 전송 함수
+function fn_id_sumbit(){
+	var f = document.form_id;
+	f.submit();
+}
+//탑 검색
+function fn_search(){
+	document.searchform.submit();	
+}
+
 ////////////////////////////////////다음 에디터 관련 로직 //////////////////////////////
 //1.첫 로드시 다음에디터 부르기 
 $(function(){
@@ -111,6 +121,9 @@ function setForm(editor) {
 		         <input type="hidden" name="id" value="${sessionScope.id}">
 		         <a href="#" onclick="fn_id_sumbit();">마이페이지</a><a href="${path}/board/logout.do">로그아웃</a></div>
 		         </form>
+		         <form id="form_id2" name="form_id2"  action="myBoardList.do" method="post">
+                 <input type="hidden" name="id" value="${sessionScope.id}">
+            	 </form>		         
 		        </c:otherwise>
 	        </c:choose>
       </div>

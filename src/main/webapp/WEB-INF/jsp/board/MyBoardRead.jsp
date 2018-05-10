@@ -92,7 +92,7 @@ $(document).ready(function() {
 		  type: "POST",
 	      url: "myLikeUp.do", // 통신할 url을 지정한다.
 	      data: { "user_id" : $('#reg_id').val(),
-	    	  	  "brdno" : $('#brdno').val(),						 
+	    	  	  "brdno" : $('#brdno').val()						 
 	    	  	}, // 서버로 데이터를 전송할 때 이 옵션을 사용한다.
 	      dataType: "json", // 서버측에서 전송한 데이터를 어떤 형식의 데이터로서 해석할 것인가를 지정한다. 없으면 알아서 판단한다.
 	      success: function(data){

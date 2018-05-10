@@ -271,7 +271,7 @@ function fn_formSubmit(){
 		         </form>
 		         <form id="form_id2" name="form_id2"  action="myBoardList.do" method="post">
                  <input type="hidden" name="id" value="${sessionScope.id}">
-            	 </form>
+            	 </form>		         
 		        </c:otherwise>
 	        </c:choose>
       </div>

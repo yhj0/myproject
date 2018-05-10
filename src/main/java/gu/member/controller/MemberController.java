@@ -1,7 +1,9 @@
 package gu.member.controller;
 
 import java.io.PrintWriter;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -11,6 +13,7 @@ import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -18,7 +21,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import gu.common.ImageUtil;
 import gu.common.ImageVO;
 import gu.login.LoginVO;
-import gu.member.service.*;
+import gu.member.service.MemberService;
 import gu.member.vo.MemberVO;
 
 
@@ -95,8 +98,84 @@ public class MemberController {
     public String memberFindID(HttpServletRequest request, ModelMap modelMap) throws Exception{
     	return "member/memberFindID";
     
-    }	     
- 
+    }	
+    
+    /**
+     * <ul>
+     * <li>제  목 : 아이디찾기 조회</li>
+     * <li>설  명 : 아이디찾기 버튼을 클릭시 DB를 조회한다</li>
+     * <li>작성일 : 2018-05-09</li>
+     * <li>작성자 : 유형준</li>
+     * </ul>
+     *
+     * @author 유형준
+     */   
+    @RequestMapping(value = "/memberSerachID.do", method = RequestMethod.POST) 
+    public @ResponseBody Map memberSerachID(@RequestBody MemberVO memberInfo, ModelMap modelMap) throws Exception{
+    	//아이디 변수선언
+    	String id ="";
+    	
+    	//이름과 이메일을 파라미터를 ajax로 받음
+    	String name = memberInfo.getName();	
+    	String email = memberInfo.getEmail();
+    	
+    	//이름과 이메일을 파라미터로 하여 member테이블 조회
+    	MemberVO result =  memberService.selectFindID(name,email);
+    	
+    	Map map = new HashMap();
+    	
+    	if(result == null) {
+        	map.put("errId", -1);
+    		
+    	}
+    	else
+    	{
+            //id값만 할당
+        	id = result.getId();
+        	map.put("id", id);   
+    	}
+    	//화면으로 id값 리턴
+        return map;
+    }      
+
+    /**
+     * <ul>
+     * <li>제  목 : 비밀번호찾기 조회</li>
+     * <li>설  명 : 비밀번호찾기 버튼을 클릭시 DB를 조회한다</li>
+     * <li>작성일 : 2018-05-09</li>
+     * <li>작성자 : 유형준</li>
+     * </ul>
+     *
+     * @author 유형준
+     */   
+    @RequestMapping(value = "/memberSerachPW.do", method = RequestMethod.POST) 
+    public @ResponseBody Map memberSerachPW(@RequestBody MemberVO memberInfo, ModelMap modelMap) throws Exception{
+    	//아이디 변수선언
+    	String password ="";
+    	
+    	//이름과 이메일을 파라미터를 ajax로 받음
+    	String id = memberInfo.getId();	
+    	String email = memberInfo.getEmail();
+    	
+    	//이름과 이메일을 파라미터로 하여 member테이블 조회
+    	MemberVO result =  memberService.selectFindPW(id,email);
+    	
+    	Map map = new HashMap();
+    	
+    	if(result == null) {
+        	map.put("errId", -1);
+    		
+    	}
+    	else
+    	{
+            //id값만 할당
+    		password = result.getPassword();
+        	map.put("password", password);   
+    	}
+    	//화면으로 id값 리턴
+        return map;
+    }      
+    
     /**
      * <ul>
      * <li>제  목 : 회원가입 이용약관</li>
@@ -345,5 +424,5 @@ public class MemberController {
         writer.flush();
         return ;
     } 
+    
 }
-
