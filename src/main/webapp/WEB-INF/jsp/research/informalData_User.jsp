@@ -105,7 +105,7 @@ function fn_search(){
     <div class="sub-section">
       <div class="static clearfix">
         <div class="lnb">
-          <h2>데이터 분석 시각화</h2>
+          <h2><span>데이터 분석<br>시각화</span></h2>
           <ul class="lnb-menu">
             <li class="has-sub"><a href="${path}/board/formalData_User.do">정형 데이터 분석</a>
               <ul class="sub">

@@ -14,6 +14,15 @@
   <link rel="stylesheet" href="css/style.css">
   <script src="js/jquery-2.2.3.min.js"></script>  
   <script src="js/common.js"></script>
+<!-- 시각화관련 --> 
+<script src="https://www.amcharts.com/lib/3/amcharts.js"></script>
+<script src="https://www.amcharts.com/lib/3/serial.js"></script>
+<script src="https://www.amcharts.com/lib/3/plugins/export/export.min.js"></script>
+<link rel="stylesheet" href="https://www.amcharts.com/lib/3/plugins/export/export.css" type="text/css" media="all" />
+<script src="https://www.amcharts.com/lib/3/themes/light.js"></script>  
+<script src="https://www.amcharts.com/lib/3/xy.js"></script>
+
+  
 <script type="text/javascript">
 //id값 전송 함수
 function fn_id_sumbit(){
@@ -24,9 +33,245 @@ function fn_id_sumbit(){
 function fn_search(){
 	document.searchform.submit();	
 }
+</script>   
+<!-- 시각화 관련 -->
+<script>
+var chart = AmCharts.makeChart("chartdiv", {
+		"type": "serial",
+	    "theme": "light",
+		"categoryField": "product",
+		"rotate": true,
+		"startDuration": 1,
+		"categoryAxis": {
+			"gridPosition": "start",
+			"position": "left"
+		},
+		"trendLines": [],
+		"graphs": [
+			{
+				"balloonText": "이용량:[[value]]",
+				"fillAlphas": 0.8,
+				"id": "AmGraph-2",
+				"lineAlpha": 0.2,
+				"title": "Usage",
+				"type": "column",
+				"valueField": "Usage",
+			}
+		],
+		"guides": [
+		   {
+		   }        
+		           ],
+		"valueAxes": [
+			{
+				"id": "ValueAxis-1",
+				"position": "top",
+				"axisAlpha": 0
+			}
+		],
+		"allLabels": [],
+		"balloon": {},
+		"titles": [
+		   		{
+					"text": "일일 평균 이용량에 따른 이용제품 순위",
+					"size": 15
+				}		           
+		           ],
+		"dataProvider": [
+		    {
+		    	"product": '세탁비누/무궁화',
+		    	"Usage": 0.990224
+		    },			                 
+		                 
+		    {
+		    	"product": 'Downy(다우니)/P&G(피앤지)',
+		    	"Usage": 0.876332
+		    },		                 
+			{
+				"product": '한입 베이킹소다/LG생활건강',
+				"Usage": 0.824104
+			},
+			{
+				"product": '울터치/피죤',
+				"Usage": 0.539142
+			},
+			{
+				"product": '비트 O2크린/씨제이라이온',
+				"Usage": 0.371758
+			},
+			{
+				"product": 'Act`z(액츠)/피죤',
+				"Usage": 0.200565
+			},
+			{
+				"product": '비트/씨제이라이온',
+				"Usage": 0.066952
+			}
+		],
+	    "export": {
+	    	"enabled": true
+	     }
+});
 
-</script>  
-  
+var chart = AmCharts.makeChart("chartdiv2", {
+	"type": "serial",
+    "theme": "light",
+	"categoryField": "product",
+	"rotate": true,
+	"startDuration": 1,
+	"categoryAxis": {
+		"gridPosition": "start",
+		"position": "left"
+	},
+	"trendLines": [],
+	"graphs": [
+		{
+			"balloonText": "노출량:[[value]]",
+			"fillAlphas": 0.8,
+			"id": "AmGraph-1",
+			"lineAlpha": 0.2,
+			"title": "exposure",
+			"type": "column",
+			"valueField": "exposure"
+		},
+	],
+	"guides": [
+	   {   
+	   }        
+	           ],
+	"valueAxes": [
+		{
+			"id": "ValueAxis-1",
+			"position": "top",
+			"axisAlpha": 0
+		}
+	],
+	"allLabels": [],
+	"balloon": {},
+	"titles": [
+	   		{
+				"text": "일일 평균 노출량에 따른 이용제품 순위",
+				"size": 15
+			}		           
+	           ],
+	"dataProvider": [
+	    {
+	    	"product": '세탁비누/무궁화',
+	    	"exposure": 0.060143,
+	    },			                 
+	                 
+	    {
+	    	"product": 'Downy(다우니)/P&G(피앤지)',
+	    	"exposure": 0.033778,
+	    },		                 
+		{
+			"product": '한입 베이킹소다/LG생활건강',
+			"exposure": 0.031606,
+		},
+		{
+			"product": '울터치/피죤',
+			"exposure": 0.032566,
+		},
+		{
+			"product": 'Act`z(액츠)/피죤',
+			"exposure": 0.02521,
+		},		
+		{
+			"product": '비트 O2크린/씨제이라이온',
+			"exposure": 0.014207,
+		},
+		{
+			"product": '비트/씨제이라이온',
+			"exposure": 0.00584,
+		}
+	],
+    "export": {
+    	"enabled": true
+     }
+});
+
+var chart = AmCharts.makeChart( "chartdiv3", {
+	  "type": "xy",
+	  "theme": "light",
+	  "balloon":{
+	   "fixedPosition":true,
+	  },
+	  "titles": [
+			   		{
+						"text": "일일 평균 이용량과 일일 평균 노출량 따른 버블차트",
+						"size": 15
+					}		           
+			 	 ],	  
+	  "dataProvider": [ {
+		"x": 7,		  
+	    "y": 0.200565,
+	    "value":0.02521,     
+	    "product": 'Act`z(액츠)/피죤',
+	    
+	  }, {
+		"x": 5,  
+	    "y": 0.066952,
+	    "value":0.00584,
+	    "product": '비트/씨제이라이온',
+	  }, {
+		"x": 5,  
+	    "y": 0.876332,
+	    "value":0.033778,
+	    "product": 'Downy(다우니)/P&G(피앤지)',
+	  }, {
+		"x": 5,  
+	    "y": 0.990224,
+	    "value":0.060143,
+	    "product": '세탁비누/무궁화',
+	  }, {
+		"x": 4,  
+	    "y": 0.539142,
+	    "value":0.032566,
+	    "product": '울터치/피죤',
+	  }, {
+		"x": 4,  
+	    "y": 0.371758,
+	    "value": 0.014207,
+	    "product": '비트 O2크린/씨제이라이온',
+	  }, {
+		"x": 5,
+	    "y": 0.824104,
+	    "value": 0.031606,
+	    "product": '한입 베이킹소다/LG생활건강',
+	  } ],
+	  "valueAxes": [ {
+	    "position": "bottom",
+	    "axisAlpha": 0,
+	    "title": "이용빈도",
+	  }, {
+	    "minMaxMultiplier": 1.05,
+	    "axisAlpha": 0,
+	    "position": "left",
+	    "title": "이용량",
+	  } ],
+	  "startDuration": 1.5,
+	  "graphs": [ {
+	    "balloonText": "제품:<b>[[product]]</b>",
+	    "bullet": "circle",
+	    "bulletBorderAlpha": 0.2,
+	    "bulletAlpha": 0.8,
+	    "lineAlpha": 0,
+	    "fillAlphas": 0,
+	    "valueField": "value",
+	    "xField": "x",
+	    "yField": "y",
+	    "maxBulletSize": 100,
+	    "labelText": "[[product]]",
+	  }, ],
+	  "marginLeft": 46,
+	  "marginBottom": 35,
+	  "export": {
+	    "enabled": true
+	  }
+	} );
+
+</script>
+
 </head>  
 <body>
 <p id="accessibility"><a href="#container">본문바로가기</a></p>
@@ -106,7 +351,7 @@ function fn_search(){
     <div class="sub-section">
       <div class="static clearfix">
         <div class="lnb">
-          <h2>데이터 분석 시각화</h2>
+          <h2><span>데이터 분석<br>시각화</span></h2>
           <ul class="lnb-menu">
             <li class="active has-sub"><a href="${path}/board/formalData_User.do">정형 데이터 분석</a>
               <ul class="sub">
@@ -152,7 +397,9 @@ function fn_search(){
                     <input type="text" id="e-date" class="ipt"><button type="button"><img src="./images/ico_calen.png" alt="달력"></button>
                   </span>
                 </td>
+                 <td><button type="button" class="btn medium">분석시작</button></td>
               </tr>
+              <!-- 
               <tr>
                 <th>대상 생활화학 제품</th>
                 <td>
@@ -167,14 +414,20 @@ function fn_search(){
                     </select>
                   </span>
                 </td>
-                <td><button type="button" class="btn medium">분석시작</button></td>
               </tr>
+             --> 
             </tbody>
             </table>
           </div>
-          <div class="result">
+          <div class="result" id="chartdiv">
             시각화 영역
           </div>
+          <div class="result" id="chartdiv2">
+            시각화 영역
+          </div>
+          <div class="result" id="chartdiv3">
+            시각화 영역
+          </div>          
         </div>
         <!-- //contents -->
       </div>

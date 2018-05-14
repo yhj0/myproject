@@ -97,17 +97,8 @@ function fn_board_contents(boardValue)
       <div class="static">
         <div class="main-visual-txt">
           <p class="tx1">안전한 생활화학제품 사용을 위한 커뮤니티</p>
-          <p class="tx2">개인맞춤형 생활화학제품 사용 플랫폼</p>
-          <div class="search-total-form">
-            <form id='searchform' name="searchform" action="search.do" method="post" enctype="multipart/form-data" >
-              <fieldset>
-                <legend>통합검색폼</legend>
-                <input type="text" title="통합검색어" name='searchKeyword' placeholder="사용한 경험을 나누고 유용한 빅데이터 정보를 찾아보세요." value='<c:out value="${searchVO.searchKeyword}"/>' onkeydown="if(event.keyCode == 13) { fn_formSubmit();}">
-                <button type="button" class="btn-total-search" name='go' onclick="fn_search()">통합검색</button>
-              </fieldset>
-            </form>
-          </div>
-          <!-- //search-total-form -->
+          <p class="tx2">개인맞춤형 생활화학제품<br>사용 플랫폼</p>
+          <p class="tx3">생활화학제품 사용 빅데이터 분석을 통해 유용한 정보를 제공해 드리겠습니다!</p>          
         </div>
         <!-- //main-visual-txt -->
       </div>

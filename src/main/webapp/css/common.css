@@ -18,7 +18,7 @@ html, body{height:100%}
 body{-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale}
 body{font-size:16px;font-family:'NanumBarunGothic',sans-serif;}
 body, th, td, input, select, textarea, button{font-size:16px;color:#888}
-h1, h2, h3, h4, h5, h6{line-height:100%;font-family:'NanumBarunGothicBold',sans-serif;font-weight:normal}
+h1, h3, h4, h5, h6{line-height:100%;font-family:'NanumBarunGothicBold',sans-serif;font-weight:normal}
 button,textarea,input,select{box-sizing:border-box;font-size:15px;vertical-align:middle}
 input[type="text"],
 input[type="password"]{height:30px;padding:0 14px;border:1px solid #dbdbdb;line-height:28px;font-size:15px}
@@ -82,3 +82,4 @@ table th{font-family:'NanumBarunGothicBold',sans-serif;}
 .fileBox .fileName{display:inline-block;width:220px;height:27px;padding-left:10px;margin-right:5px;line-height:25px;border:1px solid #dbdbdb;background-color:#fff;vertical-align:middle}
 .fileBox .btn_file{display:inline-block;background:#555;width:86px;height:27px;color:#fff;font-size:15px;line-height:27px;text-align:center;vertical-align:middle}
 .fileBox input[type="file"] {position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);border:0}
+.ico-re{display:inline-block;width:19px;height:18px;background:url(../images/ico_talk.png) no-repeat 50% 50%;font-size:0;vertical-align:middle}

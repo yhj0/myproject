@@ -1,12 +1,15 @@
 @import "main.css";
 .sub-visual{height:120px;background:url(../images/sub_visual.jpg) no-repeat 50% 0}
-.sub-visual .static .tx1{font-size:22px;font-family:'NanumBarunGothic',sans-serif;letter-spacing:-1px;color:#000;line-height:1.5}
+.sub-visual .static .tx1{font-size:22px;font-family:'NanumBarunGothic',sans-serif;letter-spacing:-1px;color:#333;line-height:1.5}
 .sub-visual-txt{display:table;width:100%}
 .sub-visual-txt .tx1{display:table-cell;height:120px;vertical-align:middle}
+.sub-section{position:relative;}
 .sub-section .static{padding-top:40px}
 .sub-section .lnb{float:left;width:200px}
 .sub-section .contents{float:right;width:960px;padding-bottom:95px}
-.lnb h2{padding:20px 0;background:#367eeb;color:#fff;font-size:20px;text-align:center}
+.lnb h2{background:#367eeb url(../images/pt_lnb.gif) repeat;color:#fff;font-size:22px;text-align:center;font-weight:normal;line-height:1.4}
+.lnb h2{display:table;width:200px;height:100px}
+.lnb h2 span{display:table-cell;vertical-align:middle}
 .sub-title{overflow:hidden;padding:20px 0 18px;border-bottom:1px solid #ddd}
 .sub-title h3{float:left;font-size:22px;color:#000}
 .sub-title .path{float:right;font-size:14px;margin-top:7px}
@@ -14,20 +17,25 @@
 .sub-title .path .loc:after{content:'>';display:block;position:absolute;top:1px;right:0}
 .sub-title .path .loc:last-child{color:#000;padding-right:0}
 .sub-title .path .loc:last-child:after{display:none}
-.lnb-menu li{border-bottom:1px solid #d0d0d0}
-.lnb-menu li>a{display:block;padding:14px 0 13px;background:url(../images/lnb_arr.png) no-repeat 100% 50%}
-.lnb-menu li.active>a{color:#367eeb;background:url(../images/lnb_arr_on.png) no-repeat 100% 50%;font-family:'NanumBarunGothicBold',sans-serif}
-.lnb-menu .has-sub a{background:url(../images/lnb_arr_s.png) no-repeat 100% 50%}
-.lnb-menu .has-sub.active a{background:url(../images/lnb_arr_s_on.png) no-repeat 100% 50%;font-family:'NanumBarunGothicBold',sans-serif}
+.lnb-menu li{border:1px solid #d0d0d0;border-top:0}
+.lnb-menu li>a{display:block;padding:14px 35px 13px 20px;background:url(../images/lnb_arr.png) no-repeat 94% 50%}
+.lnb-menu li.active>a{color:#367eeb;background:url(../images/lnb_arr_on.png) no-repeat 94% 50%;font-family:'NanumBarunGothicBold',sans-serif}
+.lnb-menu .has-sub li{border-left:0;border-right:0;border-top:1px solid #ddd}
+.lnb-menu .has-sub a{background:url(../images/lnb_arr_s.png) no-repeat 94% 50%}
+.lnb-menu .has-sub.active a{background:url(../images/lnb_arr_s_on.png) no-repeat 94% 50%;font-family:'NanumBarunGothicBold',sans-serif}
 .lnb-menu .has-sub.active .sub{display:block}
-.lnb-menu .has-sub .sub{display:none;background:#f4f4f4}
+.lnb-menu .has-sub .sub{display:none;background:#fafafa}
 .lnb-menu .has-sub .sub li{border-bottom:0}
 .lnb-menu .has-sub .sub li.active a{color:#333;font-weight:700}
-.lnb-menu .has-sub .sub a{padding-left:20px;background:none}
+.lnb-menu .has-sub .sub a{padding-left:20px;padding-right:0;background:none}
 .board-search{margin-top:40px;padding:13px 0;border:1px solid #d0d0d0;background:#d8d8d8;text-align:center}
 .board-search .ipt{width:320px;height:30px;border:1px solid #cecece;line-height:28px}
 .board-search .btn{width:62px;height:30px;background:#626262;font-size:15px;color:#fff}
 .board-search .select, .board-search .ipt, .board-search .btn{vertical-align:top}
+.board-search{border:1px solid #98c1ff;background:#ebf3ff}
+.board-search .select{border:1px solid #98c1ff}
+.board-search .ipt{border:1px solid #98c1ff}
+.board-search .btn{background:#367eeb}
 .list-tb{width:100%;border-top:2px solid #898989}
 .list-tb thead th{padding:16px 0 15px;font-weight:normal;color:#404040;font-family:'NanumBarunGothicBold',sans-serif;background:#fafafa}
 .list-tb th, .list-tb td{border-bottom:1px solid #ddd;text-align:center;font-size:15px}
@@ -44,6 +52,7 @@
 .edit-tb th{font-weight:normal;color:#404040;font-family:'NanumBarunGothicBold',sans-serif;background:#fafafa}
 .edit-tb th, .edit-tb td{height:27px;padding:8px 0 8px;border-bottom:1px solid #ddd;text-align:center;font-size:15px;vertical-align:middle}
 .edit-tb td{text-align:left;padding-left:20px}
+.edit-tb .ipt-prod{vertical-align:top;width:220px;margin-right:5px}
 .edit-tb .edit-cont{padding:20px 0}
 .edit-tb .edit-cont textarea{width:100%;line-height:1.5}
 .mbr-tb tbody th{padding-left:30px;padding-top:20px;text-align:left;vertical-align:top}
@@ -131,13 +140,14 @@
 .btn-good{display:inline-block;padding:8px 10px;border:1px solid #ddd;background:#fafafa}
 .ico-heart{display:inline-block;width:20px;height:20px;background:url(../images/ico_heart.png) no-repeat 50% 50%;font-size:0;vertical-align:middle}
 .ico-heart.on{background:url(../images/ico_heart_on.png) no-repeat 50% 50%;font-size:0;vertical-align:middle}
-.btn-good .count{font-weight:bold;margin-left:10px;color:#333}
+.btn-good .count{display:inline-block;font-weight:500;margin-left:10px;line-height:20px;color:#333}
 .re-tex{font-size:18px;color:#333;margin-right:10px}
-.reply-tit{padding:30px 0 10px;border-bottom:1px solid #ddd}
-.reply-form{margin:30px 0;border:1px solid #b4b4b4}
-.reply-form .txt{text-align:right;padding:0 20px 20px}
-.reply-form textarea{width:100%;border:0;padding:10px 20px;line-height:1.4;outline:none;font-size:16px}
-.reply-form .btns{border-top:1px solid #ddd;text-align:right}
+.reply-tit{margin-top:30px;padding:20px 0 0;border-top:1px solid #ddd}
+.reply-form{margin:10px 0;border:1px solid #b4b4b4}
+.reply-form textarea{width:100%;border:0;padding:20px;line-height:1.4;outline:none;font-size:16px}
+.reply-form .btns{overflow:hidden;padding:10px 30px;border-top:1px solid #ddd}
+.reply-form .btns .txt{float:left;line-height:34px}
+.reply-form .btns .btn{float:right;background:#dddddd;color:#555;min-width:100px;height:34px;line-height:14px}
 .reply-log{padding:20px 20px 10px}
 .reply-log .u-id{font-size:18px;color:#333;margin-right:20px}
 .reply-log .u-date{color:#999}
@@ -145,10 +155,11 @@
 .reply-list .reply-log{padding:0}
 .reply-list .reply-cont{padding-top:10px;line-height:1.4}
 .reply-count{display:inline-block;margin-top:20px;padding:8px 10px;border:1px solid #ddd;background:#fafafa;font-family:'NanumBarunGothicBold',sans-serif;color:#333}
-.replay-list-re{padding:20px 20px 20px 70px;background:#fafafa url(../images/ico_re.png) no-repeat 35px 20px;border-bottom:1px solid #ddd}
+.replay-list-re{padding:20px 20px 20px 70px;background:#fafafa url(../images/ico_re.png) no-repeat 35px 23px;border-bottom:1px solid #ddd}
 .replay-list-re .reply-log{position:relative;padding:0}
 .replay-list-re .reply-log .btn-del{position:absolute;top:-10px;right:0}
-.replay-list-re .reply-cont{padding-top:10px;line-height:1.4}
+.replay-list-re .reply-cont{position:relative;padding-top:10px;padding-right:80px;line-height:1.4}
+.replay-list-re .reply-cont .btn-x{position:absolute;right:10px;top:50%;margin-top:-13px}
 .replay-list-re .reply-form{margin:0}
 .replay-list-re .reply-form .reply-log{padding:20px 20px 0}
 .replay-list-re textarea{margin:10px 0;background:#fafafa}
@@ -164,7 +175,6 @@
 .r-list .date{float:right}
 .dim{position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.7)}
 .layer-pop{position:absolute;top:0;left:0;background:#fff;border:1px solid #232323}
-.layer-pop .layer-close{display:inline-block;float:right;width:27px;height:27px;background:#fff url(../images/btn_x.png) no-repeat 50% 50%;font-size:0}
 .layer-pop-head{overflow:hidden;padding:30px 20px 0}
 .layer-pop-head h1{float:left;color:#000;font-size:24px;line-height:27px}
 .layer-pop-body{width:1000px;padding:20px 20px 40px}
@@ -172,5 +182,28 @@
 .layer-pop-body .list-tb th{padding:10px;font-size:14px}
 .layer-pop-body .list-tb td{vertical-align:middle}
 .layer-pop-body .list-tb td{padding-top:8px;padding-bottom:8px;font-size:14px}
-.layer-pop-body .list-tb .p-photo{display:inline-block;border:1px solid #ddd;width:40px;height:40px}
-.layer-pop-body .list-tb .p-photo img{width:40px;height:40px}
+.layer-pop-body .list-tb .p-photo{display:block;border:1px solid #ddd;width:60px;height:60px}
+.layer-pop-body .list-tb .p-photo img{width:60px;height:60px}
+.com-list{border:1px solid #ddd;margin-top:30px}
+.com-list .com-list-tit{padding:30px 30px 15px;line-height:1.4}
+.com-list .com-list-tit .no{font-size:14px}
+.com-list .com-list-tit .tit{color:#333;font-size:20px}
+.com-list .com-list-users{overflow:hidden;padding:0 30px}
+.com-list .com-list-users .users-photo{float:left;display:block;width:55px;height:55px;margin-right:12px;border-radius:100%}
+.com-list .com-list-users .users-photo img{width:55px;height:55px;border-radius:100%}
+.com-list .com-list-users .users-info{float:left}
+.com-list .com-list-users .users-info .users-name{display:block;color:#367eeb;font-size:18px;margin-top:10px;font-family:'NanumBarunGothicBold'}
+.com-list .com-list-users .users-info .users-date{display:block;margin-top:8px;font-size:15px;color:#333}
+.com-list .com-list-cont{padding:20px 30px;line-height:1.4;color:#555}
+.com-list .com-list-info{overflow:hidden;padding:15px 30px;border-top:1px solid #ddd}
+.com-list .com-list-info .list-file{float:left}
+.com-list .com-list-info .list-feed{float:right}
+.com-list .com-list-info .num{display:inline-block;padding:3px 15px 0 10px;line-height:20px;vertical-align:middle;color:#333}
+.com-list .com-list-info .list-feed .num:last-child{padding-right:0}
+.btn-write, .btn-top{display:inline-block;width:93px;height:93px;font-size:0;margin-bottom:10px}
+.btn-write{background:url(../images/btn_write.png) no-repeat 50% 50%}
+.btn-top{background:url(../images/btn_top.png) no-repeat 50% 50%}
+.side-btns{position:absolute;top:210px;left:50%;width:93px;margin-left:615px}
+.btn-good-cancel{display:inline-block;padding:8px 10px;border:1px solid #ddd;background:#fafafa;line-height:20px;margin-left:4px;color:#333}
+.btn-x{display:inline-block;width:26px;height:26px;background:url(../images/btn_xb.png) no-repeat 50% 50%;font-size:0}
+.no-result{line-height:1.5}

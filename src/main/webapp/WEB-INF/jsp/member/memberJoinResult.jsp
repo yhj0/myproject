@@ -108,7 +108,7 @@ function fn_submit(){
     <div class="sub-section">
       <div class="static clearfix">
         <div class="lnb">
-          <h2>회원정보</h2>
+          <h2><span>회원정보</span></h2>
           <ul class="lnb-menu">
             <li class="active"><a href="${path}/board/memberJoinAgree.do">회원가입</a></li>
             <li><a href="${path}/board/memberFindID.do">아이디/비밀번호 찾기</a></li>

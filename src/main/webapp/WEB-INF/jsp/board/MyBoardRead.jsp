@@ -245,7 +245,7 @@ $(document).ready(function() {
     <div class="sub-section">
       <div class="static clearfix">
         <div class="lnb">
-	       <h2>마이페이지</h2>
+          <h2><span>마이페이지</span></h2>
 	       <ul class="lnb-menu">
 	          <li><a href="#" onclick="fn_id_sumbit();">회원정보 관리</a></li>
               <li><a href="#" onclick="fn_id_sumbit2();">나의 커뮤니티</a></li>
@@ -316,7 +316,7 @@ $(document).ready(function() {
             <c:if test="${boardInfo.brdlike_yn == 'Y'}">
            		<button type="button" class="btn-good" id="like_cancle2">좋아요 취소</button>
             </c:if>
-            	<button type="button" class="btn-good" id="like_cancle">좋아요 취소</button>
+            	<button type="button" class="btn-good-cancel" id="like_cancle">좋아요 취소</button>
           </div>     
           <div class="reply-form">
           	<form name="form_Reply" action="myReplySave.do" method="post">

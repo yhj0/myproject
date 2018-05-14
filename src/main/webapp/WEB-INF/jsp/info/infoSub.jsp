@@ -107,7 +107,7 @@ function fn_search(){
     <div class="sub-section">
       <div class="static clearfix">
         <div class="lnb">
-          <h2>플랫폼 소개</h2>
+          <h2><span>플랫폼 소개</span></h2>
           <ul class="lnb-menu">
             <li><a href="${path}/board/infoHome.do">개요</a></li>
             <li class="active"><a href="${path}/board/infoSub.do">목적</a></li>

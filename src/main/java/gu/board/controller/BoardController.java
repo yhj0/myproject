@@ -443,10 +443,14 @@ public class BoardController {
         BoardVO boardInfo = boardservice.selectBoardOne(brdno,id);
         List<?> listview = boardservice.selectBoardFileList(brdno);
         List<?> replylist = boardservice.selectBoardReplyList(brdno);
+        List<?> replydeatil = boardservice.selectBoardReplyDetailList(brdno);
+        List<?> replycnt = boardservice.selectBoardReplyCnt(brdno);
         
         modelMap.addAttribute("boardInfo", boardInfo);
         modelMap.addAttribute("listview", listview);
         modelMap.addAttribute("replylist", replylist);
+        modelMap.addAttribute("replydeatil", replydeatil);
+        modelMap.addAttribute("replycnt", replycnt);
         
         return "board/BoardRead";
     }
@@ -585,6 +589,51 @@ public class BoardController {
         return "redirect:/boardRead.do?brdno=" + boardReplyInfo.getBrdno() + "&id=" + id;
     }      
 
+    /* ===================================================================== */     
+    /**
+     * <ul>
+     * <li>제  목 : 소비자게시판 답글 저장</li>
+     * <li>설  명 : 소비자게시판 답글 저장한다</li>
+     * <li>작성일 : 2018-05-01</li>
+     * <li>작성자 : 유형준</li>
+     * </ul>
+     *
+     * @author 유형준
+     */  
+    @RequestMapping(value = "/replyDetailSave.do")
+    public String replyDetailSave(HttpServletRequest request, BoardReplyDetailVO replyDetailInfo) throws Exception{
+    	
+        String brdno = request.getParameter("brdno"); //게시물번호
+        String reno = request.getParameter("reno");	  //댓글번호
+    	String id = request.getParameter("reg_id"); //사용자아이디
+
+        boardservice.insertBoardReplyDetail(replyDetailInfo);
+
+        return "redirect:/boardRead.do?brdno=" + brdno + "&id=" + id;
+    }
+    
+    /**
+     * <ul>
+     * <li>제  목 : 소비자게시판 답글 삭제</li>
+     * <li>설  명 : 소비자게시판 답글 삭제한다</li>
+     * <li>작성일 : 2018-05-01</li>
+     * <li>작성자 : 유형준</li>
+     * </ul>
+     *
+     * @author 유형준
+     */  
+    @RequestMapping(value = "/replyDetailDelete.do")
+    public String replyDetailDelete(HttpServletRequest request, BoardReplyDetailVO replyDetailInfo) throws Exception{
+    	
+        String brdno = request.getParameter("brdno"); //게시물번호
+        String id = request.getParameter("id");	//사용자아이디
+    
+    	boardservice.deleteBoardReplyDetail(replyDetailInfo.getDeno());
+
+        return "redirect:/boardRead.do?brdno=" + brdno + "&id=" + id;
+    }          
+    
+    
     /* ===================================================================== */
     
     /**

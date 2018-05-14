@@ -2,15 +2,20 @@
 <%@ taglib prefix="c"  uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 <!DOCTYPE html>
-<html>
+<html lang="ko">
 <head>
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<link rel="stylesheet" href="css/bootstrap.css">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
 <!-- 배경이미지css -->
 <link rel="stylesheet" href="css/custom.css" />
+<link rel="stylesheet" href="css/fonts.css">
+<link rel="stylesheet" href="css/common.css">
+<link rel="stylesheet" href="css/style.css">
+
 <script src="js/jquery-2.2.3.min.js"></script>
-<script src="js/bootstrap.js"></script>
-<script src="js/jquery-ui.min.js"></script>
+<script src="js/common.js"></script>
+
 <!-- 다음에디터 링크 -->
 <link rel=stylesheet type=text/css href="daumeditor/css/editor.css" charset=utf-8 />
 <script type=text/javascript charset=utf-8 src="daumeditor/js/editor_loader.js"></script>
@@ -130,120 +135,160 @@ $(window).scroll(function(){ // ① 스크롤 이벤트 최초 발생
 </head>
 
 <body>
-	<div class="col-lg-2 col-lg-offset-2">
-		<table class="table-bordered">
-			<tr>
-				<td align="right"><jsp:include page="include/top.jsp" /></td>
-			</tr>
-			<tr>
-				<td align="right"><jsp:include page="include/menu.jsp" /></td>
-			</tr>
-			<tr>
-				<td align="left"  >
-					<c:choose>
-						<c:when test="${sessionScope.id == null}">
-						    <br>
-						</c:when>
-						<c:otherwise>
-						&nbsp;<a class="btn btn-info" href="boardForm.do?brdno=''">글쓰기</a>
-						</c:otherwise>
-					</c:choose>			
-				</td>
-			</tr>
-			<tr>
-				<td>
-				<form id="form_menu" name="form_menu" action="boardList.do" method="post" enctype="multipart/form-data">
-				<input type="hidden" id="final_reply_no" name="final_reply_no">
-						<input type="hidden" name="boardtype"></input>
-							<ul class="nav navbar-nav">
-								<li><a class="menuLink" href="noticeList.do" >공지사항</a></li>
-								<li><a class="menuLink" href="consumerList.do" >최근글</a></li>
-								<li><a class="menuLink" href="issueList.do" >최근이슈</a></li>
-							</ul>
-					</form>
-				</td>
-			</tr>
-			<tr>
-				<td align="center">
-					<div class="container">
-							<table class="table table-bordered" >
-									<c:forEach var="listview" items="${listview}" varStatus="status">	
-										<c:url var="link" value="scrollDown.do">
-											<c:param name="brdno" value="${listview.brdno}" />
-										</c:url>		
-										<!-- 스크롤시 추가되는 본문 -->  				
-										<tr >
-											<td>
-												<div class="well">			
-													<table class="table table-bordered" >
-														<tbody>
-															<tr>
-																<td>번호</td>
-																<td class="scrolling" data-bno="${listview.brdno}"><c:out value="${listview.brdno}"/></td>
-															</tr>
-															<tr>
-																<td >제목</td> 
-																<td><c:out value="${listview.brdtitle}"/></td> 
-															</tr>															
-															<tr>
-																<td>작성자</td> 
-																<td><c:out value="${listview.brdwriter}"/>(<c:out value="${listview.brddate}"/>)</td> 
-															</tr>														
-															<tr>
-																<td>내용</td> 
-																<td><div id="editor_frame"></div><c:out value="${listview.brdmemo}" escapeXml="false"/></td> 
-															</tr>
-															<tr>
-																<td>첨부파일</td> 
-																<td><c:out value="${listview.filename}"/>(<c:out value="${listview.filesize}"/>)</td> 
-															</tr>
-															<tr>
-																<td colspan="2" align="right" >
-																<a href="boardRead.do?brdno=<c:out value="${listview.brdno}"/>" > 댓글 <c:out value="${listview.replycnt}"/>개</a>
-																&nbsp;&nbsp;좋아요 <c:out value="${listview.brdlike}"/>개</td> 
-															</tr>
-															<!-- Comment 태그 추가 -->
-															<tr id="showComment">
-															</tr>								
-														</tbody>
-													</table>    
-													<!--  
-													<div align="center">
-														<a class="btn btn-default btn-sm">좋아요+</a>
-														<a class="btn btn-default btn-sm">댓글달기+</a>
-													</div>		
-													-->
-													<a><input type="hidden" value ="<c:out value="${sessionScope.id}"/>"></a>
-												</div>
-											</td>
-										</tr>
-									</c:forEach>
-															
-								<!-- 다운스크롤시 조회 추가 -->	
-									<tr class="listToChange">
-									</tr>									
-							</table>
-							<div id="loading" align="center" >
-							</div>
-							<!--  검색창
-							<form id="form1" name="form1"  method="post" enctype="multipart/form-data" >
-								<div>
-									<input type="checkbox" name="searchType" value="brdtitle" <c:if test="${fn:indexOf(searchVO.searchType, 'brdtitle')!=-1}">checked="checked"</c:if>/>
-									<label class="chkselect" for="searchType1">제목</label>
-									<input type="checkbox" name="searchType" value="brdmemo" <c:if test="${fn:indexOf(searchVO.searchType, 'brdmemo')!=-1}">checked="checked"</c:if>/>
-									<label class="chkselect" for="">내용</label>
-									<input type="text" name="searchKeyword" style="width:150px;" maxlength="50" value='<c:out value="${searchVO.searchKeyword}"/>' onkeydown="if(event.keyCode == 13) { fn_formSubmit();}">
-									<input name="btn_search" value="검색" class="btn btn-success" type="button" onclick="fn_formSubmit()" />
-								</div>
-							</form>  
-							-->	
-						</div>			
-				</td>
-			</tr>
-			<tr>
-				<td align="center"><jsp:include page="include/bottom.jsp" /></td>
-			</tr>
-		</table>
-	</div>	
+	<p id="accessibility"><a href="#container">본문바로가기</a></p>
+	<div id="wrap">
+	  <div id="header">
+	    <div class="header-top">
+	      <div class="static">
+	      	<c:choose>
+	      		<c:when test="${sessionScope.id == null}">
+	      		 <div class="log-before"><a href="${path}/board/login.do">로그인</a><a href="memberJoinAgree.do">회원가입</a></div>
+	      		</c:when>
+	      		<c:otherwise>
+	      		 <form id="form_id" name="form_id"  action="memberMypage.do" method="post">
+		         <div class="log-after"><span class="my"><strong>${sessionScope.name}(${sessionScope.id})</strong>님 환영합니다.</span>
+		         <input type="hidden" name="id" value="${sessionScope.id}">
+		         <a href="#" onclick="fn_id_sumbit();">마이페이지</a><a href="${path}/board/logout.do">로그아웃</a></div>
+		         </form>
+		        </c:otherwise>
+	        </c:choose>
+	      </div>
+	    </div>
+	    <!-- //header-top -->
+	    <div class="header-gnb">
+	      <div class="static clearfix">
+	        <h1 class="logo"><a href="${path}/board/home.do">개인맞춤형 생활화학제품 사용 플랫폼</a></h1>
+	        <h2 class="skip">메인메뉴</h2>
+	        <ul class="gnb">
+	          <li><a href="${path}/board/home.do">소비자 경험 커뮤니티</a>
+	            <ul>
+	              <li><a href="${path}/board/noticeList.do">공지사항</a></li>
+	              <li><a href="${path}/board/consumerList.do">사용자 커뮤니티</a></li>
+	              <li><a href="${path}/board/issueList.do">뉴스/보도자료</a></li>
+	            </ul>
+	          </li>
+	          <li><a href="${path}/board/home.do">데이터 분석 시각화</a>
+	            <ul>
+	              <li><a href="${path}/board/formalData_User.do">정형 데이터 분석</a>
+	              <li><a href="${path}/board/informalData_User.do">비정형 데이터 분석</a>
+	            </ul>
+	          </li>
+	          <li><a href="${path}/board/home.do">플랫폼 소개</a>
+	            <ul>
+	              <li><a href="${path}/board/infoHome.do">개요</a></li>
+	              <li><a href="${path}/board/infoSub.do">목적</a></li>
+	            </ul>
+	          </li>
+	        </ul>
+	        <div class="search-form">
+	          <form id='searchform' name="searchform" action="search.do" method="post" enctype="multipart/form-data" >
+	            <fieldset>
+	              <legend>검색</legend>
+	                <input type="text" name='searchKeyword' title="검색어" placeholder='검색어를 입력하세요' value='<c:out value="${searchVO.searchKeyword}"/>' onkeydown="if(event.keyCode == 13) { fn_formSubmit();}">
+	                <button type="button" class="btn-search" name='go' onclick="fn_search()">검색</button>
+	            </fieldset>
+	          </form>
+	        </div>
+	      </div>
+	    </div>
+    <!-- //header-gnb -->
+    <div class="header-sub"></div>
+  </div>
+  <!-- //header -->  	    
+  <div id="container">
+    <div class="sub-visual">
+      <div class="static">
+        <div class="sub-visual-txt">
+          <p class="tx1">안전한 생활화학제품 사용을 위해<br>개인맞춤형 생활화학제품 사용 플랫폼으로 사용한 경험을 나누어 보세요.</p>
+        </div>
+        <!-- //sub-visual-txt -->
+      </div>
+      <!-- //static -->
+    </div>
+    <!-- //sub-visual-txt -->
+    <div class="sub-section">
+      <div class="static clearfix">
+        <div class="lnb">
+          <h2><span>소비자 경험<br>커뮤니티</span></h2>
+	          <ul class="lnb-menu">
+	            <li><a href="${path}/board/noticeList.do">공지사항</a></li>
+	            <li class="active"><a href="${path}/board/consumerList.do">사용자 커뮤니티</a></li>
+	            <li><a href="${path}/board/issueList.do">뉴스/보도자료</a></li>
+	          </ul>
+        </div>
+        <!-- //lnb -->
+        <div class="contents">
+          <div class="sub-title">
+            <h3>사용자 커뮤니티</h3>
+            <div class="path"><span class="loc">HOME</span><span class="loc">소비자 경험 커뮤니티</span><em class="loc">사용자 커뮤니티</em></div>
+          </div>
+          
+          <!-- //list 시작 -->
+          <c:forEach var="listview" items="${listview}" varStatus="status">	
+			<c:url var="link" value="scrollDown.do">
+				<c:param name="brdno" value="${listview.brdno}" />
+			</c:url>
+          <div class="com-list">
+            <div class="com-list-tit">
+              <span class="scrolling" data-bno="${listview.brdno}">No.<c:out value="${listview.brdno}"/></span>
+              <p class="tit"><c:out value="${listview.brdtitle}"/></p>
+            </div>
+            <div class="com-list-users">
+              <div class="users-photo"><img src="./upload_img/${listview.reg_id}/${listview.imgName}" alt="글쓴이사진"></div>
+              <div class="users-info">
+                <span class="users-name"><c:out value="${listview.brdwriter}"/></span>
+                <span class="users-date"><c:out value="${listview.brddate}"/></span>
+              </div>
+            </div>
+            <div class="com-list-cont">
+             <div id="editor_frame"></div><c:out value="${listview.brdmemo}" escapeXml="false"/>
+            </div>
+            <div class="com-list-info">
+			<c:if test="${listview.filecnt > 0}">            
+              <div class="list-file">
+                <span class="ico-file">첨부파일</span><span class="num"><c:out value="${listview.filename}"/></span>
+              </div>
+			</c:if>              
+              <div class="list-feed">
+                <a href="boardRead.do?brdno=<c:out value="${listview.brdno}"/>" >
+	                <span class="ico-re">댓글</span><span class="num"><c:out value="${listview.replycnt}"/></span>
+	                <span class="ico-heart">좋아요</span><span class="num"><c:out value="${listview.brdlike}"/></span>
+                </a>
+              </div>
+            </div>
+          </div>
+		  </c:forEach>  
+
+		<!-- 다운스크롤시 조회 추가 -->	
+		<div class="listToChange"></div>	
+					          
+          <div class="side-btns">
+			<c:choose>
+				<c:when test="${sessionScope.id == null}">
+					<br>
+				</c:when>
+				<c:otherwise>
+					<a class="btn-write" href="boardForm.do?brdno=''">글쓰기</a>
+				</c:otherwise>
+			</c:choose>		          
+            <button type="button" class="btn-top">Top</button>
+          </div>
+        </div>
+        <!-- //contents -->
+      </div>
+    </div>
+    <!-- //sub-section  -->
+  </div>
+  <!-- //container -->
+  <div id="footer">
+    <div class="static">
+      <div class="copyright">
+        <address>서울특별시 광진구 능동로 209 세종대학교 학술정보원 7층 ·  TEL 02-3408-4468  ·  EMAIL bjshin@sejong.ac.kr </address>
+        <p class="copy">COPYRIGHT &copy; 인공지능-빅데이터연구센터 ABRC. ALL RIGHTS RESERVED</p>
+      </div>
+    </div>
+  </div>
+  <!-- //footer -->
+</div>
 </body>
 </html>

@@ -76,13 +76,13 @@ function fn_search(){
           </li>
         </ul>
         <div class="search-form">
-          <form action="#">
-            <fieldset>
-              <legend>검색</legend>
-                <input type="text" title="검색어">
-                <button type="button" class="btn-search">검색</button>
-            </fieldset>
-          </form>
+	          <form id='searchform' name="searchform" action="search.do" method="post" enctype="multipart/form-data" >
+	            <fieldset>
+	              <legend>검색</legend>
+	                <input type="text" name='searchKeyword' title="검색어" placeholder='검색어를 입력하세요' value='<c:out value="${searchVO.searchKeyword}"/>' onkeydown="if(event.keyCode == 13) { fn_formSubmit();}">
+	                <button type="button" class="btn-search" name='go' onclick="fn_search()">검색</button>
+	            </fieldset>
+	          </form>
         </div>
       </div>
     </div>
@@ -104,7 +104,7 @@ function fn_search(){
     <div class="sub-section">
       <div class="static clearfix">
         <div class="lnb">
-          <h2>회원정보</h2>
+          <h2><span>회원정보</span></h2>
           <ul class="lnb-menu">
             <li><a href="${path}/board/memberJoinAgree.do">회원가입</a></li>
             <li><a href="${path}/board/memberFindID.do">아이디/비밀번호 찾기</a></li>

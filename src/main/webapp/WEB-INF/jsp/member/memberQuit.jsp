@@ -126,7 +126,7 @@ function fn_quit(){
     <div class="sub-section">
       <div class="static clearfix">
         <div class="lnb">
-          <h2>마이페이지</h2>
+         <h2><span>마이페이지</span></h2>
           <ul class="lnb-menu">
             <li><a href="#" onclick="fn_id_sumbit();">회원정보 관리</a></li>
             <li><a href="#" onclick="fn_id_sumbit2();">나의 커뮤니티</a></li>

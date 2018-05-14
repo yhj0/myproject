@@ -14,6 +14,13 @@
   <link rel="stylesheet" href="css/style.css">
   <script src="js/jquery-2.2.3.min.js"></script>  
   <script src="js/common.js"></script>
+<!-- 시각화관련 --> 
+<script src="https://www.amcharts.com/lib/3/amcharts.js"></script>
+<script src="https://www.amcharts.com/lib/3/serial.js"></script>
+<script src="https://www.amcharts.com/lib/3/plugins/export/export.min.js"></script>
+<link rel="stylesheet" href="https://www.amcharts.com/lib/3/plugins/export/export.css" type="text/css" media="all" />
+<script src="https://www.amcharts.com/lib/3/themes/light.js"></script>  
+  
 <script type="text/javascript">
 //id값 전송 함수
 function fn_id_sumbit(){
@@ -25,6 +32,167 @@ function fn_search(){
 	document.searchform.submit();	
 }
 </script>   
+<!-- 시각화 관련 -->
+<script>
+var chart = AmCharts.makeChart("chartdiv", {
+	"type": "serial",
+    "theme": "light",
+	"categoryField": "product",
+	"rotate": true,
+	"startDuration": 1,
+	"categoryAxis": {
+		"gridPosition": "start",
+		"position": "left"
+	},
+	"trendLines": [],
+	"graphs": [
+		{
+			"balloonText": "이용량:[[value]]",
+			"fillAlphas": 0.8,
+			"id": "AmGraph-2",
+			"lineAlpha": 0.2,
+			"title": "Usage",
+			"type": "column",
+			"valueField": "Usage",
+		}
+	],
+	"guides": [
+	   {
+	   }        
+	           ],
+	"valueAxes": [
+		{
+			"position": "bottom",
+		    "title": "일일 평균 이용량",
+		}
+	],
+	"allLabels": [],
+	"balloon": {},
+	"titles": [
+	   		{
+				"text": "세제류 일일 평균 이용량: 30대 남성",
+				"size": 15
+			}		           
+	           ],
+	"dataProvider": [
+	    {
+	    	"product": '표백제 ',
+	    	"Usage": 0.300801
+	    },			                 
+	                 
+	    {
+	    	"product": '울샴푸(중성세제) ',
+	    	"Usage": 0.404402
+	    },		                 
+		{
+			"product": '세탁용 비누',
+			"Usage": 0.257183
+		},
+		{
+			"product": '섬유유연제 ',
+			"Usage": 0.450268
+		},
+		{
+			"product": '합성세제(분말)',
+			"Usage": 0.261773
+		},
+		{
+			"product": '합성세제(액체)  ',
+			"Usage": 0.378452
+		}
+	],
+    "export": {
+    	"enabled": true
+     }
+});
+
+var chart = AmCharts.makeChart("chartdiv2", {
+	"type": "serial",
+    "theme": "light",
+	"categoryField": "product",
+	"rotate": true,
+	"startDuration": 1,
+	"categoryAxis": {
+		"gridPosition": "start",
+		"position": "left"
+	},
+	"trendLines": [],
+	"graphs": [
+		{
+			"balloonText": "이용량:[[value]]",
+			"fillAlphas": 0.8,
+			"id": "AmGraph-2",
+			"lineAlpha": 0.2,
+			"title": "Usage",
+			"type": "column",
+			"valueField": "Usage",
+		}
+	],
+	"guides": [
+	   {
+	   }        
+	           ],
+	"allLabels": [],
+	"balloon": {},
+	"titles": [
+	   	{
+			"text": "섬유유연제 이용제품: 30대 남성",
+			"size": 15
+		}		           
+	           ],
+	"valueAxes": [ 
+	    {	
+			"position": "bottom",
+			 "title": "이용갯수",
+	 	},
+	    {	
+			"position": "left",
+		    "axisAlpha": 0,
+			 "title": "이용제품",
+	 	}
+	],
+	"dataProvider": [
+	    {
+	    	"product": '제품A',
+	    	"Usage": 53
+	    },			                 
+	                 
+	    {
+	    	"product": '제품B',
+	    	"Usage": 30
+	    },		                 
+		{
+			"product": '제품C',
+			"Usage": 16
+		},
+		{
+			"product": '제품D',
+			"Usage": 4
+		},
+		{
+			"product": '제품E',
+			"Usage": 3
+		},
+		{
+			"product": '제품F',
+			"Usage": 2
+		},
+		{
+			"product": '제품G',
+			"Usage": 1
+		},	
+		{
+			"product": '제품H',
+			"Usage": 1
+		}			
+	],
+    "export": {
+    	"enabled": true
+     }
+});
+</script>
+
+
 </head>  
 <body>
 <p id="accessibility"><a href="#container">본문바로가기</a></p>
@@ -104,7 +272,7 @@ function fn_search(){
     <div class="sub-section">
       <div class="static clearfix">
         <div class="lnb">
-          <h2>데이터 분석 시각화</h2>
+          <h2><span>데이터 분석<br>시각화</span></h2>
           <ul class="lnb-menu">
             <li class="active has-sub"><a href="${path}/board/formalData_User.do">정형 데이터 분석</a>
               <ul class="sub">
@@ -154,25 +322,45 @@ function fn_search(){
               <tr>
                 <th>대상 생활화학 제품</th>
                 <td>
-                  <span class="sel-cell"><label for="prod1">제품군</label>
+                  <span class="sel-cell"><label for="prod1">성별</label>
                     <select class="select" id="prod1">
-                      <option>세정제</option>
+                      <option>남</option>
+                      <option>여</option>
                     </select>
                   </span>
-                  <span class="sel-cell"><label for="prod2">제품명</label>
+                  <span class="sel-cell"><label for="prod2">연령</label>
                     <select class="select" id="prod2">
-                      <option>매직팍 락스세제</option>
+                      <option>20대</option>
+                      <option>30대</option>
+                      <option>40대</option>
+                      <option>50대</option>
+                      <option>60대이상</option>
                     </select>
                   </span>
-                </td>
-                <td><button type="button" class="btn medium">분석시작</button></td>
+                  <span class="sel-cell"><label for="prod3">제품군</label>
+                    <select class="select" id="prod3">
+                      <option>세탁용품</option>
+                      <option>욕실용품</option>
+                      <option>방/거실</option>
+                      <option>개인용품</option>
+                    </select>
+                  </span>  
+                  </td>
+              </tr>
+              <tr>
+              	  <td>
+                  	<button type="button" class="btn medium">분석시작</button>
+                  </td>	
               </tr>
             </tbody>
             </table>
           </div>
-          <div class="result">
+          <div class="result" id="chartdiv">
             시각화 영역
           </div>
+          <div class="result" id="chartdiv2">
+            시각화 영역
+          </div>          
         </div>
         <!-- //contents -->
       </div>

@@ -31,7 +31,7 @@
 @font-face {
 	font-family:'NanumGothic';
 	src: local("☺");
-	src: url(../fonts/NanumGothic.eot),
+	src: url(../webfont/NanumGothic.eot),
 	url(../fonts/NanumGothic.eot?#iefix) format('embedded-opentype'),
 	url(../fonts/NanumGothic.woff) format('woff');
 }

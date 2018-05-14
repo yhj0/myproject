@@ -108,7 +108,7 @@ function fn_search(){
     <div class="sub-section">
       <div class="static clearfix">
         <div class="lnb">
-          <h2>검색</h2>
+          <h2><span>검색</span></h2>
         </div>
         <!-- //lnb -->
         <div class="contents">

@@ -166,7 +166,7 @@ function fn_replyUpdateCancel(){
     <div class="sub-section">
       <div class="static clearfix">
         <div class="lnb">
-          <h2>소비자 경험 커뮤니티</h2>
+          <h2><span>소비자 경험<br>커뮤니티</span></h2>
           <ul class="lnb-menu">
             <li><a href="${path}/board/noticeList.do">공지사항</a></li>
             <li><a href="${path}/board/consumerList.do">사용자 커뮤니티</a></li>
