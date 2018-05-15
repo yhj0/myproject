@@ -225,7 +225,7 @@ function setForm(editor) {
              <div class="path"><span class="loc">HOME</span><span class="loc">소비자 경험 커뮤니티</span><em class="loc">사용자 커뮤니티</em></div>
           </div>
           <!-- //sub-title -->
-          <form name="form1" action="noticeSave.do" method="post" enctype="multipart/form-data">
+          <form name="form1" action="boardSave.do" method="post" enctype="multipart/form-data">
           <table class="edit-tb">
             <caption>공지사항 편집</caption>
             <colgroup>
@@ -250,8 +250,8 @@ function setForm(editor) {
               <tr>
                 <th>제품명</th>
                 <td colspan="3">
-                  <input type="text" class="ipt-prod">
-                  <button class="btn medium blue" readonly="readonly" onclick="fn_pop();">제품검색</button>
+                  <input type="text" class="ipt-prod" readonly="readonly">
+                  <button class="btn medium blue" onclick="fn_pop();">제품검색</button>
                 </td>
               </tr>              
               <tr>

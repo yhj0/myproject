@@ -110,11 +110,11 @@ function fn_board_contents(boardValue)
         <div class="static">
           <h3 class="skip">서비스 링크</h3>
           <ul class="srv-link-list">
-            <li><a href="#" class="srv-link1">사용자 행태<br>분석</a></li>
-            <li><a href="#" class="srv-link2">이용 트렌드<br>분석</a></li>
-            <li><a href="#" class="srv-link3">이용패턴 기반<br>사용자 분류</a></li>
-            <li><a href="#" class="srv-link4">리뷰데이터<br>감성 분석</a></li>
-            <li><a href="#" class="srv-link5">종별/제품별<br>사용 통계</a></li>
+            <li><a href="${path}/board/formalData_User.do" class="srv-link1">사용자 행태<br>분석</a></li>
+            <li><a href="${path}/board/informalData_User.do" class="srv-link2">이용 트렌드<br>분석</a></li>
+            <li><a href="${path}/board/formalData_Pattern.do" class="srv-link3">이용패턴 기반<br>사용자 분류</a></li>
+            <li><a href="${path}/board/informalData_Review.do" class="srv-link4">리뷰데이터<br>감성 분석</a></li>
+            <li><a href="${path}/board/formalData_Product.do" class="srv-link5">종별/제품별<br>사용 통계</a></li>
           </ul>
         </div>
       </div>

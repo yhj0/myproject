@@ -21,6 +21,16 @@
 <script type=text/javascript charset=utf-8 src="daumeditor/js/editor_loader.js"></script>
 <title>소비자경험커뮤니티 뉴스피드</title>
 <script>
+//id값 전송 함수
+function fn_id_sumbit(){
+	var f = document.form_id;
+	f.submit();
+}
+//탑 검색
+function fn_search(){
+	document.searchform.submit();	
+}
+
 function fn_formSubmit(){
 	document.form1.submit();	
 }
