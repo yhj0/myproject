@@ -387,4 +387,15 @@ public class BoardService {
     public List<BoardVO> selectBoardOneNew2(Integer param) {
         return sqlSession.selectList("test2", param);
     }
+    
+    /*제품검색 갯수*/
+    public Integer selectProductCount(SearchVO param) {
+        return sqlSession.selectOne("selectProductCount", param);
+    }    
+    
+    /*제품검색 리스트 조회*/
+    public List<?> selectProductList(SearchVO param) {
+        return sqlSession.selectList("selectProductList", param);
+    }
+    
 }

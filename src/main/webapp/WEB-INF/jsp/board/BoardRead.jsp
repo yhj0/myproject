@@ -21,11 +21,7 @@ function fn_id_sumbit(){
 	var f = document.form_id;
 	f.submit();
 }
-//id값 전송 함수2-나의커뮤니티
-function fn_id_sumbit2(){
-	var f = document.form_id2;
-	f.submit();
-}
+
 //탑 검색
 function fn_search(){
 	document.searchform.submit();	
@@ -182,10 +178,7 @@ $(document).ready(function() {
 		         <div class="log-after"><span class="my"><strong>${sessionScope.name}(${sessionScope.id})</strong>님 환영합니다.</span>
 		         <input type="hidden" name="id" value="${sessionScope.id}">
 		         <a href="#" onclick="fn_id_sumbit();">마이페이지</a><a href="${path}/board/logout.do">로그아웃</a></div>
-		         </form>
-		         <form id="form_id2" name="form_id2"  action="myBoardList.do" method="post">
-                 <input type="hidden" name="id" value="${sessionScope.id}">
-            	 </form>		         
+		         </form>		         
 		        </c:otherwise>
 	        </c:choose>
       </div>
@@ -306,9 +299,17 @@ $(document).ready(function() {
             </tbody>
           </table>          
 	          	<div class="board-btm">	          	
-		           	 <a href="#" onclick="fn_id_sumbit2();" class="btn large">목록</a>	          	
+		           	 <a href="consumerList.do" class="btn large">목록</a>	
+				  <!-- 수정권한 본인id 혹은 관리자-->
+				  <c:choose>
+					 	<c:when test="${sessionScope.id eq boardInfo.reg_id || sessionScope.id eq 'admin'}">		           	           	
 				     <a href="boardForm.do?brdno=<c:out value="${boardInfo.brdno}"/>" class="btn large blue">수정</a>
-				     <a href="boardDelete.do?brdno=<c:out value="${boardInfo.brdno}"/>" class="btn large">삭제</a>      
+				     <a href="boardDelete.do?brdno=<c:out value="${boardInfo.brdno}"/>" class="btn large">삭제</a>
+			            </c:when>
+			            <c:otherwise>
+							<br>
+						</c:otherwise>
+				  </c:choose>			            			           
 	          	</div>		
           <div class="reply-tit">
             <span class="re-tex">댓글 <c:out value="${boardInfo.replycnt}"/></span>

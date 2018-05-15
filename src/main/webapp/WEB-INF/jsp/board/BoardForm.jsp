@@ -33,10 +33,10 @@ function fn_search(){
 }
 
 function fn_pop(){
-	
-	$('#dialog').show();
-	
-	return false;
+	var popUrl = '${pageContext.request.contextPath}/searchPop.do';
+	var popOption = "width=1040, height=690, resizable=no, scrollbars=no, status=no;";    //팝업창 옵션(optoin)
+
+	window.open(popUrl,"",popOption);
 }
 
 ////////////////////////////////////다음 에디터 관련 로직 //////////////////////////////
@@ -149,7 +149,7 @@ function setForm(editor) {
 		         <input type="hidden" name="id" value="${sessionScope.id}">
 		         <a href="#" onclick="fn_id_sumbit();">마이페이지</a><a href="${path}/board/logout.do">로그아웃</a></div>
 		         </form>
-		         <form id="form_id2" name="form_id2"  action="myBoardList.do" method="post">
+		         <form id="form_id2" name="form_id2"  action="consumerList.do" method="post">
                  <input type="hidden" name="id" value="${sessionScope.id}">
             	 </form>		         
 		        </c:otherwise>
@@ -251,7 +251,7 @@ function setForm(editor) {
                 <th>제품명</th>
                 <td colspan="3">
                   <input type="text" class="ipt-prod">
-                  <button class="btn medium blue" onclick="fn_pop();">제품검색</button>
+                  <button class="btn medium blue" readonly="readonly" onclick="fn_pop();">제품검색</button>
                 </td>
               </tr>              
               <tr>
@@ -281,9 +281,9 @@ function setForm(editor) {
           <input type="hidden" name="reg_id" value ="<c:out value="${sessionScope.id}"/>">
 		  <input type="hidden" name="brdno" value="<c:out value="${boardInfo.brdno}"/>"> 
           <div class="board-btm">
-            <a href="noticeList.do" class="btn large" >목록</a>          
+            <a href="consumerList.do" class="btn large" >목록</a>          
             <a href="#" id="save_button" class="btn large blue">확인</a>
-            <a href="noticeList.do" class="btn large">취소</a>
+            <a href="consumerList.do" class="btn large">취소</a>
           </div>
           </form>			
         </div>
@@ -303,113 +303,5 @@ function setForm(editor) {
   </div>
   <!-- //footer -->
 </div>
-
-<!-- 제품검색팝업 -->
-<div id="dialog" style="z-index:999" >
-<div class="layer-pop">
-  <div class="layer-pop-head">
-    <h1>제품검색</h1>
-    <!-- <button type="button" class="layer-close">레이어닫기</button> -->
-  </div>
-  <div class="layer-pop-body">
-    <div class="board-search">
-      <form action="#">
-        <fieldset>
-          <legend>게시판 검색</legend>
-          <select class="select">
-            <option>전체검색</option>
-          </select>
-          <input type="text" title="검색어" class="ipt">
-          <button type="submit" class="btn">검색</button>
-        </fieldset>
-      </form>
-    </div>
-    <!-- //board-search -->
-    <table class="list-tb mgT2">
-      <caption>공지사항 리스트</caption>
-      <colgroup>
-        <col style="width:8%">
-        <col style="width:8%">
-        <col style="width:auto">
-        <col style="width:15%">
-        <col style="width:15%">
-        <col style="width:15%">
-        <col style="width:10%">
-      </colgroup>
-      <thead>
-        <tr>
-          <th>No</th>
-          <th>이미지</th>
-          <th>제품명</th>
-          <th>제품군</th>
-          <th>제품형태</th>
-          <th>제조사</th>
-          <th>유해도</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr>
-          <td colspan="7"><div class="no-result">검색결과가 없습니다.</div></td>
-        </tr>
-        <tr>
-          <td>5</td>
-          <td><span class="p-photo"><img src="../images/p_photo.jpg" alt="사진"></span></td>
-          <td class="title"><a href="#">중비책 한방 베이비 섬유유연제</a></td>
-          <td>섬유유연제</td>
-          <td>농축형</td>
-          <td>㈜에버코스</td>
-          <td>ㅇㅇ</td>
-        </tr>
-        <tr>
-          <td>4</td>
-          <td><span class="p-photo"><img src="../images/p_photo.jpg" alt="사진"></span></td>
-          <td class="title"><a href="#">중비책 한방 베이비 섬유유연제</a></td>
-          <td>섬유유연제</td>
-          <td>농축형</td>
-          <td>㈜에버코스</td>
-          <td>ㅇㅇ</td>
-        </tr>
-        <tr>
-          <td>3</td>
-          <td><span class="p-photo"><img src="../images/p_photo.jpg" alt="사진"></span></td>
-          <td class="title"><a href="#">중비책 한방 베이비 섬유유연제</a></td>
-          <td>섬유유연제</td>
-          <td>농축형</td>
-          <td>㈜에버코스</td>
-          <td>ㅇㅇ</td>
-        </tr>
-        <tr>
-          <td>2</td>
-          <td><span class="p-photo"><img src="../images/p_photo.jpg" alt="사진"></span></td>
-          <td class="title"><a href="#">중비책 한방 베이비 섬유유연제</a></td>
-          <td>섬유유연제</td>
-          <td>농축형</td>
-          <td>㈜에버코스</td>
-          <td>ㅇㅇ</td>
-        </tr>
-        <tr>
-          <td>1</td>
-          <td><span class="p-photo"><img src="../images/p_photo.jpg" alt="사진"></span></td>
-          <td class="title"><a href="#">중비책 한방 베이비 섬유유연제</a></td>
-          <td>섬유유연제</td>
-          <td>농축형</td>
-          <td>㈜에버코스</td>
-          <td>ㅇㅇ</td>
-        </tr>
-      </tbody>
-    </table>
-    <div class="paging">
-      <a href="#" class="p-first">처음</a><a href="#" class="p-prev">이전</a>
-      <strong>1</strong><a href="#">2</a><a href="#">3</a><a href="#">4</a><a href="#">5</a>
-      <a href="#" class="p-next">다음</a><a href="#" class="p-end">마지막</a>
-    </div>
-    <div class="board-btm list-tb-btm">
-      <a href="#" class="btn large layer-close">닫기</a>
-    </div>
-  </div>
-</div>
-</div>
-<!-- //제품검색팝업 -->
-
 </body>
 </html>

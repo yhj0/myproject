@@ -809,7 +809,7 @@ public class BoardController {
     
     // 이미지 첨부 팝업 
     @RequestMapping(value = "/imagePopup.do") 
-    public String imagePopup() { 
+    public String imagePopup() throws Exception{ 
     	
     	return "daumeditor/image"; 
     }
@@ -824,5 +824,30 @@ public class BoardController {
             
         return fileInfo;
     }
+   
+   /* 제품검색===================================================================== */
+   /* ===================================================================== */
+   /**
+    * <ul>
+    * <li>제  목 : 제품검색 조회</li>
+    * <li>설  명 : 제품을 검색한다</li>
+    * <li>작성일 : 2018-05-15</li>
+    * <li>작성자 : 유형준</li>
+    * </ul>
+    *
+    * @author 유형준
+    */         
+   @RequestMapping(value = "/searchPop.do")
+   public String searchProduct(SearchVO searchVO, ModelMap modelMap) throws Exception{
 
+       searchVO.pageCalculatePop( boardservice.selectProductCount(searchVO) ); // startRow, endRow
+        
+       List<?> prolist  = boardservice.selectProductList(searchVO);
+       
+       modelMap.addAttribute("prolist", prolist);
+       modelMap.addAttribute("searchVO", searchVO);
+       
+       return "board/SearchPop";
+   }       
+   
 }

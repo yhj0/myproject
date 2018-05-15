@@ -10,6 +10,7 @@ public class PageVO {
     private Integer pageStart;                      // 시작페이지
     private Integer pageEnd;                        // 종료페이지
 
+    private Integer displayRowCount2 = 5;           // 출력할 데이터 개수 제품검색용
     /**
      * 전체 데이터 개수(total)를 이용하여 페이지수 계산. 
      */
@@ -30,6 +31,28 @@ public class PageVO {
         
         rowStart = ((page - 1) * displayRowCount) + 1 ;
         rowEnd   = rowStart + displayRowCount - 1;
+    } 
+    
+    /**
+     * 전체 데이터 개수(total)를 이용하여 페이지수 계산. 제품검색 팝업용(5개제한)  
+     */
+    public void pageCalculatePop(Integer total) {
+        getPage();
+        totRow  = total;
+        totPage    = (int) ( total / displayRowCount2 );
+        
+        if ( total % displayRowCount2 > 0 ) {
+            totPage++;
+        }
+
+        pageStart = (page - (page - 1) % 5) ;
+        pageEnd = pageStart + 4;
+        if (pageEnd > totPage) {
+            pageEnd = totPage;
+        }
+        
+        rowStart = ((page - 1) * displayRowCount2) + 1 ;
+        rowEnd   = rowStart + displayRowCount2 - 1;
     } 
     
 
@@ -104,7 +127,13 @@ public class PageVO {
         this.pageEnd = pageEnd;
     }
 
+	public Integer getDisplayRowCount2() {
+		return displayRowCount2;
+	}
 
+	public void setDisplayRowCount2(Integer displayRowCount2) {
+		this.displayRowCount2 = displayRowCount2;
+	}
     
 }
 
