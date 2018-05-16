@@ -28,30 +28,45 @@ function fn_search(){
 }	   
 //댓글저장
 function fn_formSubmit(){
+	var id = document.form_Reply.reg_id.value; 
+	
 	var form_Reply = document.form_Reply;
+	
+	if(id == null || id == ""){
+		  alert("로그인이 필요합니다.");
+		  return false;
+	}	
 	
 	if (form_Reply.rememo.value=="") {
 		alert("글 내용을 입력해주세요.");
 		form_Reply.rememo.focus();
-		return;
+		return false;
 	}
 	form_Reply.submit();	
 }
 //답글저장
 function fn_formSubmit2(reno){
 	//폼명이 댓글번호(reno)에따라 변경되로독 eval함수 사용
+	
 	var f = eval("frm"+reno);
+	var id = document.form_Reply.reg_id.value; 
+	
+	if(id == null || id == ""){
+		  alert("로그인이 필요합니다.");
+		  return false;
+	}		
+	
 	if (f.de_memo.value=="") {
 		alert("글 내용을 입력해주세요.");
 		f.de_memo.focus();
-		return;
+		return false;
 	}
 	f.submit();	
 }
 
 function fn_replyDelete(reno){
 	if (!confirm("삭제하시겠습니까?")) {
-		return;
+		return false;
 	}
 	var form = document.form2;
 
@@ -83,7 +98,13 @@ $(document).ready(function() {
 		
 	  var id = $(this).val(); 
 	  var brdno = $(this).val();
-
+	  var check = document.form_Reply.reg_id.value; //체크아이디용
+	  
+	  if(check == null || check == ""){
+		  alert("로그인이 필요합니다.");
+		  return false;
+	  }
+	  
 	  $.ajax({
 		  type: "POST",
 	      url: "myLikeUp.do", // 통신할 url을 지정한다.
@@ -256,11 +277,9 @@ $(document).ready(function() {
             <caption>공지사항 상세</caption>
             <colgroup>
               <col style="width:100px">
+              <col style="width:220px">
+              <col style="width:100px">
               <col style="width:auto">
-              <col style="width:100px">
-              <col style="width:25%">
-              <col style="width:100px">
-              <col style="width:25%">
             </colgroup>
             <tbody>
               <tr>
@@ -272,12 +291,14 @@ $(document).ready(function() {
                 <td><c:out value="${boardInfo.brdwriter}"/></td>
                 <th>날짜</th>
                 <td><c:out value="${boardInfo.brddate}"/></td>
-                <th>조회</th>
-                <td><c:out value="${boardInfo.brdhit}"/></td>
+              </tr>
+              <tr>
+                <th>제품명</th>
+                <td colspan="3"><c:out value="${boardInfo.pro_name}"/></td>              	
               </tr>
               <tr>
                 <th>첨부파일</th>
-                <td colspan="5">
+                <td colspan="3">
 				<c:forEach var="listview" items="${listview}" varStatus="status">	
 					<a class="ico-file-link" href="fileDownload?filename=<c:out value="${listview.filename}"/>&downname=<c:out value="${listview.realname }"/>"><c:out value="${listview.filename}"/></a> <c:out value="${listview.size2String()}"/><br/>
 				</c:forEach>	                
@@ -315,7 +336,7 @@ $(document).ready(function() {
             <span class="re-tex">댓글 <c:out value="${boardInfo.replycnt}"/></span>
             <span class="btn-good"><button type="button" id="like" ><span class="ico-heart on">좋아요</span></button><span id="like_count" class="count"><c:out value="${boardInfo.brdlike}"/></span></span>
             <c:if test="${boardInfo.brdlike_yn == 'Y'}">
-           		<button type="button" class="btn-good" id="like_cancle2">좋아요 취소</button>
+           		<button type="button" class="btn-good-cancel" id="like_cancle2">좋아요 취소</button>
             </c:if>
             	<button type="button" class="btn-good-cancel" id="like_cancle">좋아요 취소</button>
           </div>     

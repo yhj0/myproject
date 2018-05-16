@@ -141,8 +141,8 @@ public class BoardController {
     /* ===================================================================== */
     /**
      * <ul>
-     * <li>제  목 : 게시판 읽기</li>
-     * <li>설  명 : 게시판 읽기 기능을 수행한다</li>
+     * <li>제  목 : 게시판 편집</li>
+     * <li>설  명 : 게시판 편집 기능을 수행한다</li>
      * <li>작성일 : 2018-04-19</li>
      * <li>작성자 : 유형준</li>
      * </ul>
@@ -350,7 +350,7 @@ public class BoardController {
     /* ===================================================================== */
     /**
      * <ul>
-     * <li>제  목 : 메인홈에서 게시판 조회</li>
+     * <li>제  목 : 메인홈에서 게시판 읽기</li>
      * <li>설  명 : 메인홈에서 게시된 게시판 조회한다. 처음 게시판분류값을 썼으나 현재사용하지않음</li>
      * <li>작성일 : 2018-04-19</li>
      * <li>작성자 : 유형준</li>
@@ -414,7 +414,16 @@ public class BoardController {
         return result;
     }        
     
-    
+    /**
+     * <ul>
+     * <li>제  목 : 게시판 읽기</li>
+     * <li>설  명 : 게시판 조회한다.</li>
+     * <li>작성일 : 2018-04-19</li>
+     * <li>작성자 : 유형준</li>
+     * </ul>
+     *
+     * @author 유형준
+     */      
     /*공지사항*/
     @RequestMapping(value = "/noticeRead.do")
     public String noticeRead(HttpServletRequest request, ModelMap modelMap) throws Exception{
@@ -436,7 +445,7 @@ public class BoardController {
     /*소비자경험*/    
     @RequestMapping(value = "/boardRead.do")
     public String boardRead(HttpServletRequest request, ModelMap modelMap) throws Exception{
-        String id = request.getParameter("id");	
+        String id = request.getParameter("user_id");	
         String brdno = request.getParameter("brdno");
         
         boardservice.updateBoardRead(brdno);
@@ -839,11 +848,16 @@ public class BoardController {
     */         
    @RequestMapping(value = "/searchPop.do")
    public String searchProduct(SearchVO searchVO, ModelMap modelMap) throws Exception{
-
-       searchVO.pageCalculatePop( boardservice.selectProductCount(searchVO) ); // startRow, endRow
+	   
+	   int count = 0;
+	   count = boardservice.selectProductCount(searchVO);
+	   
+	   searchVO.pageCalculatePop(count); // startRow, endRow
+	   
+	   modelMap.addAttribute("count", count);
         
        List<?> prolist  = boardservice.selectProductList(searchVO);
-       
+         
        modelMap.addAttribute("prolist", prolist);
        modelMap.addAttribute("searchVO", searchVO);
        

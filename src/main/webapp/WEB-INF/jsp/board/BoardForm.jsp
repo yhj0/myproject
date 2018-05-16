@@ -89,20 +89,27 @@ function validForm(editor) {
  var validator = new Trex.Validator();
  var content = editor.getContent();
  
-	if (form1.brdwriter.value=="") {
+	if (form1.brdwriter.value == "") {
 		alert("작성자를 입력해주세요.");
 		form1.brdwriter.focus();
 		return false;
 	}
-	if (form1.brdtitle.value=="") {
+	if (form1.brdtitle.value == "") {
 		alert("글 제목을 입력해주세요.");
 		form1.brdtitle.focus();
 		return false;
 	}
+	
+	if (form1.pro_name.value == "") {
+		alert("제품명을 입력해주세요.");
+		form1.pro_name.focus();
+		return false;
+	}	
  
- if (!validator.exists(content)) {
-     alert('내용을 입력하세요');
-     return false;
+	if (!validator.exists(content)) {
+	    alert('내용을 입력하세요');
+		form1.brdmemo.focus();
+	    return false;
  }
  return true;
 }
@@ -230,16 +237,14 @@ function setForm(editor) {
             <caption>공지사항 편집</caption>
             <colgroup>
               <col style="width:100px">
+              <col style="width:220px">
+              <col style="width:100px">
               <col style="width:auto">
-              <col style="width:100px">
-              <col style="width:25%">
-              <col style="width:100px">
-              <col style="width:20%">
             </colgroup>
             <tbody>
               <tr>
                 <th>제목</th>
-                <td colspan="5"><input type="text" title="제목" class="full" name="brdtitle" size="50" maxlength="200" value="<c:out value="${boardInfo.brdtitle}"/>"></td>
+                <td colspan="3"><input type="text" title="제목" class="full" name="brdtitle" size="50" maxlength="200" value="<c:out value="${boardInfo.brdtitle}"/>"></td>
               </tr>
               <tr>
                 <th>작성자</th>
@@ -250,13 +255,14 @@ function setForm(editor) {
               <tr>
                 <th>제품명</th>
                 <td colspan="3">
-                  <input type="text" class="ipt-prod" readonly="readonly">
+                  <input type="hidden" class="ipt-prod" id="pro_no" name="pro_no" value="${boardInfo.pro_no}">
+                  <input type="text" class="ipt-prod" id="pro_name" name="pro_name" readonly="readonly" value="${boardInfo.pro_name}">
                   <button class="btn medium blue" onclick="fn_pop();">제품검색</button>
                 </td>
               </tr>              
               <tr>
                 <th>첨부파일</th>
-                <td colspan="5">
+                <td colspan="3">
                   <div class="fileBox">
 					<c:forEach var="listview" items="${listview}" varStatus="status">
 								<input type="checkbox" name="fileno" value="<c:out value="${listview.fileno}"/>" checked="checked">	

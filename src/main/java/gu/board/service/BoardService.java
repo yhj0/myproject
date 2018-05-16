@@ -390,7 +390,11 @@ public class BoardService {
     
     /*제품검색 갯수*/
     public Integer selectProductCount(SearchVO param) {
-        return sqlSession.selectOne("selectProductCount", param);
+    	int count = 0;
+    	
+    	count = sqlSession.selectOne("selectProductCount", param);
+    	
+        return count;
     }    
     
     /*제품검색 리스트 조회*/

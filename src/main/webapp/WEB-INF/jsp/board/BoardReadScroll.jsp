@@ -37,6 +37,22 @@ function fn_formSubmit(){
 
 $(document).ready(function() {
 	loadContent();
+	
+	//따라다니는 버튼
+	var currentPosition = parseInt($(".side-btns").css("top")); 
+    $(window).scroll(function() { 
+            var position = $(window).scrollTop(); // 현재 스크롤바의 위치값을 반환합니다. 
+            $(".side-btns").stop().animate({"top":position+currentPosition+"px"},500); 
+    });	
+	
+    //top버튼 지연시간1초
+    $("#top_Btn").click(function() {
+        $('html, body').animate({
+            scrollTop : 0
+        }, 1000); 
+        return false;
+    });
+
 });
 
 //에디터 본문 내용 불러오기
@@ -57,6 +73,7 @@ $(window).scroll(function(){ // ① 스크롤 이벤트 최초 발생
             // 3. class가 scrolling인 것의 요소 중 마지막인 요소를 선택한 다음 그것의 data-bno속성 값을 받아온다.
             //      즉, 현재 뿌려진 게시글의 마지막 bno값을 읽어오는 것이다.( 이 다음의 게시글들을 가져오기 위해 필요한 데이터이다.)
             var lastbno = $(".scrolling:last").attr("data-bno");
+         	var id = $("#id").val();
          
             $("#loading").append("<img src="+"'./img/loading.gif'"+">");
             
@@ -70,7 +87,8 @@ $(window).scroll(function(){ // ① 스크롤 이벤트 최초 발생
                 },
                 dataType : 'json', // 서버로부터 되돌려받는 데이터의 타입을 명시하는 것이다.
                 data : JSON.stringify({ // 서버로 보낼 데이터 명시
-                	brdno : lastbno 
+                	brdno : lastbno,
+                	user_id : id
                 }),
                 
                 success : function(data){// ajax 가 성공했을시에 수행될 function이다. 이 function의 파라미터는 서버로 부터 return받은 데이터이다.
@@ -79,7 +97,7 @@ $(window).scroll(function(){ // ① 스크롤 이벤트 최초 발생
                 	
                     // 5. 받아온 데이터가 ""이거나 null이 아닌 경우에 DOM handling을 해준다.
                     if(data != ""){
-                    	
+                    	var memberID =  $("#id").val();
                     	//6. 서버로부터 받아온 data가 list이므로 이 각각의 원소에 접근하려면 each문을 사용한다.
                         $(data).each(
                             // 7. 새로운 데이터를 갖고 html코드형태의 문자열을 만들어준다.
@@ -107,7 +125,7 @@ $(window).scroll(function(){ // ① 스크롤 이벤트 최초 발생
                                     +	"<span class="+"'ico-file'"+">첨부파일</span><span class="+ "'num'"+">"+ this.filename +"</span>"	
                                     +	"</div>"
                                     +    "<div class="+ "'list-feed'"+">"                                 
-                                    +		"<a href="+"boardRead.do?brdno="+ this.brdno +">"
+                                    +		"<a href="+"boardRead.do?brdno="+ this.brdno +"&user_id="+ memberID +">"
     								+			"<span class="+"'ico-re'"+">댓글</span><span class="+ "'num'" +">"+ this.replycnt + "</span>"	
     								+			"<span class="+"'ico-heart'"+">좋아요</span><span class="+ "'num'" +">"+ this.brdlike + "</span>"	
     								+		"</a>"
@@ -137,7 +155,7 @@ $(window).scroll(function(){ // ① 스크롤 이벤트 최초 발생
                                     +	 "</div>"     
                                     +    "<div class="+ "'com-list-info'"+">"   
                                     +    "<div class="+ "'list-feed'"+">"                                 
-                                    +		"<a href="+"boardRead.do?brdno="+ this.brdno +">"
+                                    +		"<a href="+"boardRead.do?brdno="+ this.brdno +"&user_id="+ memberID +">"
     								+			"<span class="+"'ico-re'"+">댓글</span><span class="+ "'num'" +">"+ this.replycnt + "</span>"	
     								+			"<span class="+"'ico-heart'"+">좋아요</span><span class="+ "'num'" +">"+ this.brdlike + "</span>"	
     								+		"</a>"
@@ -179,7 +197,7 @@ $(window).scroll(function(){ // ① 스크롤 이벤트 최초 발생
 	      		<c:otherwise>
 	      		 <form id="form_id" name="form_id"  action="memberMypage.do" method="post">
 		         <div class="log-after"><span class="my"><strong>${sessionScope.name}(${sessionScope.id})</strong>님 환영합니다.</span>
-		         <input type="hidden" name="id" value="${sessionScope.id}">
+		         <input type="hidden" id="id" name="id" value="${sessionScope.id}">
 		         <a href="#" onclick="fn_id_sumbit();">마이페이지</a><a href="${path}/board/logout.do">로그아웃</a></div>
 		         </form>
 		        </c:otherwise>
@@ -259,6 +277,7 @@ $(window).scroll(function(){ // ① 스크롤 이벤트 최초 발생
           <c:forEach var="listview" items="${listview}" varStatus="status">	
 			<c:url var="link" value="scrollDown.do">
 				<c:param name="brdno" value="${listview.brdno}" />
+				<c:param name="user_id" value="${sessionScope.id}" />
 			</c:url>
           <div class="com-list">
             <div class="com-list-tit">
@@ -282,7 +301,7 @@ $(window).scroll(function(){ // ① 스크롤 이벤트 최초 발생
               </div>
 			</c:if>              
               <div class="list-feed">
-                <a href="boardRead.do?brdno=<c:out value="${listview.brdno}"/>" >
+                <a href="boardRead.do?brdno=<c:out value="${listview.brdno}"/>&user_id=<c:out value="${sessionScope.id}"/>" >
 	                <span class="ico-re">댓글</span><span class="num"><c:out value="${listview.replycnt}"/></span>
 	                <span class="ico-heart">좋아요</span><span class="num"><c:out value="${listview.brdlike}"/></span>
                 </a>
@@ -293,7 +312,8 @@ $(window).scroll(function(){ // ① 스크롤 이벤트 최초 발생
 
 		<!-- 다운스크롤시 조회 추가 -->	
 		<div class="listToChange"></div>	
-					          
+		
+		<!-- 사이드 버튼 -->				          
           <div class="side-btns">
 			<c:choose>
 				<c:when test="${sessionScope.id == null}">
@@ -303,7 +323,7 @@ $(window).scroll(function(){ // ① 스크롤 이벤트 최초 발생
 					<a class="btn-write" href="boardForm.do?brdno=''">글쓰기</a>
 				</c:otherwise>
 			</c:choose>		          
-            <button type="button" class="btn-top">Top</button>
+            <button type="button" class="btn-top" id="top_Btn">Top</button>
           </div>
         </div>
         <!-- //contents -->

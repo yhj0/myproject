@@ -314,7 +314,7 @@ $(document).ready(function() {
             <span class="re-tex">댓글 <c:out value="${boardInfo.replycnt}"/></span>
             <span class="btn-good"><button type="button" id="like" ><span class="ico-heart on">좋아요</span></button><span id="like_count" class="count"><c:out value="${boardInfo.brdlike}"/></span></span>
             <c:if test="${boardInfo.brdlike_yn == 'Y'}">
-           		<button type="button" class="btn-good" id="like_cancle2">좋아요 취소</button>
+           		<button type="button" class="btn-good-cancel" id="like_cancle2">좋아요 취소</button>
             </c:if>
             	<button type="button" class="btn-good-cancel" id="like_cancle">좋아요 취소</button>
           </div>     

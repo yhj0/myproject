@@ -12,6 +12,8 @@ public class BoardVO {
     private String brdtype;
     private String brdtitle; 
     private String brdwriter; 
+    private String pro_no; 
+    private String pro_name; 
     private String brdmemo; 
     private String brddate; 
     private String brdhit; 
@@ -87,7 +89,23 @@ public class BoardVO {
         this.brdwriter = brdwriter;
     }
 
-    public String getBrdmemo() {
+    public String getPro_no() {
+		return pro_no;
+	}
+
+	public void setPro_no(String pro_no) {
+		this.pro_no = pro_no;
+	}
+
+	public String getPro_name() {
+		return pro_name;
+	}
+
+	public void setPro_name(String pro_name) {
+		this.pro_name = pro_name;
+	}
+
+	public String getBrdmemo() {
         return brdmemo.replaceAll("(?i)<script", "&lt;script");
     }
 

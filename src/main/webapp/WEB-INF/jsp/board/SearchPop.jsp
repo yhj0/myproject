@@ -28,12 +28,17 @@ function fnSubmitForm(page){
 	document.formPage.page.value=page;
 	document.formPage.submit();
 }
+//부모창 전달함수
+function fn_select(item,item2){
+	window.opener.document.form1.pro_name.value = item;
+	window.opener.document.form1.pro_no.value = item2;
+	self.close();
+}
 </script>
 </head>
 
 <body>
 <!-- 제품검색팝업 -->
-<div id="dialog">
 	<div class="layer-pop">
 	  <div class="layer-pop-head">
 	    <h1>제품검색</h1>
@@ -54,6 +59,7 @@ function fnSubmitForm(page){
 	      </form>
 	    </div>
 	    <!-- //board-search -->
+	    <form name="c_form"> 
 	    <table class="list-tb mgT2">
 	      <caption>공지사항 리스트</caption>
 	      <colgroup>
@@ -77,28 +83,30 @@ function fnSubmitForm(page){
 	        </tr>
 	      </thead>
 	      <tbody>
-			<c:forEach var="prolist" items="${prolist}" varStatus="status">		   
-				<c:choose>			
-					<c:when test="${prolist.pro_name == '' || prolist.pro_name == null}">	   
-			        <tr>
-			          <td colspan="7"><div class="no-result">검색결과가 없습니다.</div></td>
-			        </tr>
-	        		</c:when>
-					<c:otherwise>	        			
-			        <tr>
-			          <td><c:out value="${searchVO.totRow-((searchVO.page-1)*searchVO.displayRowCount2 + status.index)}"/></td>
-			          <td><span class="p-photo"><img src="<c:out value="${prolist.pro_img_url}"/>" alt="사진"></span></td>
-			          <td class="title"><a href="#"><c:out value="${prolist.pro_name}"/></a></td>
-			          <td><c:out value="${prolist.pro_gubun_cd}"/></td>
-			          <td><c:out value="${prolist.pro_kind_cd}"/></td>
-			          <td><c:out value="${prolist.pro_maker}"/></td>
-			          <td><c:out value="${prolist.pro_risk}"/></td>
-			        </tr>
-					</c:otherwise>	
-		        </c:choose> 													        
-			</c:forEach>	        
+	      <c:choose>
+			  <c:when test="${count > 0}">
+				 <c:forEach var="prolist" items="${prolist}" varStatus="status">	   		
+				        <tr>
+				          <td><c:out value="${searchVO.totRow-((searchVO.page-1)*searchVO.displayRowCount2 + status.index)}"/></td>
+				          <td><span class="p-photo"><img src="<c:out value="${prolist.pro_img_url}"/>" alt="사진"></span></td>
+				          <td class="title"><a href="javascript:fn_select('${prolist.pro_name}','${prolist.pro_no}');"><c:out value="${prolist.pro_name}"/></a></td>
+				          <td><c:out value="${prolist.pro_gubun_cd}"/></td>
+				          <td><c:out value="${prolist.pro_kind_cd}"/></td>
+				          <td><c:out value="${prolist.pro_maker}"/></td>
+				          <td><c:out value="${prolist.pro_risk}"/></td>
+				        </tr>		
+				        			     																        
+				</c:forEach>	
+			  </c:when>     
+		  	  <c:otherwise>
+						<tr>
+						  <td colspan="7"><div class="no-result">검색결과가 없습니다.</div></td>
+					    </tr> 
+		  	  </c:otherwise>	
+		  </c:choose>               
 	      </tbody>
 	    </table>
+	    </form>
 	    
 			  <form id="formPage" name="formPage"  method="post" enctype="multipart/form-data" >                   
 		          <div class="paging">
@@ -126,12 +134,11 @@ function fnSubmitForm(page){
 		          </div>
 		          <input type="hidden" name="page" id="page" value="" />  
 		      </form>   
-		     	
+			  <br>    	
 	    <div class="board-btm list-tb-btm">
 	      <button class="btn large layer-close" onClick="self.close()" >닫기</button>
 	    </div>
 	  </div>
 	</div>
-</div>
 </body>
 </html>
