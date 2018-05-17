@@ -508,13 +508,7 @@ var theme = {
     }
 };
 
-// For apply theme
-
-// tui.chart.registerTheme('myTheme', theme);
-// options.theme = 'myTheme';
-
 tui.chart.columnChart(container, data, options);
-
 
 </script>
 </body>
