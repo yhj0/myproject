@@ -8,6 +8,7 @@ public class BoardReplyVO {
     private String redeleteflag;
     private String rememo;
     private String redate;
+    private String mask_reg_id;
     private String reg_id;
     private String reg_dttm;
     private String chg_id;
@@ -61,6 +62,14 @@ public class BoardReplyVO {
     public void setRedate(String redate) {
         this.redate = redate;
     }
+    
+	public String getMask_reg_id() {
+		return mask_reg_id;
+	}
+
+	public void setMask_reg_id(String mask_reg_id) {
+		this.mask_reg_id = mask_reg_id;
+	}
 
 	public String getReg_id() {
 		return reg_id;

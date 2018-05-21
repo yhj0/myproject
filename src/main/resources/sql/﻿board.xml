@@ -463,7 +463,8 @@
         	   ,REMEMO
         	   ,REDATE
         	   ,REDELETEFLAG
-        	   ,CONCAT(SUBSTRING(REG_ID,1,4),'***')REG_ID
+        	   ,REG_ID
+        	   ,CONCAT(SUBSTRING(REG_ID,1,4),'***')MASK_REG_ID
         	   ,NOW() AS SYSDATE
         	   ,REG_DTTM
           FROM TBL_BOARDREPLY
@@ -502,9 +503,26 @@
         )
     </insert>
 
-    <update id="deleteBoardReply" parameterType="String"> 
+	<select id="selectDelBoardReply" resultType="Integer">
+	        SELECT COUNT(*)
+	          FROM TBL_BOARDREPLY_DETAIL
+	         WHERE RENO=#{reno} 
+			   AND DE_DELETEFLAG='N'
+	    </select>
+
+    <update id="deleteBoardReply" parameterType="gu.board.vo.BoardReplyVO"> 
         UPDATE TBL_BOARDREPLY
            SET REDELETEFLAG='Y', 
+               CHG_ID = #{reg_id},
+               CHG_DTTM = NOW()
+         WHERE RENO=#{reno}       
+    </update> 
+
+    <update id="deleteBoardReplyEx" parameterType="gu.board.vo.BoardReplyVO"> 
+        UPDATE TBL_BOARDREPLY
+           SET REMEMO='작성자에 의해 삭제된 댓글입니다', 
+           	   REG_ID= '',
+           	   REG_DTTM = NOW(),
                CHG_ID = #{reg_id},
                CHG_DTTM = NOW()
          WHERE RENO=#{reno}       
@@ -538,7 +556,8 @@
         	   ,DE_MEMO
         	   ,DE_DATE
         	   ,DE_DELETEFLAG
-        	   ,CONCAT(SUBSTRING(REG_ID,1,4),'***')REG_ID
+        	   ,REG_ID
+        	   ,CONCAT(SUBSTRING(REG_ID,1,4),'***')MASK_REG_ID
         	   ,NOW() AS SYSDATE
         	   ,REG_DTTM
           FROM TBL_BOARDREPLY_DETAIL
@@ -580,7 +599,7 @@
         )
     </insert>
 
-    <update id="deleteBoardReplyDetail" parameterType="String"> 
+    <update id="deleteBoardReplyDetail" parameterType="gu.board.vo.BoardReplyDetailVO"> 
         UPDATE TBL_BOARDREPLY_DETAIL
            SET DE_DELETEFLAG='Y', 
                CHG_ID = #{reg_id},

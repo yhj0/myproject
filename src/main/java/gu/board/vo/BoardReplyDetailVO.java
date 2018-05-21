@@ -11,6 +11,7 @@ public class BoardReplyDetailVO {
     private String de_date;
     private String de_deleteflag;
     private String reg_id;
+    private String mask_reg_id;
     private String reg_dttm;
     private String chg_id;
     private String chg_dttm;
@@ -71,6 +72,12 @@ public class BoardReplyDetailVO {
 	}
 	public void setReg_id(String reg_id) {
 		this.reg_id = reg_id;
+	}
+	public String getMask_reg_id() {
+		return mask_reg_id;
+	}
+	public void setMask_reg_id(String mask_reg_id) {
+		this.mask_reg_id = mask_reg_id;
 	}
 	public String getReg_dttm() {
 		return reg_dttm;

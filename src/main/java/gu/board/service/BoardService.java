@@ -256,7 +256,30 @@ public class BoardService {
         }
     }   
     
-    public void deleteBoardReply(String param) {
+    public int selectDelBoardReply(String param) {
+        DefaultTransactionDefinition def = new DefaultTransactionDefinition();
+        def.setPropagationBehavior(TransactionDefinition.PROPAGATION_REQUIRED);
+        TransactionStatus status = txManager.getTransaction(def);
+        
+        int rowcount =0;    	
+    	
+        try {
+            
+        	rowcount = sqlSession.selectOne("selectDelBoardReply", param);
+
+            txManager.commit(status);
+        } catch (TransactionException ex) {
+            txManager.rollback(status);
+            System.out.println("데이터 저장 오류: " + ex.toString());
+        }
+		return rowcount;  
+    }
+ 
+    public void deleteBoardReplyEx(BoardReplyVO param) {
+        sqlSession.delete("deleteBoardReplyEx", param);
+    }
+
+    public void deleteBoardReply(BoardReplyVO param) {
         sqlSession.delete("deleteBoardReply", param);
     }
 
@@ -279,7 +302,7 @@ public class BoardService {
         }
     }   
     
-    public void deleteBoardReplyDetail(String param) {
+    public void deleteBoardReplyDetail(BoardReplyDetailVO param) {
         sqlSession.delete("deleteBoardReplyDetail", param);
     }    
     

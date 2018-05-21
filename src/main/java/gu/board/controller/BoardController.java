@@ -582,8 +582,8 @@ public class BoardController {
     /**
      * <ul>
      * <li>제  목 : 소비자게시판 댓글 삭제</li>
-     * <li>설  명 : 게시물 댓글 삭제한다</li>
-     * <li>작성일 : 2018-04-19</li>
+     * <li>설  명 : 게시물 댓글 삭제한다. 단 댓글에 답글이 있는경우 댓글 내용만 삭제한다.</li>
+     * <li>작성일 : 2018-05-21</li>
      * <li>작성자 : 유형준</li>
      * </ul>
      *
@@ -593,7 +593,23 @@ public class BoardController {
     public String boardReplyDelete(HttpServletRequest request, BoardReplyVO boardReplyInfo) throws Exception{
     	String id = request.getParameter("reg_id");
     	
-    	boardservice.deleteBoardReply(boardReplyInfo.getReno());
+    	String reno = request.getParameter("reno"); //하위 답글이 달렸는지 조회용
+    	System.out.println("xxdfwefwefwfwerwerwerwerwer:"+reno);
+    	
+    	// 하위 답글 조회
+    	int cnt = boardservice.selectDelBoardReply(reno); 
+    	
+    	//답글이 1건 이상일때 
+    	if(cnt > 0 )
+    	{
+    		//댓글을 삭제하지않음(내용만 초기화)
+    		boardservice.deleteBoardReplyEx(boardReplyInfo);
+    	}
+    	else 
+    	{
+    		//댓글을 삭제
+    		boardservice.deleteBoardReply(boardReplyInfo);
+    	}
 
         return "redirect:/boardRead.do?brdno=" + boardReplyInfo.getBrdno() + "&id=" + id;
     }      
@@ -628,16 +644,16 @@ public class BoardController {
      * <li>작성일 : 2018-05-01</li>
      * <li>작성자 : 유형준</li>
      * </ul>
-     *
+     * 
      * @author 유형준
      */  
     @RequestMapping(value = "/replyDetailDelete.do")
     public String replyDetailDelete(HttpServletRequest request, BoardReplyDetailVO replyDetailInfo) throws Exception{
     	
         String brdno = request.getParameter("brdno"); //게시물번호
-        String id = request.getParameter("id");	//사용자아이디
+    	String id = request.getParameter("reg_id"); //사용자아이디
     
-    	boardservice.deleteBoardReplyDetail(replyDetailInfo.getDeno());
+    	boardservice.deleteBoardReplyDetail(replyDetailInfo);
 
         return "redirect:/boardRead.do?brdno=" + brdno + "&id=" + id;
     }          
@@ -675,8 +691,8 @@ public class BoardController {
      */  
     @RequestMapping(value = "/myReplyDelete.do")
     public String myReplyDelete(HttpServletRequest request, BoardReplyVO boardReplyInfo) throws Exception{
-        String id = request.getParameter("reg_id");        
-    	boardservice.deleteBoardReply(boardReplyInfo.getReno());
+        String id = request.getParameter("reg_id");       
+    	boardservice.deleteBoardReply(boardReplyInfo);
 
         return "redirect:/myBoardRead.do?brdno=" + boardReplyInfo.getBrdno() + "&id=" + id;
     }      
@@ -720,7 +736,7 @@ public class BoardController {
         String brdno = request.getParameter("brdno"); //게시물번호
         String id = request.getParameter("id");	//사용자아이디
     
-    	boardservice.deleteBoardReplyDetail(replyDetailInfo.getDeno());
+    	boardservice.deleteBoardReplyDetail(replyDetailInfo);
 
         return "redirect:/myBoardRead.do?brdno=" + brdno + "&id=" + id;
     }        
