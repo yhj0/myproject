@@ -335,7 +335,8 @@ $(document).ready(function() {
           <div class="reply-form">
           	<form name="form_Reply" action="myReplySave.do" method="post">
 	            <div class="reply-log"><span class="u-id"><c:out value="${sessionScope.id}"/></span><span class="u-date"><c:out value="${boardInfo.sysdate}"/></span></div>
-	            <textarea id="rememo" name="rememo" rows="3" cols="80" maxlength="300"   onkeyup="fn_counting()"></textarea>
+	            <textarea id="rememo" name="rememo" rows="3" cols="80" maxlength="300" onkeyup="fn_counting()" placeholder="저작권 등 다른 사람의 권리를 침해하거나 명예를 훼손하는 게시물은 이용약관 및 관련 법률에 의해 제재를 받을 수 있습니다.
+건전한 토론문화와 양질의 댓글 문화를 위해, 타인에게 불쾌감을 주는 욕설 또는 특정 계층/민족, 종교 등을 비하하는 단어들은 표시가 제한됩니다."></textarea>
 	            <div align="right">
 	            <span id="sp01">0</span>/300&nbsp;&nbsp;&nbsp;
 	            </div>
