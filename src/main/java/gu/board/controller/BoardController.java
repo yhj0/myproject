@@ -594,8 +594,7 @@ public class BoardController {
     	String id = request.getParameter("reg_id");
     	
     	String reno = request.getParameter("reno"); //하위 답글이 달렸는지 조회용
-    	System.out.println("xxdfwefwefwfwerwerwerwerwer:"+reno);
-    	
+
     	// 하위 답글 조회
     	int cnt = boardservice.selectDelBoardReply(reno); 
     	
@@ -683,7 +682,7 @@ public class BoardController {
      * <ul>
      * <li>제  목 : 나의커뮤니티 댓글 삭제</li>
      * <li>설  명 : 나의커뮤니티 댓글 삭제한다</li>
-     * <li>작성일 : 2018-05-01</li>
+     * <li>작성일 : 2018-05-23</li>
      * <li>작성자 : 유형준</li>
      * </ul>
      *
@@ -691,11 +690,27 @@ public class BoardController {
      */  
     @RequestMapping(value = "/myReplyDelete.do")
     public String myReplyDelete(HttpServletRequest request, BoardReplyVO boardReplyInfo) throws Exception{
-        String id = request.getParameter("reg_id");       
-    	boardservice.deleteBoardReply(boardReplyInfo);
+    	String id = request.getParameter("reg_id");
+    	
+    	String reno = request.getParameter("reno"); //하위 답글이 달렸는지 조회용
+    	
+    	// 하위 답글 조회
+    	int cnt = boardservice.selectDelBoardReply(reno); 
+    	
+    	//답글이 1건 이상일때 
+    	if(cnt > 0 )
+    	{
+    		//댓글을 삭제하지않음(내용만 초기화)
+    		boardservice.deleteBoardReplyEx(boardReplyInfo);
+    	}
+    	else 
+    	{
+    		//댓글을 삭제
+    		boardservice.deleteBoardReply(boardReplyInfo);
+    	}
 
         return "redirect:/myBoardRead.do?brdno=" + boardReplyInfo.getBrdno() + "&id=" + id;
-    }      
+    }          
 
     /* ===================================================================== */     
     /**

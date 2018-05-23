@@ -41,6 +41,18 @@ function fn_formSubmit(){
 	}
 	form_Reply.submit();	
 }
+
+//댓글삭제
+function fn_replyDelete(reno){
+	if (!confirm("댓글을 삭제하시겠습니까? ")) {
+		return;
+	}	
+	var f = eval("form_ReplyDel"+reno);
+	
+	f.reno.value=reno;
+	f.submit();	
+}
+
 //답글저장
 function fn_formSubmit2(reno){
 	//폼명이 댓글번호(reno)에따라 변경되로독 eval함수 사용
@@ -53,15 +65,17 @@ function fn_formSubmit2(reno){
 	f.submit();	
 }
 
-function fn_replyDelete(reno){
-	if (!confirm("삭제하시겠습니까?")) {
-		return;
+//답글삭제
+function fn_replyDetailDelete(deno){
+	if (!confirm("답글을 삭제하시겠습니까?")) {
+		return false;
 	}
-	var form = document.form2;
 
-	form.action="boardReplyDelete.do";
-	form.reno.value=reno;
-	form.submit();	
+	var f = eval("frmDeno"+deno);
+	
+	f.action="myReplyDetailDelete.do";
+	f.deno.value=deno;
+	f.submit();	
 } 
 
 
@@ -334,10 +348,11 @@ $(document).ready(function() {
           <!-- 댓글 start-->         
           <c:forEach var="replylist" items="${replylist}" varStatus="status">  
 	          <div class="reply-list">																		
-	            <div class="reply-log"><span class="u-id"><c:out value="${replylist.reg_id}"/></span><span class="u-date"><c:out value="${replylist.reg_dttm}"/></span></div>
+	            <div class="reply-log"><span class="u-id"><c:out value="${replylist.mask_reg_id}"/></span><span class="u-date"><c:out value="${replylist.reg_dttm}"/></span></div>
 	            <div class="reply-cont">
 	              <c:out value="${replylist.rememo}"/>
 	            </div>
+	            <form name="form_ReplyDel<c:out value="${replylist.reno}"/>"  action="myReplyDelete.do" method="post">		            
 	            <button type="button" class="reply-count" id="reply-re" onclick="fn_replyShow(document.getElementById('reply<c:out value="${replylist.reno}"/>'))" >답글
 	            <c:forEach var="replycnt" items="${replycnt}" varStatus="status">  
 	              <c:if test="${replylist.reno == replycnt.reno}">
@@ -345,15 +360,44 @@ $(document).ready(function() {
 	              </c:if>
 	            </c:forEach>
 	            </button>
+	       		  <!-- 댓글삭제 본인id 혹은 관리자-->
+				  <c:choose>
+					 	<c:when test="${sessionScope.id eq replylist.reg_id || sessionScope.id eq 'admin'}">		     				 	       
+	            			<button type="button" class="reply-count" onclick="fn_replyDelete(<c:out value="${replylist.reno}"/>);">삭제</button>
+				            <input type="hidden" name="brdno" id="brdno" value="<c:out value="${boardInfo.brdno}"/>">
+							<input type="hidden" name="reno" id="reno" value="<c:out value="${replylist.reno}"/>">					            				            
+				            <input type="hidden" name="reg_id" id="reg_id" value ="<c:out value="${sessionScope.id}"/>">
+				            <input type="hidden" name="rewriter" id="rewriter" value="<c:out value="${sessionScope.name}"/>">	            			
+			            </c:when>
+			            <c:otherwise>
+						</c:otherwise>
+				  </c:choose>
+			  	</form>	 				  		            
 	          </div>
 		          <!-- 답글 start-->
 		          	   <div id="reply<c:out value="${replylist.reno}"/>" style="display: none">
 				          <c:forEach var="replydeatil" items="${replydeatil}" varStatus="status"> 
 					          <c:if test="${replylist.reno == replydeatil.reno}">
 								  <div class="replay-list-re" >
-								  	<div class="reply-log"><span class="u-id"><c:out value="${replydeatil.reg_id}"/></span><span class="u-date"><c:out value="${replydeatil.reg_dttm}"/></span></div>
+								  	<div class="reply-log"><span class="u-id"><c:out value="${replydeatil.mask_reg_id}"/></span><span class="u-date"><c:out value="${replydeatil.reg_dttm}"/></span></div>
 								    <div class="reply-cont">
 								  		<c:out value="${replydeatil.de_memo}"/>
+								  		
+								  		  <form name="frmDeno<c:out value="${replydeatil.deno}"/>" method="post">	
+							       		  <!-- 댓글삭제 본인id 혹은 관리자-->
+										  <c:choose>			 	
+									  		  <c:when test="${sessionScope.id eq replydeatil.reg_id || sessionScope.id eq 'admin'}">		     				 	       
+						            			<button type="button" class="btn-x" onclick="fn_replyDetailDelete(<c:out value="${replydeatil.deno}"/>);">삭제</button>
+									            <input type="hidden" name="brdno" id="brdno" value="<c:out value="${boardInfo.brdno}"/>">
+												<input type="hidden" name="reno" id="reno" value="<c:out value="${replydeatil.reno}"/>">		
+												<input type="hidden" name="deno" id="deno" value="<c:out value="${replydeatil.deno}"/>">					            				            
+									            <input type="hidden" name="reg_id" id="reg_id" value ="<c:out value="${sessionScope.id}"/>">
+									            <input type="hidden" name="rewriter" id="rewriter" value="<c:out value="${sessionScope.name}"/>">	            			
+								              </c:when>
+								              <c:otherwise>
+											  </c:otherwise>
+								 	 	  </c:choose>	
+								 	 	  </form>								  		
 								    </div>
 								  </div>  	
 							  </c:if>	          		                    	
