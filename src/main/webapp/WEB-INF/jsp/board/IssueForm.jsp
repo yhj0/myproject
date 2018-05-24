@@ -19,6 +19,16 @@
 <link rel=stylesheet type=text/css href="daumeditor/css/editor.css" charset=utf-8 />
 <script type=text/javascript charset=utf-8 src="daumeditor/js/editor_loader.js"></script>
 <script>
+//id값 전송 함수
+function fn_id_sumbit(){
+	var f = document.form_id;
+	f.submit();
+}
+//탑 검색
+function fn_search(){
+	document.searchform.submit();	
+}
+
 ////////////////////////////////////다음 에디터 관련 로직 //////////////////////////////
 //1.첫 로드시 다음에디터 부르기 
 $(function(){
@@ -213,9 +223,9 @@ function setForm(editor) {
                 <td colspan="5">
                   <div class="fileBox">
 					<c:forEach var="listview" items="${listview}" varStatus="status">
-								<input type="hidden" readonly="readonly" class="fileName" name="fileno" value="<c:out value="${listview.fileno}"/>">	
+								<input type="checkbox" name="fileno" value="<c:out value="${listview.fileno}"/>" checked="checked">
 							    <a type="text" href="fileDownload?filename=<c:out value="${listview.filename}"/>&downname=<c:out value="${listview.realname }"/>"> 							 
-								<c:out value="${listview.filename}"/></a> <c:out value="${listview.size2String()}"/><br> 	
+								<c:out value="${listview.filename}"/></a> <c:out value="${listview.size2String()}"/><br>
 					</c:forEach>	   
 					<input type="text" class="fileName" readonly="readonly">	
 					<label for="uploadBtn" class="btn_file">찾아보기</label>	

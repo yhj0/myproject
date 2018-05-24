@@ -19,23 +19,22 @@ public class FileDownload {
 
     /**
      * 파일(첨부파일, 이미지등) 다운로드.
+     * @throws UnsupportedEncodingException 
+     * 
      */
     @RequestMapping(value = "fileDownload")
-    public void fileDownload(HttpServletRequest request,HttpServletResponse response) {
-        String path = "c:\\fileupload\\"; 
+    public void fileDownload(HttpServletRequest request,HttpServletResponse response) throws UnsupportedEncodingException {
+    	String path = "c:\\fileupload\\"; 
         
         String filename = request.getParameter("filename");
         String downname = request.getParameter("downname");
+        
         String realPath = "";
         
+        String header = request.getHeader("User-Agent");
+ 
         if (filename == null || "".equals(filename)) {
             filename = downname;
-        }
-        
-        try {
-            filename = URLEncoder.encode(filename, "UTF-8").replaceAll("\\+", "%20");;
-        } catch (UnsupportedEncodingException ex) {
-            System.out.println("UnsupportedEncodingException");
         }
         
         realPath = path + downname.substring(0,4) + "/" + downname;
@@ -44,15 +43,26 @@ public class FileDownload {
         if (!file1.exists()) {
             return ;
         }
+ 
+        // 인터넷익스플로러 브라우저
+        if (header.contains("MSIE")|| header.contains("Trident")){
+        	filename = URLEncoder.encode(filename, "UTF-8").replace("+", "%20");
+        	response.setHeader("Content-Disposition", "attachment; filename=\"" + filename + "\""); 
+        }
+        //그외 브라우저
+        else
+        {
+        	filename = new String(filename.getBytes("UTF-8"), "ISO-8859-1");
+        	response.setHeader("Content-Disposition", "attachment; filename=\"" + filename + "\"");         	
+        }
+
         
-        // 파일명 지정
-        response.setHeader("Content-Disposition", "attachment; filename=\"" + filename + "\"");
         try {
             OutputStream os = response.getOutputStream();
             FileInputStream fis = new FileInputStream(realPath);
 
             int ncount = 0;
-            byte[] bytes = new byte[512];
+            byte[] bytes = new byte[1024];
 
             while ((ncount = fis.read(bytes)) != -1 ) {
                 os.write(bytes, 0, ncount);

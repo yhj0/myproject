@@ -39,13 +39,11 @@
  </style>
 <script>
 //한글파일 인코딩
-function fn_encodeURL(filename,realname){
-	  
-	 var file = filename;
+function fn_encodeURL(filename, realname){
+	 var file = encodeURI(filename);
 	 var real = realname	 
-
-	 var url= "fileDownload?filename="+encodeURI(encodeURIComponent(file))+"&downname="+real; 
-
+	 var url= "fileDownload?filename="+file+"&downname="+real; 
+	 window.open(url);
 }
 
 //id값 전송 함수
@@ -213,9 +211,7 @@ function fnSubmitForm(page){
 				                <td><c:out value="${listview.brddate}"/></td>
 				                <td>				                
 				                <c:if test="${listview.filecnt > 0}">
-				                	<input type="hidden" name="filename" value="<c:out value="${listview.filename}"/>"/>  
-				                	<input type="hidden" name="realname" value="<c:out value="${listview.realname}"/>"/> 
-				                	<a href="fileDownload?filename=<c:out value="${listview.filename}"/>&downname=<c:out value="${listview.realname }"/>" class="ico-file" onclick="fn_encodeURL(filename,realname );">첨부파일</a>
+				                	<a href="javascript:fn_encodeURL('${listview.filename}','${listview.realname}');" class="ico-file" >첨부파일</a>
 				                </c:if>
 				                </td>
 				                <td><c:out value="${listview.brdhit}"/></td>

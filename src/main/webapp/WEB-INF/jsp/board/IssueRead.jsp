@@ -17,6 +17,14 @@
   <script src="js/common.js"></script>
   
 <script>
+//한글파일 인코딩
+function fn_encodeURL(filename, realname){
+	 var file = encodeURI(filename);
+	 var real = realname	 
+	 var url= "fileDownload?filename="+file+"&downname="+real; 
+	 window.open(url);
+}
+
 function fn_formSubmit(){
 	var form1 = document.form1;
 	
@@ -207,7 +215,7 @@ function fn_replyUpdateCancel(){
                 <th>첨부파일</th>
                 <td colspan="5">
 				<c:forEach var="listview" items="${listview}" varStatus="status">	
-					<a class="ico-file-link" href="fileDownload?filename=<c:out value="${listview.filename}"/>&downname=<c:out value="${listview.realname }"/>"><c:out value="${listview.filename}"/></a> <c:out value="${listview.size2String()}"/><br/>
+					<a class="ico-file-link" href="javascript:fn_encodeURL('${listview.filename}','${listview.realname}');"><c:out value="${listview.filename}"/></a> <c:out value="${listview.size2String()}"/><br/>
 				</c:forEach>	                
                 </td>
               </tr>
@@ -231,8 +239,8 @@ function fn_replyUpdateCancel(){
 				  <!-- 수정권한 본인id 혹은 관리자-->
 				  <c:choose>
 					 	<c:when test="${sessionScope.id eq boardInfo.reg_id || sessionScope.id eq 'admin'}">	          	
-				      		<a href="noticeForm.do?brdno=<c:out value="${boardInfo.brdno}"/>" class="btn large blue">수정</a>
-				      		<a href="noticeDelete.do?brdno=<c:out value="${boardInfo.brdno}"/>" class="btn large">삭제</a>
+				      		<a href="issueForm.do?brdno=<c:out value="${boardInfo.brdno}"/>" class="btn large blue">수정</a>
+				      		<a href="issueDelete.do?brdno=<c:out value="${boardInfo.brdno}"/>" class="btn large">삭제</a>
 			            </c:when>
 			            <c:otherwise>
 							<br>

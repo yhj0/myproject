@@ -17,6 +17,14 @@
 <script src="js/jquery-2.2.3.min.js"></script>
 <script src="js/common.js"></script>
 <script>
+//한글파일 인코딩
+function fn_encodeURL(filename, realname){
+	 var file = encodeURI(filename);
+	 var real = realname	 
+	 var url= "fileDownload?filename="+file+"&downname="+real; 
+	 window.open(url);
+}
+
 //id값 전송 함수
 function fn_id_sumbit(){
 	var f = document.form_id;
@@ -177,7 +185,7 @@ function fnSubmitForm(page){
 				                <td><c:out value="${listview.brddate}"/></td>
 				                <td>
 				                <c:if test="${listview.filecnt > 0}">
-				                	<a href="fileDownload?filename=<c:out value="${listview.filename}"/>&downname=<c:out value="${listview.realname }"/>" class="ico-file">첨부파일</a>
+				                	<a href="javascript:fn_encodeURL('${listview.filename}','${listview.realname}');" class="ico-file" >첨부파일</a>
 				                </c:if>
 				                </td>
 				                <td><c:out value="${listview.brdhit}"/></td>
