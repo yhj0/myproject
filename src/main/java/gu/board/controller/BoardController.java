@@ -41,6 +41,7 @@ public class BoardController {
      *
      * @author 유형준
      */    
+    
     @RequestMapping(value = "/home.do")
     public String home(HttpServletRequest request, ModelMap modelMap)  throws Exception{
 
@@ -63,7 +64,6 @@ public class BoardController {
       	return "board/home";  
     }	 
     
-    /* ===================================================================== */
     /**
      * <ul>
      * <li>제  목 : 게시판 조회</li>
@@ -74,6 +74,7 @@ public class BoardController {
      *
      * @author 유형준
      */   
+    
     /* 공지사항===================================================================== */
     @RequestMapping(value = "/noticeList.do")
     public String noticeList(SearchVO searchVO, ModelMap modelMap) throws Exception{
@@ -103,7 +104,7 @@ public class BoardController {
         return "board/BoardReadScroll";
     }  
     
-    /* 최근이슈===================================================================== */
+    /* 최근이슈=================================================================== */
     @RequestMapping(value = "/issueList.do")
     public String issueList(SearchVO searchVO, ModelMap modelMap) throws Exception{
     	
@@ -117,7 +118,7 @@ public class BoardController {
         return "board/IssueList";
     }        
     
-    /* 마이페이지-나의커뮤니티===================================================================== */
+    /* 마이페이지-나의커뮤니티==================================================== */
     @RequestMapping(value = "/myBoardList.do")
     public String myBoardList(SearchVO searchVO, ModelMap modelMap, HttpServletRequest request) throws Exception{
     	/***내 게시물만 보이기 ***/
@@ -138,7 +139,6 @@ public class BoardController {
         return "board/MyBoardList";
     }      
     
-    /* ===================================================================== */
     /**
      * <ul>
      * <li>제  목 : 게시판 편집</li>
@@ -149,6 +149,7 @@ public class BoardController {
      *
      * @author 유형준
      */  
+    
     /* 공지사항===================================================================== */
     @RequestMapping(value = "/noticeForm.do")
     public String noticeForm(HttpServletRequest request, ModelMap modelMap) throws Exception{
@@ -166,7 +167,7 @@ public class BoardController {
         return "board/NoticeForm";
     }    
     
-    /* 마이페이지-나의커뮤니티===================================================================== */
+    /* 마이페이지-나의커뮤니티======================================================= */
     @RequestMapping(value = "/myBoardForm.do")
     public String myBoardForm(HttpServletRequest request, ModelMap modelMap) throws Exception{
         String brdno = request.getParameter("brdno");
@@ -321,7 +322,6 @@ public class BoardController {
         return String.valueOf(rowcount);
     }        
 
-    /* ===================================================================== */
     /**
      * <ul>
      * <li>제  목 : 좋아요 삭제</li>
@@ -347,7 +347,6 @@ public class BoardController {
         return String.valueOf(rowcount);
     }          
     
-    /* ===================================================================== */
     /**
      * <ul>
      * <li>제  목 : 메인홈에서 게시판 읽기</li>
@@ -358,6 +357,7 @@ public class BoardController {
      *
      * @author 유형준
      */  
+    
     @RequestMapping(value = "/mainRead.do")
     public String mainRead(HttpServletRequest request, ModelMap modelMap) throws Exception{
     	
@@ -424,6 +424,7 @@ public class BoardController {
      *
      * @author 유형준
      */      
+    
     /*공지사항*/
     @RequestMapping(value = "/noticeRead.do")
     public String noticeRead(HttpServletRequest request, ModelMap modelMap) throws Exception{
@@ -504,7 +505,7 @@ public class BoardController {
         
         return "board/MyBoardRead";
     }    
-    /* ===================================================================== */   
+ 
     /**
      * <ul>
      * <li>제  목 : 게시물 삭제</li>
@@ -559,8 +560,6 @@ public class BoardController {
         return "redirect:/myBoardList.do";
     }    
     
-    /* ===================================================================== */
-    
     /**
      * <ul>
      * <li>제  목 : 소비자게시판 댓글 저장</li>
@@ -589,6 +588,7 @@ public class BoardController {
      *
      * @author 유형준
      */  
+    
     @RequestMapping(value = "/boardReplyDelete.do")
     public String boardReplyDelete(HttpServletRequest request, BoardReplyVO boardReplyInfo) throws Exception{
     	String id = request.getParameter("reg_id");
@@ -646,6 +646,7 @@ public class BoardController {
      * 
      * @author 유형준
      */  
+    
     @RequestMapping(value = "/replyDetailDelete.do")
     public String replyDetailDelete(HttpServletRequest request, BoardReplyDetailVO replyDetailInfo) throws Exception{
     	
@@ -656,10 +657,7 @@ public class BoardController {
 
         return "redirect:/boardRead.do?brdno=" + brdno + "&id=" + id;
     }          
-    
-    
-    /* ===================================================================== */
-    
+
     /**
      * <ul>
      * <li>제  목 : 나의커뮤니티 댓글 저장</li>
@@ -670,6 +668,7 @@ public class BoardController {
      *
      * @author 유형준
      */  
+    
     @RequestMapping(value = "/myReplySave.do")
     public String myReplySave(HttpServletRequest request, BoardReplyVO boardReplyInfo) throws Exception{
         String id = request.getParameter("reg_id");
@@ -688,6 +687,7 @@ public class BoardController {
      *
      * @author 유형준
      */  
+    
     @RequestMapping(value = "/myReplyDelete.do")
     public String myReplyDelete(HttpServletRequest request, BoardReplyVO boardReplyInfo) throws Exception{
     	String id = request.getParameter("reg_id");
@@ -712,7 +712,6 @@ public class BoardController {
         return "redirect:/myBoardRead.do?brdno=" + boardReplyInfo.getBrdno() + "&id=" + id;
     }          
 
-    /* ===================================================================== */     
     /**
      * <ul>
      * <li>제  목 : 나의커뮤니티 답글 저장</li>
@@ -723,6 +722,7 @@ public class BoardController {
      *
      * @author 유형준
      */  
+    
     @RequestMapping(value = "/myReplyDetailSave.do")
     public String myReplyDetailSave(HttpServletRequest request, BoardReplyDetailVO replyDetailInfo) throws Exception{
     	
@@ -745,6 +745,7 @@ public class BoardController {
      *
      * @author 유형준
      */  
+    
     @RequestMapping(value = "/myReplyDetailDelete.do")
     public String myReplyDetailDelete(HttpServletRequest request, BoardReplyDetailVO replyDetailInfo) throws Exception{
     	
@@ -756,8 +757,6 @@ public class BoardController {
         return "redirect:/myBoardRead.do?brdno=" + brdno + "&id=" + id;
     }        
 
-    /* ===================================================================== */    
-    
     /**
      * <ul>
      * <li>제  목 : 통합 검색 </li>
@@ -768,6 +767,7 @@ public class BoardController {
      *
      * @author 유형준
      */   
+    
     @RequestMapping(value = "/search.do")
     public String mainSearch(HttpServletRequest request, SearchVO searchVO, ModelMap modelMap) throws Exception{
     	
@@ -786,13 +786,14 @@ public class BoardController {
     /**
      * <ul>
      * <li>제  목 : 소비자경험 커뮤니티 조회</li>
-     * <li>설  명 : 소비자경험 커뮤니티를 페이스북처럼 게시물보여준다</li>
+     * <li>설  명 : 커뮤니티 게시물을 스크롤게시물 형태로 보여준다.</li>
      * <li>작성일 : 2018-04-19</li>
      * <li>작성자 : 유형준</li>
      * </ul>
      *
      * @author 유형준
      */ 
+    
     @RequestMapping(value = "/consumerList.do")
     public String consumerList(SearchVO searchVO, ModelMap modelMap) throws Exception{
 
@@ -808,14 +809,14 @@ public class BoardController {
     /**
      * <ul>
      * <li>제  목 : 소비자경험 커뮤니티 스크롤 다운</li>
-     * <li>설  명 : 마우스 스크롤 다운시 db를 조회하여 화면 뿌려준다</li>
+     * <li>설  명 : 마우스 스크롤 다운시 DB를 조회하여 화면 표시한다.</li>
      * <li>작성일 : 2018-04-19</li>
      * <li>작성자 : 유형준</li>
      * </ul>
      *
      * @author 유형준
      */ 
-    //@ResponseBody json 데이터를 객체로 자동바인딩하는 함수
+
     @RequestMapping(value = "/scrollDown.do", method = RequestMethod.POST)
     public @ResponseBody List<BoardVO> scrollDown(@RequestBody BoardVO board,SearchVO searchVO, ModelMap modelMap ) throws Exception{
     	
@@ -841,6 +842,7 @@ public class BoardController {
      *
      * @author 유형준
      */  
+    
     @RequestMapping(value = "/daumEditor.do")
     public String home(HttpServletRequest request) throws Exception{
 
@@ -865,8 +867,6 @@ public class BoardController {
         return fileInfo;
     }
    
-   /* 제품검색===================================================================== */
-   /* ===================================================================== */
    /**
     * <ul>
     * <li>제  목 : 제품검색 조회</li>
@@ -876,7 +876,8 @@ public class BoardController {
     * </ul>
     *
     * @author 유형준
-    */         
+    */      
+   
    @RequestMapping(value = "/searchPop.do")
    public String searchProduct(SearchVO searchVO, ModelMap modelMap) throws Exception{
 	   

@@ -49,7 +49,7 @@ public class FileDownload {
         	filename = URLEncoder.encode(filename, "UTF-8").replace("+", "%20");
         	response.setHeader("Content-Disposition", "attachment; filename=\"" + filename + "\""); 
         }
-        //그외 브라우저
+        // 그외 브라우저
         else
         {
         	filename = new String(filename.getBytes("UTF-8"), "ISO-8859-1");
