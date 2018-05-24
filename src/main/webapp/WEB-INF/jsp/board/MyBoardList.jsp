@@ -260,6 +260,7 @@ function fnSubmitForm(page){
 			         </c:if> 	            
 		          </div>
 		          <input type="hidden" name="page" id="page" value="" />  
+		          <input type="hidden" name="id" id="id" value="${sessionScope.id}" />
 		     	</form>         	 
 	        </div>
 	        <!-- //contents -->
