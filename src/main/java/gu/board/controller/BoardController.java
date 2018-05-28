@@ -248,10 +248,10 @@ public class BoardController {
     public String boardSave(HttpServletRequest request, BoardVO boardInfo) throws Exception{
     	String[] fileno = request.getParameterValues("fileno");
         
-        FileUtil fs = new FileUtil();
-        List<FileVO> filelist = fs.saveAllFiles(boardInfo.getUploadfile());
+        //FileUtil fs = new FileUtil();
+        //List<FileVO> filelist = fs.saveAllFiles(boardInfo.getUploadfile());
 
-        boardservice.insertBoard(boardInfo, filelist, fileno);
+        boardservice.insertBoard(boardInfo, fileno);
 
         return "redirect:/consumerList.do";
     }
@@ -276,10 +276,10 @@ public class BoardController {
     	String[] fileno = request.getParameterValues("fileno");
         String brdno = request.getParameter("brdno");
     	
-        FileUtil fs = new FileUtil();
-        List<FileVO> filelist = fs.saveAllFiles(boardInfo.getUploadfile());
+        //FileUtil fs = new FileUtil();
+        //List<FileVO> filelist = fs.saveAllFiles(boardInfo.getUploadfile());
 
-        boardservice.insertBoard(boardInfo, filelist, fileno);
+        boardservice.insertBoard(boardInfo, fileno);
 
         return "redirect:/myBoardRead.do?brdno="+ brdno + "&id=" + id;
     }    

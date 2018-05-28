@@ -116,7 +116,7 @@ public class BoardService {
     }   
     
     /*소비자경험 입력*/
-    public void insertBoard(BoardVO param, List<FileVO> filelist, String[] fileno) {
+    public void insertBoard(BoardVO param,  String[] fileno) {
         DefaultTransactionDefinition def = new DefaultTransactionDefinition();
         def.setPropagationBehavior(TransactionDefinition.PROPAGATION_REQUIRED);
         TransactionStatus status = txManager.getTransaction(def);
@@ -128,6 +128,7 @@ public class BoardService {
                 sqlSession.update("updateBoard", param);
             }
             
+            /*
             if (fileno != null) {
                 HashMap<String, String[]> fparam = new HashMap<String, String[]>();
                 fparam.put("fileno", fileno);
@@ -139,6 +140,8 @@ public class BoardService {
                 f.setBrdtype("C");          
                 sqlSession.insert("insertBoardFile", f);
             }
+            */
+            
             txManager.commit(status);
         } catch (TransactionException ex) {
             txManager.rollback(status);

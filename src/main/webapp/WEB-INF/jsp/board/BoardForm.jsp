@@ -119,21 +119,6 @@ function setForm(editor) {
 	    var content = editor.getContent();
 	    $("#brdmemo").val(content)
 
-     /* 이미지값 저장 */
-     //var images = editor.getAttachments('image');
-     //for (i = 0; i < images.length; i++) {
-         // existStage는 현재 본문에 존재하는지 여부
-     //    if (images[i].existStage) {
-             // data는 팝업에서 execAttach 등을 통해 넘긴 데이터
-     //        alert('attachment information - image[' + i + '] \r\n' + JSON.stringify(images[i].data));
-     //        input = document.createElement('input');
-     //        input.type = 'hidden';
-     //        input.name = 'attach_image';
-     //        input.value = images[i].data.imageurl;  // 예에서는 이미지경로만 받아서 사용
-     //        form.createField(input);
-     //    }
-     //}    
- 
  return true;
 }
 ////////////////////////////////////다음 에디터 관련 로직 끝 //////////////////////////////
@@ -259,7 +244,8 @@ function setForm(editor) {
                   <input type="text" class="ipt-prod" id="pro_name" name="pro_name" readonly="readonly" value="${boardInfo.pro_name}">
                   <button class="btn medium blue" onclick="fn_pop();">제품검색</button>
                 </td>
-              </tr>              
+              </tr>       
+              <!--   
               <tr>
                 <th>첨부파일</th>
                 <td colspan="3">
@@ -275,6 +261,7 @@ function setForm(editor) {
                   </div>                  
                 </td>
               </tr>
+               -->     
               <tr>
                 <td colspan="6">
                   <div id="editor_frame"></div>

@@ -311,6 +311,7 @@ $(document).ready(function() {
                 <th>제품명</th>
                 <td colspan="3"><c:out value="${boardInfo.pro_name}"/></td>              	
               </tr>
+              <!--  
               <tr>
                 <th>첨부파일</th>
                 <td colspan="3">
@@ -319,6 +320,7 @@ $(document).ready(function() {
 				</c:forEach>	                
                 </td>
               </tr>
+              -->
               <tr>
                 <td colspan="6">
                   <div class="view-cont">

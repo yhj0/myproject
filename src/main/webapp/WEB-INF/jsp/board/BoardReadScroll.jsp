@@ -103,40 +103,6 @@ $(window).scroll(function(){ // ① 스크롤 이벤트 최초 발생
                             // 7. 새로운 데이터를 갖고 html코드형태의 문자열을 만들어준다.
                           
                          function(){  
-                            	if(this.filecnt > 0){
-                                    str += "<div class=" + "'listToChange'" + ">"
-                                    +	"<div class=" + "'com-list'" + ">"
-                                	+	 "<div class="+ "'com-list-tit'"+">"
-                                    +		"<span class="+"'scrolling'"+ "data-bno="+ this.brdno +">No."+ this.brdno +"</span>"	
-                                	+		 "<p class="+"'tit'"+">"+ this.brdtitle + "</p>"
-                                    +	 "</div>"
-                                    +	 "<div class="+ "'com-list-users'"+">"
-                                    +	 	"<div class="+ "'users-photo'"+"><img src="+"'./upload_img/" + this.reg_id +"/"+ this.imgName + "'"+"alt="+"'글쓴이사진'"+"></div>"
-                                    +       "<div class="+ "'users-info'"+">"                            	
-                                    +			"<span class="+"'users-name'"+">"+ this.brdwriter +"</span>"	
-                                    +			"<span class="+"'users-date'"+">"+ this.brddate +"</span>"
-                                    +       "</div>"     
-                                    +    "</div>" 
-                                    +	 "<div class="+ "'com-list-cont'"+">"
-                                    +		 "<div id="+ "'editor_frame'"+"></div>"+ this.brdmemo
-                                    +	 "</div>"     
-                                    +    "<div class="+ "'com-list-info'"+">"   
-                                    +	"<div class="+"'list-file'"+">" 
-                                    +	"<span class="+"'ico-file'"+">첨부파일</span><span class="+ "'num'"+">"+ this.filename +"</span>"	
-                                    +	"</div>"
-                                    +    "<div class="+ "'list-feed'"+">"                                 
-                                    +		"<a href="+"boardRead.do?brdno="+ this.brdno +"&user_id="+ memberID +">"
-    								+			"<span class="+"'ico-re'"+">댓글</span><span class="+ "'num'" +">"+ this.replycnt + "</span>"	
-    								+			"<span class="+"'ico-heart'"+">좋아요</span><span class="+ "'num'" +">"+ this.brdlike + "</span>"	
-    								+		"</a>"
-    								+	 "</div>"   						
-    								+	"</div>" 
-    								+"</div>" 
-    								+"</div>"                            		
-                            		
-                            	}
-                            	else 
-                            	{
                                     str += "<div class=" + "'listToChange'" + ">"
                                     +	"<div class=" + "'com-list'" + ">"
                                 	+	 "<div class="+ "'com-list-tit'"+">"
@@ -162,8 +128,7 @@ $(window).scroll(function(){ // ① 스크롤 이벤트 최초 발생
     								+	 "</div>"   						
     								+	"</div>" 
     								+"</div>" 
-    								+"</div>"                               	
-                            	}   	
+    								+"</div>"                               	 	
                             }
                          );
                     	// each
