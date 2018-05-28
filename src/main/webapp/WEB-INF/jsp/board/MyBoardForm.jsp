@@ -53,20 +53,27 @@ function validForm(editor) {
  var validator = new Trex.Validator();
  var content = editor.getContent();
  
-	if (form1.brdwriter.value=="") {
+	if (form1.brdwriter.value == "") {
 		alert("작성자를 입력해주세요.");
 		form1.brdwriter.focus();
 		return false;
 	}
-	if (form1.brdtitle.value=="") {
+	if (form1.brdtitle.value == "") {
 		alert("글 제목을 입력해주세요.");
 		form1.brdtitle.focus();
 		return false;
 	}
+	
+	if (form1.pro_name.value == "") {
+		alert("제품명을 입력해주세요.");
+		form1.pro_name.focus();
+		return false;
+	}	
  
- if (!validator.exists(content)) {
-     alert('내용을 입력하세요');
-     return false;
+	if (!validator.exists(content)) {
+	    alert('내용을 입력하세요');
+		form1.brdmemo.focus();
+	    return false;
  }
  return true;
 }
@@ -108,6 +115,13 @@ function fn_id_sumbit2(){
 function fn_search(){
 	document.searchform.submit();	
 }	  
+
+function fn_pop(){
+	var popUrl = '${pageContext.request.contextPath}/searchPop.do';
+	var popOption = "width=1040, height=690, resizable=no, scrollbars=no, status=no;";    //팝업창 옵션(optoin)
+
+	window.open(popUrl,"",popOption);
+}
 
 </script>
 </head>
@@ -219,16 +233,23 @@ function fn_search(){
             <tbody>
               <tr>
                 <th>제목</th>
-                <td colspan="5"><input type="text" title="제목" class="full" name="brdtitle" size="50" maxlength="200" value="<c:out value="${boardInfo.brdtitle}"/>"></td>
+                <td colspan="3"><input type="text" title="제목" class="full" name="brdtitle" size="50" maxlength="200" value="<c:out value="${boardInfo.brdtitle}"/>"></td>
               </tr>
               <tr>
                 <th>작성자</th>
                 <td><input type="text" name="brdwriter" size="20" maxlength="20" readonly="readonly" style="background-color:transparent;border:0px" value="<c:out value="${sessionScope.name}"/>"></td>
                 <th>날짜</th>
                 <td><c:out value="${sessionScope.sysdate}"/></td>
-                <th>조회</th>
-                <td><c:out value="${boardInfo.brdhit}"/></td>
               </tr>
+              <tr>
+                <th>제품명</th>
+                <td colspan="3">
+                  <input type="hidden" class="ipt-prod" id="pro_no" name="pro_no" value="${boardInfo.pro_no}">
+                  <input type="text" class="ipt-prod" id="pro_name" name="pro_name" readonly="readonly" value="${boardInfo.pro_name}">
+                  <button class="btn medium blue" onclick="fn_pop();">제품검색</button>
+                </td>
+              </tr>   
+              <!--  
               <tr>
                 <th>첨부파일</th>
                 <td colspan="5">
@@ -244,6 +265,7 @@ function fn_search(){
                   </div>                  
                 </td>
               </tr>
+              -->
               <tr>
                 <td colspan="6">
                   <div id="editor_frame"></div>
