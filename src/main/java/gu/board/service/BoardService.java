@@ -252,11 +252,26 @@ public class BoardService {
     }
     
     public void insertBoardReply(BoardReplyVO param) {
-        if (param.getReno()==null || "".equals(param.getReno())) {
-            sqlSession.insert("insertBoardReply", param);
-        } else {
-            sqlSession.insert("updateBoardReply", param);
-        }
+        DefaultTransactionDefinition def = new DefaultTransactionDefinition();
+        def.setPropagationBehavior(TransactionDefinition.PROPAGATION_REQUIRED);
+        TransactionStatus status = txManager.getTransaction(def);    	
+    	
+        try {
+	        if (param.getReno()==null || "".equals(param.getReno())) 
+	        {
+	            sqlSession.insert("insertBoardReply", param);
+	        }
+	        else
+	        {
+	            sqlSession.insert("updateBoardReply", param);
+	        }
+	        
+            txManager.commit(status);	   
+		   
+    	} catch (TransactionException ex) {
+    		txManager.rollback(status);
+    		System.out.println("데이터 저장 오류: " + ex.toString());     
+    	}
     }   
     
     public int selectDelBoardReply(String param) {
@@ -298,11 +313,27 @@ public class BoardService {
     }
     
     public void insertBoardReplyDetail(BoardReplyDetailVO param) {
-        if (param.getDeno()==null || "".equals(param.getDeno())) {
-            sqlSession.insert("insertBoardReplyDetail", param);
-        } else {
-            sqlSession.insert("updateBoardReplyDetail", param);
-        }
+        DefaultTransactionDefinition def = new DefaultTransactionDefinition();
+        def.setPropagationBehavior(TransactionDefinition.PROPAGATION_REQUIRED);
+        TransactionStatus status = txManager.getTransaction(def);   
+    	
+        try 
+        {
+	        if (param.getDeno()==null || "".equals(param.getDeno())) 
+	        {
+	            sqlSession.insert("insertBoardReplyDetail", param);
+	        } 
+	        else 
+	        {
+	            sqlSession.insert("updateBoardReplyDetail", param);
+	        }
+	        
+	        txManager.commit(status);
+		        
+		} catch (TransactionException ex) {
+		txManager.rollback(status);
+		System.out.println("데이터 저장 오류: " + ex.toString());
+		}        
     }   
     
     public void deleteBoardReplyDetail(BoardReplyDetailVO param) {
