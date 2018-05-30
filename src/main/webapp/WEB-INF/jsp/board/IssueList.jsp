@@ -142,8 +142,8 @@ function fnSubmitForm(page){
 	              <fieldset>
 	                <legend>게시판 검색</legend>
 	                <select class="select" name="searchType" >
-	                  <option value= "brdtitle" <c:if test="${searchVO.searchType eq 'brdtitle'}">checked="checked"</c:if>>제목</option>
-	                  <option value= "brdmemo" <c:if test="${searchVO.searchType eq 'brdmemo'}">checked="checked"</c:if>>내용</option>
+	                  <option value= "brdtitle" <c:if test="${searchVO.searchType eq 'brdtitle'}">selected</c:if>>제목</option>
+	                  <option value= "brdmemo" <c:if test="${searchVO.searchType eq 'brdmemo'}">selected</c:if>>내용</option>
 	                </select>  
 	                <input type="text" title="검색어" class="ipt" name="searchKeyword2"  value='<c:out value="${searchVO.searchKeyword2}"/>' onkeydown="if(event.keyCode == 13) { fn_board_search();}">
 	                <button type="submit" class="btn" name="btn_search" onclick="fn_board_search()" >검색</button>
@@ -226,6 +226,13 @@ function fnSubmitForm(page){
 			         </c:if> 	            
 		          </div>
 		          <input type="hidden" name="page" id="page" value="" />  
+		          <input type="hidden" name="searchKeyword2"  value='<c:out value="${searchVO.searchKeyword2}"/>'>
+		          <c:if test="${searchVO.searchType eq 'brdtitle'}">
+		          <input type="hidden" name="searchType" value="brdtitle" />  
+		          </c:if>
+		          <c:if test="${searchVO.searchType eq 'brdmemo'}">
+		          <input type="hidden" name="searchType" value="brdmemo" />  
+		          </c:if>				          
 		     	</form>    
 				<c:choose>
 					<c:when test="${sessionScope.id == 'admin'}">

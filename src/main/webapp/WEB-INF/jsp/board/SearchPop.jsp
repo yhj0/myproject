@@ -50,8 +50,8 @@ function fn_select(item,item2){
 	        <fieldset>
 	          <legend>게시판 검색</legend>
 	            <select class="select" name="searchType" >
-	               <option value= "pro_name" <c:if test="${searchVO.searchType eq 'pro_name'}">checked="checked"</c:if>>제품명</option>
-	               <option value= "pro_maker" <c:if test="${searchVO.searchType eq 'pro_maker'}">checked="checked"</c:if>>제조사</option>
+	               <option value= "pro_name" <c:if test="${searchVO.searchType eq 'pro_name'}">selected</c:if>>제품명</option>
+	               <option value= "pro_maker" <c:if test="${searchVO.searchType eq 'pro_maker'}">selected</c:if>>제조사</option>
 	            </select>      
 	          <input type="text" title="검색어" class="ipt" name="searchKeyword2"  value='<c:out value="${searchVO.searchKeyword2}"/>' onkeydown="if(event.keyCode == 13) { fn_board_search();}">
 	          <button type="submit" class="btn" name="btn_search" onclick="fn_board_search()" >검색</button>
@@ -133,6 +133,13 @@ function fn_select(item,item2){
 			         </c:if> 	            
 		          </div>
 		          <input type="hidden" name="page" id="page" value="" />  
+		          <input type="hidden" name="searchKeyword2"  value='<c:out value="${searchVO.searchKeyword2}"/>'>
+		          <c:if test="${searchVO.searchType eq 'pro_name'}">
+		          <input type="hidden" name="searchType" value="pro_name" />  
+		          </c:if>
+		          <c:if test="${searchVO.searchType eq 'pro_maker'}">
+		          <input type="hidden" name="searchType" value="pro_maker" />  
+		          </c:if>		
 		      </form>   
 			  <br>    	
 	    <div class="board-btm list-tb-btm">
