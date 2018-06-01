@@ -78,8 +78,12 @@ public class BoardController {
     /* 공지사항===================================================================== */
     @RequestMapping(value = "/noticeList.do")
     public String noticeList(SearchVO searchVO, ModelMap modelMap) throws Exception{
-
-        searchVO.pageCalculate( boardservice.selectNoticeCount(searchVO) ); // startRow, endRow
+ 	    
+    	int count = 0;
+ 	    count = boardservice.selectNoticeCount(searchVO);
+        searchVO.pageCalculate(count); // startRow, endRow
+ 	    
+ 	    modelMap.addAttribute("count", count);
         
         List<?> listview  = boardservice.selectNoticeList(searchVO);
         
@@ -108,8 +112,12 @@ public class BoardController {
     @RequestMapping(value = "/issueList.do")
     public String issueList(SearchVO searchVO, ModelMap modelMap) throws Exception{
     	
-        searchVO.pageCalculate( boardservice.selectIssueCount(searchVO) ); // startRow, endRow
-
+    	int count = 0;
+ 	    count = boardservice.selectIssueCount(searchVO);
+        searchVO.pageCalculate( count ); // startRow, endRow
+        
+ 	    modelMap.addAttribute("count", count);
+        
         List<?> listview  = boardservice.selectIssueList(searchVO);
         
         modelMap.addAttribute("listview", listview);
@@ -121,6 +129,7 @@ public class BoardController {
     /* 마이페이지-나의커뮤니티==================================================== */
     @RequestMapping(value = "/myBoardList.do")
     public String myBoardList(SearchVO searchVO, ModelMap modelMap, HttpServletRequest request) throws Exception{
+    	
     	/***내 게시물만 보이기 ***/
     	//1.회원정보관리 -> 나의커뮤니티로 넘어올때 id값을 받아옴
     	String id = request.getParameter("id");	
@@ -129,8 +138,12 @@ public class BoardController {
     	searchVO.setId(id);
     	
     	//3.게시물검색시 where 조건에 해당 id값을 넘겨줌
-        searchVO.pageCalculate(boardservice.selectMyCount(searchVO) ); // startRow, endRow
-
+    	int count = 0;
+ 	    count = boardservice.selectMyCount(searchVO);   	
+        searchVO.pageCalculate(count); // startRow, endRow
+        
+ 	    modelMap.addAttribute("count", count);
+        
         List<?> listview  = boardservice.selectMyList(searchVO);
         
         modelMap.addAttribute("listview", listview);

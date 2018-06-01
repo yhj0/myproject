@@ -172,12 +172,12 @@ function fnSubmitForm(page){
               </tr>
             </thead>
             <tbody>
+			<c:choose>            
+            	<c:when test="${count > 0}">
 					<c:forEach var="listview" items="${listview}" varStatus="status">	
 						<c:url var="link" value="issueRead.do">
 							<c:param name="brdno" value="${listview.brdno}" />
 						</c:url>
-					  	<c:choose>
-							<c:when test="${listview.brdwriter != null}">
 				              <tr class="noti">
 				                <td><c:out value="${searchVO.totRow-((searchVO.page-1)*searchVO.displayRowCount + status.index)}"/></td>
 				                <td class="title"><a href="${link}"><c:out value="${listview.brdtitle}"/></a></td>
@@ -190,6 +190,7 @@ function fnSubmitForm(page){
 				                </td>
 				                <td><c:out value="${listview.brdhit}"/></td>
 				              </tr>								
+				            </c:forEach>						
 							</c:when>	
 							<c:otherwise>
 				              <tr>
@@ -197,10 +198,10 @@ function fnSubmitForm(page){
 				              </tr>							
 							</c:otherwise>	
 		             	</c:choose> 				
-					</c:forEach>
             </tbody>
           </table>
-          
+	      <br>  
+	                    
 			  <form id="formPage" name="formPage"  method="post" enctype="multipart/form-data" >                   
 		          <div class="paging">
 		          	<c:if test="${searchVO.page>1}">

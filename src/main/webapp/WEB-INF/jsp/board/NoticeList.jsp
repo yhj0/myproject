@@ -193,12 +193,12 @@ function fnSubmitForm(page){
 	              </tr>
 	            </thead>
 	            <tbody>
-					<c:forEach var="listview" items="${listview}" varStatus="status">	
-						<c:url var="link" value="noticeRead.do">
-							<c:param name="brdno" value="${listview.brdno}" />
-						</c:url>
-					  	<c:choose>
-							<c:when test="${listview.brdwriter != null}">
+	            <c:choose>
+	            	<c:when test="${count > 0}">
+						<c:forEach var="listview" items="${listview}" varStatus="status">	
+							<c:url var="link" value="noticeRead.do">
+								<c:param name="brdno" value="${listview.brdno}" />
+							</c:url>
 				              <tr class="noti">
 				                <td><c:out value="${searchVO.totRow-((searchVO.page-1)*searchVO.displayRowCount + status.index)}"/></td>
 				                <td class="title"><a href="${link}"><c:out value="${listview.brdtitle}"/></a>&nbsp;
@@ -215,17 +215,18 @@ function fnSubmitForm(page){
 				                </c:if>
 				                </td>
 				                <td><c:out value="${listview.brdhit}"/></td>
-				              </tr>								
+				              </tr>		
+				            </c:forEach>						
 							</c:when>	
 							<c:otherwise>
 				              <tr>
 				                <td colspan="6"><div class="no-result">검색결과가 없습니다.</div></td>
-				              </tr>							
+				              </tr>			
 							</c:otherwise>	
 		             	</c:choose> 				
-					</c:forEach>
 	            </tbody>
-	          </table>   
+	          </table> 
+	          <br>  
 	          
 			  <form id="formPage" name="formPage"  method="post" enctype="multipart/form-data" >                   
 		          <div class="paging">
