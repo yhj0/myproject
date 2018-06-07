@@ -271,13 +271,13 @@ function fn_formSubmit(){
 		formMember.email_1.focus();
 		return;
 	}
-	
+	/*
 	if (formMember.hom_phone3.value=="") {
 		alert("일반전화를 입력해주세요");
 		formMember.hom_phone3.focus();
 		return;
 	}		
-
+	*/
 	if (formMember.mobile3.value=="") {
 		alert("휴대전화를 입력해주세요");
 		formMember.mobile3.focus();
@@ -476,7 +476,7 @@ function fn_formSubmit(){
                 </td>
               </tr>
               <tr>
-                <th><span><em class="ess">필수</em>일반전화</span></th>
+                <th><span>일반전화</span></th>
                 <td>
                   <div class="f-phone">
                     <select class="select" name = "hom_phone1" title="전화번호 지역">
